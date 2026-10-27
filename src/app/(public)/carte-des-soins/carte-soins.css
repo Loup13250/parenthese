@@ -1,0 +1,509 @@
+/* ==========================================================================
+   CARTE DES SOINS - LA PARENTHÈSE HARMONIEUSE
+   Esthétique Haute Beauté, Cocon Luxe & Sérénité
+   ========================================================================== */
+
+.carte-soins-page {
+    background-color: #FAF7F2;
+    padding-top: 75px;
+}
+
+/* Luminous Palace Hero */
+.carte-hero {
+    background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
+    color: #2C2623;
+    padding: 5.5rem 0 4.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.22);
+    position: relative;
+}
+
+.carte-hero-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.carte-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    padding: 0.42rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
+}
+
+.hero-sparkle {
+    color: #B9925E;
+}
+
+.carte-hero-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0.4rem 0 1.25rem;
+    color: #2C2623;
+    letter-spacing: 0.015em;
+}
+
+.carte-hero-title .title-serif {
+    color: #8E662F;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.carte-hero-sub {
+    font-size: 1.1rem;
+    color: #352E2A;
+    font-weight: 450;
+    max-width: 720px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.7;
+}
+
+.carte-hero-reassurance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    font-size: 0.82rem;
+    color: #4D433C;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+}
+
+.reassurance-dot {
+    color: #B9925E;
+}
+
+/* Content */
+.carte-content-section {
+    padding: 5rem 0 7rem;
+}
+
+/* Filter bar */
+.category-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.filter-btn {
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    color: #5A504A;
+    padding: 0.65rem 1.45rem;
+    border-radius: 999px;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+    border-color: #9C7A4D;
+    color: #2C2623;
+}
+
+.filter-btn.active {
+    background: #2C2623;
+    color: #FFFFFF;
+    border-color: #2C2623;
+    box-shadow: 0 4px 16px rgba(44, 38, 35, 0.16);
+}
+
+/* Alert info */
+.booking-info-alert {
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    border-left: 4px solid #B9925E;
+    border-radius: 14px;
+    padding: 1.35rem 1.65rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.15rem;
+    margin-bottom: 3.5rem;
+    font-size: 0.94rem;
+    color: #4A423D;
+    line-height: 1.65;
+    box-shadow: 0 6px 20px rgba(44, 38, 35, 0.03);
+}
+
+.alert-icon {
+    color: #B9925E;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+/* Catalogue Grid */
+.soins-catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 2.75rem;
+}
+
+.catalogue-item-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    box-shadow: 0 10px 35px rgba(44, 38, 35, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.catalogue-item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 45px rgba(44, 38, 35, 0.1);
+}
+
+/* Media Box */
+.catalogue-media {
+    position: relative;
+    height: 240px;
+    width: 100%;
+    overflow: hidden;
+    background: #EFE7DC;
+}
+
+.catalogue-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.catalogue-item-card:hover .catalogue-img {
+    transform: scale(1.05);
+}
+
+.catalogue-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(44, 38, 35, 0.88);
+    backdrop-filter: blur(10px);
+    color: #EBD3B0;
+    padding: 0.32rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(216, 182, 133, 0.45);
+}
+
+.catalogue-duration {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    color: #2C2623;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Body */
+.catalogue-body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.65rem;
+}
+
+.cat-chip {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8E662F;
+}
+
+.price-tag {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #8E662F;
+    line-height: 1;
+}
+
+.item-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 600;
+    color: #231E1B;
+    line-height: 1.25;
+    margin-bottom: 0.35rem;
+}
+
+.item-sub {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: #4A3E37;
+    margin-bottom: 0.95rem;
+}
+
+.item-description {
+    font-size: 0.92rem;
+    color: #2D2520;
+    font-weight: 450;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+/* Expanded details */
+.expanded-details {
+    background: #FAF7F2;
+    border-radius: 14px;
+    padding: 1.35rem 1.5rem;
+    border: 1px solid rgba(197, 168, 128, 0.22);
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.details-block h4 {
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.details-block p {
+    font-size: 0.88rem;
+    color: #2F2723;
+    font-weight: 450;
+    line-height: 1.65;
+    margin-bottom: 0.85rem;
+}
+
+.details-block:last-child p {
+    margin-bottom: 0;
+}
+
+.warning-block {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(197, 168, 128, 0.2);
+}
+
+.warning-block h4 {
+    color: #945B0A;
+}
+
+/* Actions Row */
+.card-actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.35rem;
+    border-top: 1px solid rgba(197, 168, 128, 0.2);
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-toggle-expand {
+    background: none;
+    border: none;
+    color: #8E662F;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    transition: color 0.2s ease;
+}
+
+.btn-toggle-expand:hover {
+    color: #2C2623;
+}
+
+.actions-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+}
+
+.btn-offrir-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    color: #5A504A;
+    text-decoration: none;
+    padding: 0.52rem 1.05rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-offrir-card:hover {
+    background: #FAF7F2;
+    border-color: #9C7A4D;
+    color: #9C7A4D;
+}
+
+.btn-reserver-direct {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.55rem 1.35rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(163, 127, 78, 0.3);
+    transition: all 0.25s ease;
+}
+
+.btn-reserver-direct:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(163, 127, 78, 0.45);
+    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+}
+
+/* Bottom reassurance */
+.carte-bottom-reassurance {
+    margin-top: 5.5rem;
+}
+
+.reassurance-card {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 3.5rem;
+    text-align: center;
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.05);
+}
+
+.reassurance-card h3 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: #2C2623;
+    margin-bottom: 0.85rem;
+}
+
+.reassurance-card p {
+    font-size: 1.02rem;
+    color: #5A504A;
+    max-width: 660px;
+    margin: 0 auto 2.25rem;
+    line-height: 1.7;
+}
+
+.reassurance-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.35rem;
+    flex-wrap: wrap;
+}
+
+.btn-book-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.85rem 1.85rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(163, 127, 78, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-book-gold:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+}
+
+.btn-contact-simple {
+    color: #9C7A4D;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .soins-catalogue-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .catalogue-body {
+        padding: 1.5rem;
+    }
+
+    .card-actions-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .actions-buttons-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .btn-reserver-direct {
+        flex-grow: 1;
+        justify-content: center;
+    }
+
+    .reassurance-card {
+        padding: 2.25rem 1.5rem;
+    }
+}

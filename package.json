@@ -1,0 +1,32 @@
+{
+  "name": "la-parenthese-harmonieuse",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:sync-turso": "node scripts/sync-turso.js"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.4",
+    "better-sqlite3": "^12.6.2",
+    "lucide-react": "^0.577.0",
+    "next": "^16.3.7",
+    "nodemailer": "^10.0.12",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "opentype.js": "^2.0.0",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
+}

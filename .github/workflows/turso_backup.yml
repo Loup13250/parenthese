@@ -1,0 +1,77 @@
+name: Scheduled Database Backup
+
+on:
+  schedule:
+    # Sauvegarde automatique tous les 3 mois le 1er du mois à 02:00 UTC
+    - cron: '0 2 1 */3 *'
+  workflow_dispatch: # Permet de lancer manuellement depuis l'onglet Actions sur GitHub
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install @libsql/client
+        run: npm install @libsql/client
+
+      - name: Export Turso Database Backup
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+        run: |
+          node -e "
+          const { createClient } = require('@libsql/client');
+          const fs = require('fs');
+
+          if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
+            console.error('Erreur : Secrets TURSO_DATABASE_URL et TURSO_AUTH_TOKEN non configurés dans GitHub Secrets.');
+            process.exit(1);
+          }
+
+          const client = createClient({
+            url: process.env.TURSO_DATABASE_URL,
+            authToken: process.env.TURSO_AUTH_TOKEN
+          });
+
+          async function backup() {
+            const tables = ['site_info', 'services', 'testimonials', 'gallery_posts', 'contact_messages', 'media_storage', 'activity_logs'];
+            const backupData = {
+              version: '1.0',
+              timestamp: new Date().toISOString(),
+              data: {}
+            };
+
+            for (const table of tables) {
+              try {
+                const res = await client.execute('SELECT * FROM ' + table);
+                backupData.data[table] = res.rows;
+              } catch (e) {
+                console.warn('Could not export table ' + table + ':', e.message);
+                backupData.data[table] = [];
+              }
+            }
+
+            const fileName = 'turso_backup_' + new Date().toISOString().split('T')[0] + '.json';
+            fs.writeFileSync(fileName, JSON.stringify(backupData, null, 2));
+            console.log('Backup written successfully to', fileName);
+          }
+
+          backup().catch(err => {
+            console.error(err);
+            process.exit(1);
+          });
+          "
+
+      - name: Upload Backup Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: laparenthese-database-backup
+          path: turso_backup_*.json
+          retention-days: 90

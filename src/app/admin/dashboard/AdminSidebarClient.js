@@ -1,0 +1,224 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { adminLogout } from '@/app/actions';
+import { 
+    LayoutDashboard, 
+    CalendarDays, 
+    Image as ImageIcon, 
+    Settings, 
+    LogOut, 
+    Mail, 
+    Camera, 
+    Menu as MenuIcon, 
+    X,
+    ExternalLink,
+    Heart,
+    Receipt,
+    Languages,
+    History
+} from 'lucide-react';
+
+export default function AdminSidebarClient({ children, unreadCount = 0 }) {
+    const pathname = usePathname();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [prevPathname, setPrevPathname] = useState(pathname);
+    if (prevPathname !== pathname) {
+        setPrevPathname(pathname);
+        setMobileOpen(false);
+    }
+
+    // Helpers d'état actif
+    const isAccueilActive = pathname === '/admin/dashboard';
+    const isMenuSemaineActive = pathname === '/admin/dashboard/menu-semaine';
+    const isCarouselActive = pathname === '/admin/dashboard/carousel';
+    const isTarifsActive = pathname === '/admin/dashboard/tarifs' || pathname === '/admin/dashboard/prestations';
+    const isGalerieActive = pathname === '/admin/dashboard/galerie';
+    const isAProposActive = pathname === '/admin/dashboard/a-propos';
+    const isMessagesActive = pathname === '/admin/dashboard/messages';
+    const isSettingsActive = pathname === '/admin/dashboard/settings';
+    const isTextesActive = pathname === '/admin/dashboard/textes';
+    const isLogsActive = pathname === '/admin/dashboard/logs';
+
+    return (
+        <div className="admin-dashboard-layout">
+            {/* Header Mobile */}
+            <header className="admin-mobile-header">
+                <a href="/" target="_blank" rel="noopener noreferrer" className="brand-title">
+                    <span>La Parenthèse Harmonieuse</span>
+                </a>
+                <button
+                    className="admin-mobile-toggle"
+                    onClick={() => setMobileOpen(!mobileOpen)}
+                    aria-label="Menu"
+                >
+                    {mobileOpen ? <X size={22} /> : <MenuIcon size={22} />}
+                </button>
+            </header>
+
+            {/* Voile sombre pour mobile */}
+            <div
+                className={`admin-sidebar-overlay ${mobileOpen ? 'active' : ''}`}
+                onClick={() => setMobileOpen(false)}
+            />
+
+            {/* Barre latérale principale */}
+            <aside className={`admin-sidebar ${mobileOpen ? 'open' : ''}`}>
+                {/* En-tête de marque */}
+                <div className="admin-brand-header">
+                    <a href="/" target="_blank" rel="noopener noreferrer" className="admin-brand-link" title="Voir le site public">
+                        <span className="admin-brand-title">La Parenthèse</span>
+                        <span className="admin-brand-sub">Harmonieuse • Admin</span>
+                    </a>
+                </div>
+
+                {/* Navigation principale, dans le même ordre que le site */}
+                <nav className="admin-nav-container">
+                    {/* SECTION: PAGES DU SITE */}
+                    <div className="admin-nav-section-title">
+                        <span>GESTION INSTITUT</span>
+                    </div>
+
+                    {/* 1. TABLEAU DE BORD */}
+                    <div className="admin-nav-group">
+                        <Link
+                            href="/admin/dashboard"
+                            className={`admin-nav-item nav-theme-amber ${isAccueilActive ? 'active' : ''}`}
+                        >
+                            <div className="admin-nav-item-icon">
+                                <LayoutDashboard size={18} />
+                            </div>
+                            <span className="admin-nav-item-text">Tableau de bord</span>
+                            {isAccueilActive && <span className="admin-nav-active-pill" />}
+                        </Link>
+                    </div>
+
+                    {/* 2. CARTE DES SOINS */}
+                    <Link
+                        href="/admin/dashboard/prestations"
+                        className={`admin-nav-item nav-theme-terracotta ${isTarifsActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Receipt size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Carte des soins</span>
+                        {isTarifsActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* 3. GALERIE */}
+                    <Link
+                        href="/admin/dashboard/galerie"
+                        className={`admin-nav-item nav-theme-rose ${isGalerieActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Camera size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Galerie Cabine</span>
+                        {isGalerieActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* 4. MON APPROCHE / À PROPOS */}
+                    <Link
+                        href="/admin/dashboard/a-propos"
+                        className={`admin-nav-item nav-theme-pink ${isAProposActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Heart size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Mon Approche</span>
+                        {isAProposActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* 5. CONTACT & DEMANDES */}
+                    <Link
+                        href="/admin/dashboard/messages"
+                        className={`admin-nav-item nav-theme-blue ${isMessagesActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Mail size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Demandes &amp; Contact</span>
+                        {unreadCount > 0 ? (
+                            <span className="admin-nav-badge-unread">{unreadCount}</span>
+                        ) : (
+                            isMessagesActive && <span className="admin-nav-active-pill" />
+                        )}
+                    </Link>
+
+                    {/* SECTION: SYSTÈME */}
+                    <div className="admin-nav-section-title" style={{ marginTop: '0.6rem' }}>
+                        <span>PARAMÈTRES</span>
+                    </div>
+
+                    {/* 6. INFORMATIONS SITE */}
+                    <Link
+                        href="/admin/dashboard/settings"
+                        className={`admin-nav-item nav-theme-amber ${isSettingsActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Settings size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Informations Site</span>
+                        {isSettingsActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* 7. TEXTES DU SITE (FR / EN) */}
+                    <Link
+                        href="/admin/dashboard/textes"
+                        className={`admin-nav-item nav-theme-indigo ${isTextesActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Languages size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Textes du site</span>
+                        {isTextesActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* 8. JOURNAL D'ACTIVITÉ / LOGS */}
+                    <Link
+                        href="/admin/dashboard/logs"
+                        className={`admin-nav-item nav-theme-emerald ${isLogsActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <History size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Journal d&apos;Activité</span>
+                        {isLogsActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+                </nav>
+
+                {/* Footer Sidebar : Lien site public + Déconnexion */}
+                <div className="admin-sidebar-footer-custom">
+                    <a
+                        href="/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="admin-sidebar-public-btn"
+                        title="Ouvrir le site public dans un nouvel onglet"
+                    >
+                        <ExternalLink size={15} />
+                        <span>Voir le site public</span>
+                    </a>
+
+                    <form action={adminLogout}>
+                        <button
+                            type="submit"
+                            className="admin-sidebar-logout-btn"
+                            title="Se déconnecter de l'administration"
+                        >
+                            <LogOut size={16} />
+                            <span>Déconnexion</span>
+                        </button>
+                    </form>
+                </div>
+            </aside>
+
+            {/* Contenu principal */}
+            <main className="admin-content">
+                {children}
+            </main>
+        </div>
+    );
+}

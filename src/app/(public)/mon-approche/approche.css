@@ -1,0 +1,397 @@
+/* ==========================================================================
+   PAGE MON APPROCHE - LA PARENTHÈSE HARMONIEUSE
+   Esthétique Haute Beauté, Cocon Luxe & Sérénité
+   ========================================================================== */
+
+.approche-page {
+    background-color: #FAF7F2;
+    padding-top: 75px;
+}
+
+/* Luminous Palace Hero */
+.approche-hero {
+    background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
+    color: #2C2623;
+    padding: 5.5rem 0 4.5rem;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.22);
+}
+
+.approche-hero-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.approche-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    padding: 0.42rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
+}
+
+.approche-hero-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0.4rem 0 1.25rem;
+    color: #2C2623;
+    letter-spacing: 0.015em;
+}
+
+.approche-hero-title .title-serif {
+    color: #8E662F;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.approche-hero-sub {
+    font-size: 1.1rem;
+    color: #352E2A;
+    font-weight: 450;
+    max-width: 700px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.7;
+}
+
+.approche-hero-reassurance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    font-size: 0.82rem;
+    color: #4D433C;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+}
+
+/* Story Section */
+.approche-story-section {
+    padding: 7rem 0;
+    position: relative;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 5.5rem;
+    align-items: center;
+}
+
+.story-media {
+    position: relative;
+}
+
+.story-portrait-frame {
+    position: relative;
+    border-radius: 260px 260px 28px 28px;
+    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.1);
+}
+
+.story-img {
+    width: 100%;
+    height: auto;
+    border-radius: 260px 260px 28px 28px;
+    display: block;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+}
+
+.story-aura {
+    position: absolute;
+    inset: -14px;
+    border-radius: 275px 275px 38px 38px;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.story-badge {
+    position: absolute;
+    bottom: -15px;
+    right: -15px;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    padding: 0.85rem 1.4rem;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #2C2623;
+    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.1);
+}
+
+.badge-icon {
+    color: #B9925E;
+}
+
+.story-lead {
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-style: italic;
+    color: #241E1B;
+    line-height: 1.6;
+    margin-bottom: 1.35rem;
+}
+
+.story-p {
+    font-size: 0.98rem;
+    color: #2D2520;
+    font-weight: 450;
+    line-height: 1.8;
+    margin-bottom: 1.35rem;
+}
+
+.story-quote {
+    margin-top: 2rem;
+    padding: 1.75rem 2rem;
+    background: #FFFFFF;
+    border-left: 3px solid #8E662F;
+    border-radius: 0 16px 16px 0;
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: #231E1B;
+    font-weight: 500;
+    line-height: 1.6;
+    box-shadow: 0 6px 20px rgba(44, 38, 35, 0.04);
+}
+
+/* Values - Haute Parfumerie Pillars */
+.approche-values-section {
+    padding: 7rem 0;
+    background: #F5EFE8;
+    border-top: 1px solid rgba(197, 168, 128, 0.15);
+    border-bottom: 1px solid rgba(197, 168, 128, 0.15);
+}
+
+.values-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.25rem;
+}
+
+.value-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(197, 168, 128, 0.22);
+    box-shadow: 0 10px 30px rgba(44, 38, 35, 0.04);
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(44, 38, 35, 0.09);
+    border-color: rgba(197, 168, 128, 0.45);
+}
+
+.value-num {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 2.8rem;
+    font-weight: 500;
+    color: rgba(185, 146, 94, 0.38);
+    line-height: 1;
+    margin-bottom: 0.85rem;
+}
+
+.value-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin-bottom: 0.85rem;
+}
+
+.value-desc {
+    font-size: 0.92rem;
+    color: #5A504A;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Brands Section */
+.approche-brands-section {
+    padding: 7rem 0;
+}
+
+.brands-box {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 4.5rem 4rem;
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    box-shadow: 0 20px 50px rgba(44, 38, 35, 0.06);
+}
+
+.brands-intro {
+    font-size: 1.05rem;
+    color: #5A504A;
+    max-width: 720px;
+    line-height: 1.75;
+    margin-bottom: 3.5rem;
+}
+
+.brands-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.brand-item {
+    background: #FAF7F2;
+    padding: 2.25rem;
+    border-radius: 18px;
+    border: 1px solid rgba(197, 168, 128, 0.22);
+    transition: transform 0.25s ease;
+}
+
+.brand-item:hover {
+    transform: translateY(-3px);
+}
+
+.brand-badge-label {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #9C7A4D;
+    background: rgba(185, 146, 94, 0.15);
+    padding: 0.28rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 0.85rem;
+}
+
+.brand-item h3 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #2C2623;
+    margin-bottom: 0.85rem;
+}
+
+.brand-item p {
+    font-size: 0.92rem;
+    color: #5A504A;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* CTA */
+.approche-cta-section {
+    padding: 0 0 7rem;
+}
+
+.approche-cta-box {
+    background: linear-gradient(135deg, #241E1B 0%, #352B25 100%);
+    border-radius: 28px;
+    padding: 4.5rem 3.5rem;
+    text-align: center;
+    color: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+}
+
+.approche-cta-box h2 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.approche-cta-box p {
+    font-size: 1.05rem;
+    color: #D6CCC4;
+    margin-bottom: 2.25rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.approche-cta-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.35rem;
+    flex-wrap: wrap;
+}
+
+.btn-book-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.95rem 2.2rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(163, 127, 78, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-book-gold:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+}
+
+.btn-view-carte {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.95rem 2.2rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn-view-carte:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: #FFF;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .story-grid {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+    }
+
+    .story-portrait-frame {
+        max-width: 360px;
+        margin: 0 auto;
+    }
+
+    .brands-box {
+        padding: 2.75rem 2rem;
+    }
+}

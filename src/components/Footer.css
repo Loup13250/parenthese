@@ -1,0 +1,291 @@
+/* ==========================================================================
+   FOOTER - LA PARENTHÈSE HARMONIEUSE
+   Style Spa & Institut de Beauté
+   ========================================================================== */
+
+.spa-footer {
+    background: #231E1B;
+    color: #F5EFE6;
+    border-top: 1px solid rgba(185, 146, 94, 0.25);
+    margin-top: auto;
+}
+
+.footer-top {
+    padding: 4.5rem 0 3.5rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.1fr 1fr;
+    gap: 3rem;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-brand-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-bottom: 0.6rem;
+    display: block;
+}
+
+.footer-brand-tagline {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #D8B685;
+    margin-bottom: 1.1rem;
+}
+
+.footer-brand-desc {
+    font-size: 0.88rem;
+    color: #E2DAD2;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+}
+
+.footer-social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(185, 146, 94, 0.35);
+    color: #F5EFE6;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all 0.25s ease;
+}
+
+.footer-social-btn:hover {
+    background: #B9925E;
+    color: #FFF;
+    border-color: #B9925E;
+    transform: translateY(-2px);
+}
+
+.footer-heading {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #D8B685;
+    margin-bottom: 1.4rem;
+    position: relative;
+    padding-bottom: 0.6rem;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35px;
+    height: 1px;
+    background: rgba(185, 146, 94, 0.6);
+}
+
+.footer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.footer-menu a {
+    color: #E8E0D8;
+    text-decoration: none;
+    font-size: 0.86rem;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.footer-menu a:hover {
+    color: #E2C290;
+    transform: translateX(4px);
+}
+
+.footer-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    font-size: 0.86rem;
+    color: #E8E0D8;
+}
+
+.footer-contact-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    line-height: 1.5;
+}
+
+.footer-parking-tag {
+    background: rgba(130, 142, 123, 0.15);
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid rgba(130, 142, 123, 0.35);
+    color: #E2ECE0;
+    font-size: 0.8rem;
+}
+
+.contact-icon {
+    color: #D8B685;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+}
+
+.footer-contact-list a {
+    color: #F5EFE6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-contact-list a:hover {
+    color: #D8B685;
+}
+
+.footer-planity-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #B9925E 0%, #9C7A4D 100%);
+    color: #FFF;
+    text-decoration: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
+}
+
+.footer-planity-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #C5A16E 0%, #A88455 100%);
+    box-shadow: 0 6px 20px rgba(185, 146, 94, 0.35);
+}
+
+/* Horaires */
+.footer-hours-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.84rem;
+}
+
+.hours-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hours-row .day {
+    color: #CFC5BD;
+    font-weight: 500;
+}
+
+.hours-row .time {
+    color: #F5EFE6;
+    text-align: right;
+    line-height: 1.35;
+}
+
+.hours-row.closed .time {
+    color: #9C8F85;
+    font-style: italic;
+}
+
+/* Bottom */
+.footer-bottom {
+    background: #191614;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.78rem;
+    color: #8C8078;
+}
+
+.footer-bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer-legal-links a {
+    color: #9C8F85;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-legal-links a:hover {
+    color: #D8B685;
+}
+
+.footer-legal-links .admin-link {
+    color: rgba(185, 146, 94, 0.75);
+}
+
+.footer-legal-links .admin-link:hover {
+    color: #D8B685;
+}
+
+.dot {
+    color: rgba(255, 255, 255, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .footer-bottom-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .footer-legal-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

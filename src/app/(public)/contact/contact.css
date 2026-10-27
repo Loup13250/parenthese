@@ -1,0 +1,288 @@
+/* ==========================================================================
+   CONTACT PAGE - LA PARENTHÈSE HARMONIEUSE
+   Esthétique Haute Beauté, Cocon Luxe & Sérénité
+   ========================================================================== */
+
+.contact-page-main {
+    background-color: #FAF7F2;
+    padding-top: 75px;
+}
+
+/* Luminous Palace Hero */
+.contact-hero {
+    background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
+    color: #2C2623;
+    padding: 5.5rem 0 4.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.22);
+}
+
+.contact-hero-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    padding: 0.42rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
+}
+
+.contact-hero-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0.4rem 0 1.25rem;
+    color: #2C2623;
+    letter-spacing: 0.015em;
+}
+
+.contact-hero-title .title-serif {
+    color: #8E662F;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.contact-hero-sub {
+    font-size: 1.1rem;
+    color: #352E2A;
+    font-weight: 450;
+    max-width: 700px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.7;
+}
+
+.contact-hero-reassurance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    font-size: 0.82rem;
+    color: #4D433C;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+}
+
+/* Dual Layout */
+.contact-content-section {
+    padding: 5.5rem 0 7rem;
+}
+
+.contact-dual-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 4.5rem;
+    align-items: start;
+}
+
+/* Info Column */
+.contact-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+}
+
+.info-box {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 2.75rem 2.25rem;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    box-shadow: 0 10px 30px rgba(44, 38, 35, 0.04);
+}
+
+.planity-box {
+    background: linear-gradient(135deg, #241E1B 0%, #352B25 100%);
+    color: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.4);
+    box-shadow: 0 15px 40px rgba(44, 38, 35, 0.12);
+}
+
+.box-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #D8B685;
+    margin-bottom: 0.75rem;
+}
+
+.planity-box h3 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.85rem;
+    font-weight: 500;
+    margin-bottom: 0.85rem;
+    color: #FAF7F2;
+}
+
+.planity-box p {
+    font-size: 0.94rem;
+    color: #F0E8E1;
+    font-weight: 450;
+    line-height: 1.65;
+    margin-bottom: 1.75rem;
+}
+
+.btn-planity-contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.9rem 2rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    width: 100%;
+    box-shadow: 0 6px 20px rgba(163, 127, 78, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-planity-contact:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+}
+
+.info-box-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin-bottom: 1.5rem;
+}
+
+.info-item-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.15rem;
+    margin-bottom: 1.75rem;
+}
+
+.info-item-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-item-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(185, 146, 94, 0.12);
+    color: #9C7A4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.info-item-text h4 {
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin-bottom: 0.25rem;
+}
+
+.info-item-text p,
+.info-item-text a {
+    font-size: 0.92rem;
+    color: #5A504A;
+    line-height: 1.6;
+    text-decoration: none;
+}
+
+.info-item-text a:hover {
+    color: #9C7A4D;
+}
+
+/* Hours Table */
+.hours-table {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+}
+
+.hours-table tr {
+    border-bottom: 1px solid rgba(197, 168, 128, 0.18);
+}
+
+.hours-table tr:last-child {
+    border-bottom: none;
+}
+
+.hours-table td {
+    padding: 0.65rem 0;
+    font-size: 0.88rem;
+    color: #5A504A;
+}
+
+.hours-day {
+    font-weight: 600;
+    color: #2C2623;
+    width: 40%;
+}
+
+.hours-time {
+    text-align: right;
+    color: #6E635C;
+}
+
+.hours-closed {
+    color: #9C7A4D;
+    font-style: italic;
+}
+
+/* Form container */
+.contact-form-column {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 3.5rem 3rem;
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    box-shadow: 0 16px 45px rgba(44, 38, 35, 0.05);
+}
+
+.form-header-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #2C2623;
+    margin-bottom: 0.5rem;
+}
+
+.form-header-subtitle {
+    font-size: 0.94rem;
+    color: #6E635C;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 960px) {
+    .contact-dual-layout {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+    }
+
+    .contact-form-column,
+    .info-box {
+        padding: 2.5rem 1.75rem;
+    }
+}

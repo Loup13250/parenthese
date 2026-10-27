@@ -1,0 +1,569 @@
+/* ==========================================================================
+   HEADER - LA PARENTHÈSE HARMONIEUSE
+   Direction Artistique Haute Beauté & Palace Spa (Inspiration Auberge de Beauté)
+   Header épuré, compact, ultra-lisible et flottant
+   ========================================================================== */
+
+.spa-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+    padding: 0.5rem 0;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-width: 1440px;
+}
+
+/* ==========================================================================
+   ÉTAT 1 : TRANSPARENT (Tout en haut de la Home au-dessus de la vidéo)
+   ========================================================================== */
+.header--transparent {
+    background: linear-gradient(180deg, rgba(14, 11, 9, 0.72) 0%, rgba(14, 11, 9, 0.32) 65%, transparent 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header--transparent .spa-brand-title {
+    color: #FFFFFF;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.header--transparent .spa-brand-sub {
+    color: #E2C290;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.header--transparent .spa-nav-link {
+    color: #F8F5EE;
+    font-weight: 500;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+}
+
+.header--transparent .spa-nav-link:hover,
+.header--transparent .spa-nav-link.active {
+    color: #E6C48F;
+}
+
+.header--transparent .spa-nav-link::after {
+    background: #E6C48F;
+}
+
+.header--transparent .header-phone-btn {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #FFFFFF;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.header--transparent .header-phone-btn svg {
+    color: #E2C290;
+}
+
+.header--transparent .header-insta-btn {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #FFFFFF;
+}
+
+.header--transparent .spa-mobile-toggle {
+    color: #FFFFFF;
+}
+
+/* ==========================================================================
+   ÉTAT 2 : SOLIDE AU SCROLL & PAGES INTÉRIEURES (Chalk & Gold Palace)
+   ========================================================================== */
+.header--solid {
+    background: #FAF7F2;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.28);
+    box-shadow: 0 4px 24px rgba(44, 38, 35, 0.08);
+    padding: 0.4rem 0;
+}
+
+.header--solid .spa-brand-title {
+    color: #231F1C;
+}
+
+.header--solid .spa-brand-sub {
+    color: #8E662F;
+}
+
+.header--solid .spa-nav-link {
+    color: #2E2723;
+    font-weight: 600;
+}
+
+.header--solid .spa-nav-link:hover,
+.header--solid .spa-nav-link.active {
+    color: #8E662F;
+}
+
+.header--solid .spa-nav-link::after {
+    background: #8E662F;
+}
+
+.header--solid .header-phone-btn {
+    background: #FFFFFF;
+    border: 1px solid rgba(185, 146, 94, 0.35);
+    color: #2E2723;
+    box-shadow: 0 2px 8px rgba(44, 38, 35, 0.05);
+}
+
+.header--solid .header-phone-btn svg {
+    color: #8E662F;
+}
+
+.header--solid .header-insta-btn {
+    background: #FFFFFF;
+    border: 1px solid rgba(185, 146, 94, 0.35);
+    color: #2E2723;
+}
+
+.header--solid .spa-mobile-toggle {
+    color: #231F1C;
+}
+
+/* ==========================================================================
+   LOGO & BRANDING (Gauche)
+   ========================================================================== */
+.spa-logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.spa-logo-link:hover {
+    transform: scale(1.02);
+    opacity: 0.94;
+}
+
+.spa-logo-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(197, 168, 128, 0.5);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 2px;
+}
+
+.spa-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.spa-brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.spa-brand-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.05;
+    transition: color 0.3s ease;
+}
+
+.spa-brand-sub {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    line-height: 1.05;
+    transition: color 0.3s ease;
+}
+
+/* ==========================================================================
+   NAVIGATION CENTRALE :
+   Ligne 1 : Liens
+   Ligne 2 : Bouton "PRENDRE RDV" centré juste en dessous (Consigne Harmonie)
+   ========================================================================== */
+.spa-nav-cluster {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    flex: 1;
+    max-width: 720px;
+}
+
+.spa-nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.85rem;
+}
+
+.spa-nav-link {
+    text-decoration: none;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 0.2rem 0;
+    position: relative;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+}
+
+.spa-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 1.5px;
+    transition: width 0.25s ease, left 0.25s ease;
+}
+
+.spa-nav-link:hover::after,
+.spa-nav-link.active::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Ligne 2 : Bouton compact "PRENDRE RDV" directement sous les liens */
+.spa-nav-sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-book-rdv-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: linear-gradient(135deg, #A4783D 0%, #8A6128 100%);
+    color: #FFFFFF !important;
+    text-decoration: none;
+    padding: 0.22rem 0.95rem;
+    border-radius: 999px;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.69rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 2px 10px rgba(138, 97, 40, 0.32);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-book-rdv-compact::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-book-rdv-compact:hover::after {
+    left: 140%;
+}
+
+.btn-book-rdv-compact:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #B5884B 0%, #986F33 100%);
+    box-shadow: 0 4px 14px rgba(138, 97, 40, 0.45);
+}
+
+.btn-book-rdv-compact .btn-icon {
+    color: #FFFFFF;
+}
+
+.btn-book-rdv-compact .btn-dot {
+    opacity: 0.5;
+    font-size: 0.75rem;
+}
+
+.btn-book-rdv-compact .btn-tag {
+    font-size: 0.62rem;
+    opacity: 0.9;
+    letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   ACTIONS RAPIDES DROITE
+   ========================================================================== */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-shrink: 0;
+}
+
+.header-phone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.header-phone-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header-insta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.header-insta-btn:hover {
+    transform: translateY(-1px) scale(1.05);
+    background: #8E662F;
+    border-color: #8E662F;
+    color: #FFFFFF;
+}
+
+.spa-mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    transition: color 0.2s ease;
+}
+
+/* ==========================================================================
+   MOBILE DRAWER (Haute Sérénité)
+   ========================================================================== */
+.spa-mobile-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 16, 14, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 1001;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.spa-mobile-backdrop.open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.spa-mobile-drawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 86vw;
+    max-width: 380px;
+    background: #FAF7F2;
+    z-index: 1002;
+    padding: 1.5rem 1.75rem 2.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: -10px 0 35px rgba(20, 16, 14, 0.22);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow-y: auto;
+}
+
+.spa-mobile-drawer.open {
+    display: flex;
+    transform: translateX(0);
+}
+
+.spa-drawer-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.25);
+}
+
+.spa-drawer-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #2C2623;
+    display: block;
+    line-height: 1.1;
+}
+
+.spa-drawer-sub {
+    font-size: 0.75rem;
+    color: #8E662F;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-top: 0.2rem;
+}
+
+.spa-drawer-close {
+    background: none;
+    border: none;
+    color: #2C2623;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.spa-drawer-cta {
+    margin: 1.25rem 0;
+}
+
+.btn-book-rdv-drawer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #8E662F 0%, #765220 100%);
+    color: #FFFFFF !important;
+    text-decoration: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(142, 102, 47, 0.35);
+}
+
+.spa-drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.drawer-link {
+    text-decoration: none;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #2C2623;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.12);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.drawer-link:hover,
+.drawer-link.active {
+    color: #8E662F;
+    padding-left: 0.5rem;
+}
+
+.spa-drawer-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(197, 168, 128, 0.25);
+    font-size: 0.82rem;
+    color: #4D443E;
+}
+
+.drawer-phone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #8E662F;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.drawer-address {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #655B53;
+}
+
+.drawer-socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2C2623;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .spa-nav-links {
+        gap: 1.15rem;
+    }
+    .spa-nav-link {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 960px) {
+    .spa-nav-cluster {
+        display: none;
+    }
+    .hide-tablet {
+        display: none !important;
+    }
+    .spa-mobile-toggle {
+        display: flex;
+    }
+}
+
+@media (max-width: 580px) {
+    .header-phone-btn span {
+        display: none;
+    }
+    .header-phone-btn {
+        padding: 0.45rem;
+        width: 34px;
+        height: 34px;
+        justify-content: center;
+    }
+    .spa-brand-sub {
+        font-size: 0.95rem;
+    }
+    .spa-brand-title {
+        font-size: 1.1rem;
+    }
+}

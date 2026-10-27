@@ -1,0 +1,481 @@
+/* ===========================
+   CARROUSEL D'ACCUEIL
+   =========================== */
+
+.hero {
+    position: relative;
+    height: calc(100vh - var(--header-h, 80px));
+    height: calc(100dvh - var(--header-h, 80px));
+    min-height: 540px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    margin-top: 0;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.hero-track {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #0E0D0C;
+    overflow: hidden;
+    will-change: opacity;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+.hero-slide-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-slide-layer img {
+    object-fit: cover !important;
+    object-position: center center !important;
+    transform: scale(1.02);
+    transition: transform 9s cubic-bezier(0.25, 1, 0.5, 1);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.hero-slide.active .hero-slide-layer img {
+    transform: scale(1);
+}
+
+.hero-layer-mobile {
+    display: none;
+}
+
+/* Dégradé de superposition sur l'image */
+.hero-slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(42, 30, 23, 0.25) 0%,
+        rgba(42, 30, 23, 0.05) 25%,
+        rgba(42, 30, 23, 0.55) 65%,
+        rgba(35, 23, 17, 0.88) 100%
+    );
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Contenu aligné en bas */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 0 0 5rem;
+}
+
+.hero-content-inner {
+    max-width: 800px;
+}
+
+.hero-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #F8D3B6 !important;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: #F8D3B6;
+    flex-shrink: 0;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 5.5vw, 4.6rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0.015em;
+    color: #FFFFFF !important;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 3px 25px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.95);
+}
+
+.hero-title em {
+    font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    color: #F8E3BA !important;
+    text-shadow: 0 3px 25px rgba(0, 0, 0, 0.95);
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #F7F2EB !important;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+    font-weight: 500;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1.15rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.hero-actions .hero-btn-menu {
+    border-radius: 28px !important;
+    background: #C2572D !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 8px 25px rgba(194, 87, 45, 0.5) !important;
+}
+
+.hero-actions .hero-btn-menu:hover {
+    background: #D4693F !important;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(194, 87, 45, 0.6) !important;
+}
+
+.hero-actions .hero-btn-tarifs,
+.hero-actions .hero-btn-phone,
+.hero-actions .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 14px 28px;
+    border-radius: 28px !important;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #2A1E17 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+    transition: all 0.3s var(--ease);
+}
+
+.hero-actions .hero-btn-phone svg,
+.hero-actions .btn-outline svg {
+    color: #C2572D !important;
+    stroke: #C2572D !important;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, color 0.3s ease, stroke 0.3s ease;
+}
+
+.hero-actions .hero-btn-phone span,
+.hero-actions .btn-outline span {
+    color: #2A1E17 !important;
+    font-weight: 700;
+}
+
+.hero-actions .hero-btn-tarifs:hover,
+.hero-actions .hero-btn-phone:hover,
+.hero-actions .btn-outline:hover {
+    background: #C2572D !important;
+    border-color: #C2572D !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(194, 87, 45, 0.45) !important;
+}
+
+.hero-actions .hero-btn-phone:hover svg,
+.hero-actions .btn-outline:hover svg {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+    transform: scale(1.1);
+}
+
+.hero-actions .hero-btn-phone:hover span,
+.hero-actions .btn-outline:hover span {
+    color: #FFFFFF !important;
+}
+
+/* Boutons de la bannière en thème clair */
+[data-theme="light"] .hero-actions .hero-btn-phone,
+[data-theme="light"] .hero-actions .btn-outline {
+    color: #2A1E17 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+[data-theme="light"] .hero-actions .hero-btn-phone svg,
+[data-theme="light"] .hero-actions .btn-outline svg {
+    color: #C2572D !important;
+    stroke: #C2572D !important;
+}
+
+[data-theme="light"] .hero-actions .hero-btn-phone span,
+[data-theme="light"] .hero-actions .btn-outline span {
+    color: #2A1E17 !important;
+}
+
+[data-theme="light"] .hero-actions .hero-btn-phone:hover,
+[data-theme="light"] .hero-actions .btn-outline:hover {
+    background: #C2572D !important;
+    border-color: #C2572D !important;
+    color: #FFFFFF !important;
+}
+
+[data-theme="light"] .hero-actions .hero-btn-phone:hover svg,
+[data-theme="light"] .hero-actions .btn-outline:hover svg {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+}
+
+[data-theme="light"] .hero-actions .hero-btn-phone:hover span,
+[data-theme="light"] .hero-actions .btn-outline:hover span {
+    color: #FFFFFF !important;
+}
+
+/* Flèches de navigation */
+.hero-arrows {
+    position: absolute;
+    bottom: 4.5rem;
+    right: 5%;
+    z-index: 10;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.hero-arrow,
+[data-theme="light"] .hero-arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(18, 16, 14, 0.65) !important;
+    border: 1.5px solid rgba(212, 180, 117, 0.7) !important;
+    color: #FFFFFF !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    touch-action: manipulation;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
+.hero-arrow svg,
+[data-theme="light"] .hero-arrow svg {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+    stroke-width: 2.2px;
+    transition: transform 0.25s ease, color 0.25s ease, stroke 0.25s ease;
+}
+
+.hero-arrow:hover,
+[data-theme="light"] .hero-arrow:hover {
+    background: #C89945 !important;
+    border-color: #C89945 !important;
+    color: #1A1510 !important;
+    transform: translateY(-2px) scale(1.08);
+    box-shadow: 0 8px 28px rgba(200, 153, 69, 0.55) !important;
+}
+
+.hero-arrow:hover svg,
+[data-theme="light"] .hero-arrow:hover svg {
+    color: #1A1510 !important;
+    stroke: #1A1510 !important;
+}
+
+.hero-arrow:active,
+[data-theme="light"] .hero-arrow:active {
+    transform: scale(0.96);
+}
+
+/* Points de pagination */
+.hero-dots {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    z-index: 10;
+}
+
+.hero-dot {
+    position: relative;
+    width: 24px;
+    height: 3px;
+    background: rgba(245, 240, 232, 0.35);
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border-radius: 2px;
+    touch-action: manipulation;
+    padding: 0;
+}
+
+.hero-dot::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    bottom: -20px;
+    left: -6px;
+    right: -6px;
+}
+
+.hero-dot.active {
+    background: var(--gold);
+    width: 48px;
+}
+
+@media (max-width: 1040px) {
+    .hero {
+        margin-top: 0 !important;
+        height: calc(100vh - var(--header-h, 64px)) !important;
+        height: calc(100svh - var(--header-h, 64px)) !important;
+        min-height: 520px;
+        max-height: none;
+    }
+
+    /* Supprime l'effet de zoom progressif sur mobile */
+    .hero-slide-layer img,
+    .hero-slide.active .hero-slide-layer img {
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .hero-layer-desktop.has-mobile-alt {
+        display: none !important;
+    }
+
+    .hero-layer-mobile {
+        display: block !important;
+    }
+
+    /* Cadrage des photos en portrait sur mobile : le haut de la photo reste visible */
+    .hero-slide img,
+    .hero-layer-mobile img,
+    .hero-slide-layer img {
+        object-position: center top !important;
+    }
+
+    /* Dégradé renforcé pour garder le texte lisible sur toutes les photos */
+    .hero-slide::after {
+        background: linear-gradient(
+            to bottom,
+            rgba(42, 30, 23, 0.2) 0%,
+            rgba(42, 30, 23, 0.04) 25%,
+            rgba(42, 30, 23, 0.6) 65%,
+            rgba(35, 23, 17, 0.92) 100%
+        ) !important;
+    }
+
+    .hero-arrows {
+        display: none;
+    }
+
+    .hero-content {
+        padding-bottom: 2.75rem;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-content-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(to top, rgba(14, 13, 12, 0.78) 0%, rgba(14, 13, 12, 0.45) 75%, transparent 100%);
+        padding: 1.25rem 1rem 0.5rem;
+        border-radius: 12px;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    .hero-eyebrow {
+        justify-content: center;
+        margin-bottom: 0.4rem;
+        color: #F0D5A3 !important;
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.95);
+        font-weight: 700;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+    }
+
+    .hero-eyebrow::before {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 7.5vw, 3.2rem);
+        text-align: center;
+        margin-bottom: 0.65rem;
+        color: #FFFFFF !important;
+        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.98), 0 1px 4px rgba(0, 0, 0, 0.98);
+        font-weight: 500;
+    }
+
+    .hero-title em {
+        color: #F8E3BA !important;
+        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.98);
+    }
+
+    .hero-subtitle {
+        text-align: center;
+        margin: 0 auto 1.25rem;
+        font-size: 0.92rem;
+        color: #F5EFE6 !important;
+        text-shadow: 0 1px 14px rgba(0, 0, 0, 0.98);
+        font-weight: 500;
+        line-height: 1.5;
+    }
+
+    .hero-actions {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .hero-actions .btn-outline,
+    .hero-actions .hero-btn-tarifs,
+    .hero-actions .hero-btn-phone {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .hero-actions .hero-btn-menu {
+        width: 100%;
+        max-width: 320px;
+    }
+}

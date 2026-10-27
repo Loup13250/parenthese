@@ -1,0 +1,200 @@
+/* ==========================================================================
+   CONTACT FORM - LA PARENTHÈSE HARMONIEUSE
+   ========================================================================== */
+
+.contact-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    border: 1px solid rgba(185, 146, 94, 0.25);
+    box-shadow: 0 15px 40px rgba(44, 38, 35, 0.06);
+}
+
+.contact-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form-header h2 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form-header p {
+    font-size: 0.94rem;
+    color: #6E635C;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Alerts */
+.form-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+}
+
+.alert-success {
+    background: #EFF6EE;
+    border: 1px solid #B0D6AD;
+    color: #2B6127;
+}
+
+.alert-success-icon {
+    color: #388432;
+    flex-shrink: 0;
+}
+
+.alert-error {
+    background: #FDF2F2;
+    border: 1px solid #F5C6C6;
+    color: #9C2A2A;
+}
+
+.alert-error-icon {
+    color: #C53030;
+    flex-shrink: 0;
+}
+
+/* Form */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-dual-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.form-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #3A3430;
+}
+
+.form-label .req {
+    color: #B9925E;
+}
+
+.form-label em {
+    font-weight: 400;
+    color: #8C8078;
+    font-style: italic;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    color: #9C7A4D;
+    pointer-events: none;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    background: #FAF7F2;
+    border: 1px solid rgba(185, 146, 94, 0.25);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.92rem;
+    color: #2C2623;
+    transition: all 0.2s ease;
+}
+
+.input-with-icon .form-input {
+    padding-left: 2.75rem;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    background: #FFFFFF;
+    border-color: #9C7A4D;
+    box-shadow: 0 0 0 3px rgba(185, 146, 94, 0.15);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #B9925E 0%, #9C7A4D 100%);
+    color: #FFFFFF;
+    border: none;
+    padding: 0.95rem 2rem;
+    border-radius: 999px;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(156, 122, 77, 0.35);
+    transition: all 0.25s ease;
+    margin-top: 0.5rem;
+}
+
+.form-submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(156, 122, 77, 0.5);
+    background: linear-gradient(135deg, #C5A16E 0%, #A88455 100%);
+}
+
+.form-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.form-disclaimer {
+    font-size: 0.74rem;
+    color: #8C8078;
+    text-align: center;
+    line-height: 1.4;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+    .contact-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .form-dual-row {
+        grid-template-columns: 1fr;
+    }
+}

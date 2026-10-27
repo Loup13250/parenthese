@@ -1,0 +1,1117 @@
+/* ==========================================================================
+   HOME PAGE - LA PARENTHÈSE HARMONIEUSE
+   Direction Artistique Haute Beauté & Spa de Sérénité
+   Palace Aesthetic (Inspiration Auberge de Beauté, Dior Spa)
+   ========================================================================== */
+
+.home-page {
+    background-color: var(--bg);
+    overflow-x: hidden;
+}
+
+/* Base Container & Section Spacing - Expanded for 4K / Ultrawide */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 0.85rem;
+    position: relative;
+}
+
+.section-tag::before {
+    content: '';
+    width: 1.4rem;
+    height: 1px;
+    background: #9C7A4D;
+}
+
+.section-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+    font-weight: 500;
+    color: #231E1B;
+    line-height: 1.15;
+    letter-spacing: 0.015em;
+    margin-bottom: 1.1rem;
+}
+
+.title-serif {
+    font-style: italic;
+    color: #8E662F;
+    font-weight: 500;
+}
+
+.section-subtitle {
+    font-size: 1.05rem;
+    color: #352E2A;
+    font-weight: 450;
+    max-width: 680px;
+    line-height: 1.7;
+    margin: 0 auto;
+}
+
+.section-header-center {
+    text-align: center;
+    max-width: 840px;
+    margin: 0 auto 4rem;
+}
+
+/* ==========================================================================
+   2. SECTION BIENVENUE
+   ========================================================================== */
+.section-bienvenue {
+    padding: 7.5rem 0 6.5rem;
+    background: #FAF7F2;
+    position: relative;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.15);
+}
+
+.bienvenue-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 5.5rem;
+    align-items: center;
+}
+
+/* Portrait Frame */
+.bienvenue-media {
+    position: relative;
+}
+
+.portrait-frame {
+    position: relative;
+    border-radius: 260px 260px 28px 28px;
+    overflow: visible;
+    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.09);
+}
+
+.portrait-img {
+    width: 100%;
+    height: auto;
+    border-radius: 260px 260px 28px 28px;
+    display: block;
+    object-fit: cover;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+}
+
+.portrait-aura {
+    position: absolute;
+    inset: -14px;
+    border-radius: 275px 275px 38px 38px;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.portrait-badge {
+    position: absolute;
+    bottom: -15px;
+    right: -15px;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    border-radius: 18px;
+    padding: 0.85rem 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.1);
+}
+
+.badge-sparkle {
+    color: #B9925E;
+}
+
+.badge-name {
+    display: block;
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2C2623;
+    line-height: 1.1;
+}
+
+.badge-title {
+    display: block;
+    font-size: 0.72rem;
+    color: #554A42;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Content */
+.bienvenue-lead {
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-style: italic;
+    color: #251F1C;
+    line-height: 1.6;
+    margin-bottom: 1.35rem;
+}
+
+.bienvenue-p {
+    font-size: 0.98rem;
+    color: #2F2723;
+    font-weight: 450;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+}
+
+/* Pillars: Haute Parfumerie Design */
+.pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+    margin: 2.75rem 0 3rem;
+}
+
+.pillar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: #FFFFFF;
+    padding: 1.25rem 1.35rem;
+    border-radius: 14px;
+    border: 1px solid rgba(197, 168, 128, 0.22);
+    box-shadow: 0 4px 18px rgba(44, 38, 35, 0.03);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.pillar-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(44, 38, 35, 0.07);
+    border-color: rgba(197, 168, 128, 0.45);
+}
+
+.pillar-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(185, 146, 94, 0.1);
+    color: #9C7A4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(185, 146, 94, 0.2);
+}
+
+.pillar-item h4 {
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #2C2623;
+    margin-bottom: 0.25rem;
+}
+
+.pillar-item p {
+    font-size: 0.82rem;
+    color: #38302B;
+    font-weight: 450;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.bienvenue-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.35rem;
+    flex-wrap: wrap;
+}
+
+.btn-approach {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #2C2623;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.85rem 1.8rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn-approach:hover {
+    background: #B9925E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(185, 146, 94, 0.35);
+}
+
+.btn-reserve-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: transparent;
+    color: #9C7A4D;
+    border: 1px solid #9C7A4D;
+    text-decoration: none;
+    padding: 0.85rem 1.8rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn-reserve-inline:hover {
+    background: #9C7A4D;
+    color: #FFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(156, 122, 77, 0.25);
+}
+
+/* ==========================================================================
+   3. SECTION CARTE DES SOINS
+   ========================================================================== */
+.section-soins {
+    padding: 7.5rem 0;
+    background: #F5EFE8;
+    position: relative;
+}
+
+/* Category Tabs */
+.category-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 2.25rem;
+}
+
+.cat-tab-btn {
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    color: #5A504A;
+    padding: 0.6rem 1.35rem;
+    border-radius: 999px;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.cat-tab-btn:hover {
+    border-color: #9C7A4D;
+    color: #2C2623;
+}
+
+.cat-tab-btn.active {
+    background: #2C2623;
+    color: #FFFFFF;
+    border-color: #2C2623;
+    box-shadow: 0 4px 16px rgba(44, 38, 35, 0.18);
+}
+
+/* Soins Grid: 3 columns on wide screens */
+.soins-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3.5rem;
+}
+
+.soin-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    box-shadow: 0 10px 35px rgba(44, 38, 35, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.soin-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 20px 48px rgba(44, 38, 35, 0.11);
+}
+
+.soin-card-media {
+    position: relative;
+    height: 250px;
+    width: 100%;
+    overflow: hidden;
+    background: #EFE7DC;
+}
+
+.soin-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.soin-card:hover .soin-card-img {
+    transform: scale(1.06);
+}
+
+.soin-badge {
+    position: absolute;
+    top: 1.15rem;
+    left: 1.15rem;
+    background: rgba(44, 38, 35, 0.88);
+    backdrop-filter: blur(10px);
+    color: #EBD3B0;
+    padding: 0.32rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid rgba(216, 182, 133, 0.45);
+}
+
+.soin-duration-tag {
+    position: absolute;
+    bottom: 1.15rem;
+    right: 1.15rem;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    color: #2C2623;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.soin-card-body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.soin-category-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 0.5rem;
+}
+
+.soin-card-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 600;
+    color: #2C2623;
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+}
+
+.soin-card-subtitle {
+    font-size: 0.86rem;
+    font-style: italic;
+    color: #4A3E37;
+    margin-bottom: 0.95rem;
+}
+
+.soin-card-desc {
+    font-size: 0.9rem;
+    color: #2D2520;
+    font-weight: 450;
+    line-height: 1.65;
+    margin-bottom: 1.75rem;
+    flex-grow: 1;
+}
+
+.soin-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.35rem;
+    border-top: 1px solid rgba(197, 168, 128, 0.2);
+    gap: 1rem;
+}
+
+.soin-price-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.soin-price-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #554A42;
+    font-weight: 500;
+}
+
+.soin-price-val {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #8E662F;
+    line-height: 1;
+}
+
+.soin-actions-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.btn-card-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: transparent;
+    border: 1px solid rgba(44, 38, 35, 0.22);
+    color: #5A504A;
+    padding: 0.5rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-card-details:hover {
+    background: #FAF7F2;
+    border-color: #2C2623;
+    color: #2C2623;
+}
+
+.btn-card-reserve {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.52rem 1.25rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(163, 127, 78, 0.32);
+    transition: all 0.25s ease;
+}
+
+.btn-card-reserve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(163, 127, 78, 0.45);
+    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+}
+
+.soins-view-all {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.btn-view-all-soins {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #FFFFFF;
+    border: 1.5px solid #9C7A4D;
+    color: #9C7A4D;
+    text-decoration: none;
+    padding: 0.95rem 2.2rem;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 18px rgba(44, 38, 35, 0.04);
+    transition: all 0.25s ease;
+}
+
+.btn-view-all-soins:hover {
+    background: #9C7A4D;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(156, 122, 77, 0.28);
+}
+
+/* ==========================================================================
+   4. MODAL DÉTAILS SOIN
+   ========================================================================== */
+.service-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 24, 21, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.service-modal-box {
+    background: #FAF7F2;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 660px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2.75rem;
+    position: relative;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+    animation: modalScale 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes modalScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    background: none;
+    border: none;
+    color: #5A504A;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: rgba(185, 146, 94, 0.15);
+    color: #2C2623;
+}
+
+.modal-category {
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+}
+
+.modal-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2C2623;
+    line-height: 1.2;
+    margin: 0.35rem 0;
+}
+
+.modal-subtitle {
+    font-size: 0.94rem;
+    font-style: italic;
+    color: #7A6F67;
+}
+
+.modal-meta-pills {
+    display: flex;
+    gap: 0.75rem;
+    margin: 1.35rem 0 1.85rem;
+    flex-wrap: wrap;
+}
+
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: #3A3430;
+}
+
+.price-pill {
+    background: rgba(185, 146, 94, 0.15);
+    border-color: #9C7A4D;
+    color: #9C7A4D;
+    font-weight: 600;
+}
+
+.modal-content h4 {
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin: 1.35rem 0 0.45rem;
+}
+
+.modal-content p {
+    font-size: 0.94rem;
+    color: #2F2723;
+    font-weight: 450;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+}
+
+.modal-contraindications {
+    background: #FDF3E7;
+    border: 1px solid #E6BA7E;
+    border-radius: 12px;
+    padding: 1rem 1.35rem;
+    margin-top: 1.5rem;
+}
+
+.modal-contraindications h4 {
+    color: #945B0A;
+    margin-top: 0;
+}
+
+.modal-contraindications p {
+    color: #7A4F0B;
+    font-size: 0.86rem;
+    margin: 0;
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(197, 168, 128, 0.2);
+}
+
+.modal-btn-planity {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: linear-gradient(135deg, #B9925E 0%, #9C7A4D 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(156, 122, 77, 0.35);
+}
+
+.modal-btn-contact {
+    color: #6E635C;
+    text-decoration: underline;
+    font-size: 0.86rem;
+}
+
+/* ==========================================================================
+   5. BANNIÈRE CARTE CADEAU - Haute Épicerie & Cocon
+   ========================================================================== */
+.section-cadeau-banner {
+    padding: 5rem 0;
+    background: #FAF7F2;
+}
+
+.cadeau-banner-card {
+    background: linear-gradient(135deg, #241E1B 0%, #352B25 100%);
+    border-radius: 28px;
+    padding: 4.5rem 4rem;
+    color: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.cadeau-banner-card::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    bottom: -60px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(197, 168, 128, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.cadeau-icon-wrap {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(197, 168, 128, 0.18);
+    border: 1px solid #D8B685;
+    color: #EBD3B0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.6rem;
+}
+
+.section-tag-light {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #D8B685;
+    margin-bottom: 0.85rem;
+}
+
+.cadeau-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.1rem;
+}
+
+.cadeau-desc {
+    font-size: 1.05rem;
+    color: #D6CCC4;
+    max-width: 700px;
+    line-height: 1.75;
+    margin-bottom: 2.25rem;
+}
+
+.cadeau-formats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 2.75rem;
+}
+
+.format-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.96rem;
+    color: #F5EFE6;
+}
+
+.format-check {
+    color: #D8B685;
+    flex-shrink: 0;
+}
+
+.cadeau-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.35rem;
+    flex-wrap: wrap;
+}
+
+.btn-cadeau-details {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.95rem 2.2rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
+}
+
+.btn-cadeau-details:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+}
+
+.btn-cadeau-planity {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.95rem 2.2rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn-cadeau-planity:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: #FFF;
+}
+
+/* ==========================================================================
+   6. AVIS CLIENTES
+   ========================================================================== */
+.section-avis {
+    padding: 7.5rem 0;
+    background: #FAF7F2;
+}
+
+.stars-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
+}
+
+.star-filled {
+    color: #B9925E;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 2.25rem;
+    margin-top: 3.5rem;
+}
+
+.testimonial-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 2.25rem;
+    border: 1px solid rgba(197, 168, 128, 0.22);
+    box-shadow: 0 8px 28px rgba(44, 38, 35, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(44, 38, 35, 0.08);
+}
+
+.testi-stars {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1.35rem;
+}
+
+.testi-comment {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: #3A3430;
+    line-height: 1.65;
+    margin-bottom: 1.75rem;
+    flex-grow: 1;
+}
+
+.testi-meta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 1.15rem;
+    border-top: 1px solid rgba(197, 168, 128, 0.18);
+}
+
+.testi-author {
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #2C2623;
+    display: block;
+}
+
+.testi-treatment {
+    font-size: 0.76rem;
+    color: #8C8078;
+    display: block;
+}
+
+.testi-source-badge {
+    background: rgba(185, 146, 94, 0.12);
+    color: #9C7A4D;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.avis-cta-wrap {
+    text-align: center;
+    margin-top: 3.5rem;
+}
+
+.btn-google-review {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #9C7A4D;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.btn-google-review:hover {
+    color: #2C2623;
+}
+
+/* ==========================================================================
+   7. INSTITUT & CADRE
+   ========================================================================== */
+.section-institut {
+    padding: 7.5rem 0;
+    background: #F5EFE8;
+    border-top: 1px solid rgba(197, 168, 128, 0.15);
+}
+
+.institut-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4.5rem;
+    align-items: center;
+}
+
+.institut-lead {
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-style: italic;
+    color: #251F1C;
+    line-height: 1.6;
+    margin-bottom: 1.15rem;
+}
+
+.institut-p {
+    font-size: 0.96rem;
+    color: #2E2622;
+    font-weight: 450;
+    line-height: 1.75;
+    margin-bottom: 1.85rem;
+}
+
+.institut-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 2.5rem;
+}
+
+.highlight-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.22);
+    padding: 0.75rem 1.15rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    color: #2C2623;
+}
+
+.highlight-pill svg {
+    color: #9C7A4D;
+    flex-shrink: 0;
+}
+
+.btn-contact-institut {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #2C2623;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.9rem 2rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn-contact-institut:hover {
+    background: #9C7A4D;
+    transform: translateY(-2px);
+}
+
+/* Gallery Grid */
+.institut-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+}
+
+.gallery-main-img {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 16px 40px rgba(44, 38, 35, 0.1);
+}
+
+.gallery-sub-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.35rem;
+}
+
+.gallery-sub-img {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.08);
+}
+
+.inst-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.gallery-main-img:hover .inst-img,
+.gallery-sub-img:hover .inst-img {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+    .bienvenue-grid,
+    .institut-grid {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+    }
+
+    .portrait-frame {
+        max-width: 380px;
+        margin: 0 auto;
+    }
+
+    .pillars-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cadeau-banner-card {
+        padding: 2.75rem 2rem;
+    }
+}

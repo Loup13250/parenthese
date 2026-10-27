@@ -1,0 +1,414 @@
+/* ==========================================================================
+   CARTE CADEAU - LA PARENTHÈSE HARMONIEUSE
+   Esthétique Haute Beauté, Cocon Luxe & Sérénité
+   ========================================================================== */
+
+.cadeau-page {
+    background-color: #FAF7F2;
+    padding-top: 75px;
+}
+
+/* Luminous Palace Hero */
+.cadeau-page-hero {
+    background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
+    color: #2C2623;
+    padding: 5.5rem 0 4.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.22);
+}
+
+.cadeau-hero-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cadeau-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    padding: 0.42rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
+}
+
+.cadeau-page-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0.4rem 0 1.25rem;
+    color: #2C2623;
+    letter-spacing: 0.015em;
+}
+
+.cadeau-page-title .title-serif {
+    color: #8E662F;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.cadeau-page-sub {
+    font-size: 1.1rem;
+    color: #352E2A;
+    font-weight: 450;
+    max-width: 700px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.7;
+}
+
+.cadeau-hero-reassurance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    font-size: 0.82rem;
+    color: #4D433C;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+}
+
+/* Details Section */
+.cadeau-details-section {
+    padding: 5.5rem 0 7rem;
+}
+
+.cadeau-intro-card {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 4rem 3.5rem;
+    text-align: center;
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    box-shadow: 0 16px 45px rgba(44, 38, 35, 0.05);
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.cadeau-intro-icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(185, 146, 94, 0.12);
+    color: #9C7A4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.75rem;
+    border: 1px solid rgba(185, 146, 94, 0.25);
+}
+
+.cadeau-intro-card h2 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2rem, 3.2vw, 2.6rem);
+    font-weight: 500;
+    color: #2C2623;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+}
+
+.cadeau-intro-lead {
+    font-size: 1.05rem;
+    color: #2E2622;
+    font-weight: 450;
+    max-width: 720px;
+    margin: 0 auto 2.25rem;
+    line-height: 1.75;
+}
+
+.occasions-pills {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.occasion-pill {
+    background: #FAF7F2;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #6E635C;
+}
+
+/* Formats Grid */
+.formats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.75rem;
+    margin-top: 3.5rem;
+}
+
+.format-card {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 3.5rem 3rem;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.05);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.format-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 48px rgba(44, 38, 35, 0.1);
+}
+
+.featured-format {
+    border-color: #B9925E;
+    box-shadow: 0 16px 45px rgba(185, 146, 94, 0.15);
+}
+
+.format-badge {
+    position: absolute;
+    top: -12px;
+    right: 2rem;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(163, 127, 78, 0.35);
+}
+
+.format-icon-wrap {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(185, 146, 94, 0.12);
+    color: #9C7A4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.format-card h3 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.85rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin-bottom: 0.35rem;
+}
+
+.format-subtitle {
+    font-size: 0.88rem;
+    color: #8C8078;
+    margin-bottom: 1.35rem;
+}
+
+.format-desc {
+    font-size: 0.94rem;
+    color: #5A504A;
+    line-height: 1.7;
+    margin-bottom: 1.85rem;
+}
+
+.format-perks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex-grow: 1;
+}
+
+.format-perks li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: #4A423D;
+    line-height: 1.5;
+}
+
+.format-perks li svg {
+    color: #B9925E;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+}
+
+.format-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: center;
+}
+
+.btn-call-order {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: #2C2623;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.95rem 2rem;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    width: 100%;
+    transition: all 0.25s ease;
+}
+
+.btn-call-order:hover {
+    background: #B9925E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(185, 146, 94, 0.35);
+}
+
+.btn-planity-gift {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 0.95rem 2rem;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    width: 100%;
+    box-shadow: 0 6px 20px rgba(163, 127, 78, 0.32);
+    transition: all 0.25s ease;
+}
+
+.btn-planity-gift:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+    box-shadow: 0 8px 26px rgba(163, 127, 78, 0.45);
+}
+
+.link-contact-opt {
+    color: #8C8078;
+    text-decoration: underline;
+    font-size: 0.84rem;
+}
+
+/* Gift Suggestions Box */
+.gift-suggestions-box {
+    margin-top: 6rem;
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 4rem 3.5rem;
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    box-shadow: 0 16px 45px rgba(44, 38, 35, 0.05);
+}
+
+.gift-suggestions-box h3 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #2C2623;
+    margin-bottom: 2.5rem;
+}
+
+.suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.suggestion-item {
+    background: #FAF7F2;
+    padding: 2rem;
+    border-radius: 18px;
+    border: 1px solid rgba(197, 168, 128, 0.22);
+    display: flex;
+    flex-direction: column;
+}
+
+.sugg-category {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9C7A4D;
+    margin-bottom: 0.5rem;
+}
+
+.suggestion-item h4 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: #2C2623;
+    margin-bottom: 0.5rem;
+}
+
+.suggestion-item p {
+    font-size: 0.88rem;
+    color: #6E635C;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+}
+
+.sugg-price {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #9C7A4D;
+}
+
+.suggestions-action {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.btn-view-carte-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1.5px solid #9C7A4D;
+    color: #9C7A4D;
+    text-decoration: none;
+    padding: 0.85rem 2rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn-view-carte-outline:hover {
+    background: #9C7A4D;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(156, 122, 77, 0.25);
+}
+
+@media (max-width: 900px) {
+    .formats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .format-card,
+    .cadeau-intro-card,
+    .gift-suggestions-box {
+        padding: 2.5rem 1.75rem;
+    }
+}

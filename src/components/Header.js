@@ -101,10 +101,7 @@ export default function Header({ siteInfo }) {
                             id="header-btn-prendre-rdv"
                             title="Réserver sur Planity en ligne"
                         >
-                            <Calendar size={13} className="btn-icon" />
-                            <span>PRENDRE RDV</span>
-                            <span className="btn-dot" aria-hidden="true">•</span>
-                            <span className="btn-tag">Planity 24/7</span>
+                            <span>PRENDRE RENDEZ-VOUS</span>
                         </a>
                     </div>
                 </div>

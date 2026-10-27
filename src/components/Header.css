@@ -281,45 +281,28 @@
 .btn-book-rdv-compact {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: #96703B;
+    justify-content: center;
+    background: #8E662F;
     color: #FFFFFF !important;
     text-decoration: none;
-    padding: 0.32rem 1.35rem;
-    border-radius: 2px; /* Style haute beauté architectural */
+    padding: 0.35rem 1.4rem;
+    border-radius: 2px;
     font-family: var(--font-dm-sans), sans-serif;
     font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    border: 1px solid rgba(226, 194, 144, 0.65);
-    box-shadow: 0 2px 10px rgba(150, 112, 59, 0.3);
+    border: 1px solid #C5A880;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     white-space: nowrap;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-book-rdv-compact::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-    transition: left 0.6s ease;
-}
-
-.btn-book-rdv-compact:hover::after {
-    left: 140%;
 }
 
 .btn-book-rdv-compact:hover {
-    transform: translateY(-1px);
-    background: #A88147;
+    background: #A67B3E;
     border-color: #EBD3B0;
-    box-shadow: 0 4px 16px rgba(150, 112, 59, 0.45);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(142, 102, 47, 0.4);
 }
 
 .btn-book-rdv-compact .btn-icon {

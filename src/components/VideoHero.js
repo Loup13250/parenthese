@@ -95,11 +95,10 @@ export default function VideoHero({ siteInfo }) {
             {/* Main Content */}
             <div className="container hero-content-container">
                 <div className="hero-text-block">
-                    {/* Eyebrow badge */}
-                    <div className="hero-eyebrow">
-                        <Sparkles size={14} className="eyebrow-sparkle" />
-                        <span>INSTITUT DÉDIÉ AUX FEMMES • SALON-DE-PROVENCE</span>
-                    </div>
+                    {/* Delicate editorial sanctuary label */}
+                    <span className="hero-eyebrow-line">
+                        SALON-DE-PROVENCE · INSTITUT PRIVATIF DÉDIÉ AUX FEMMES
+                    </span>
 
                     {/* Consigne Harmonie : "offrez vous une parenthèse de bien être" */}
                     <h1 className="hero-title">
@@ -109,11 +108,11 @@ export default function VideoHero({ siteInfo }) {
 
                     {/* Subtitle with pillars */}
                     <p className="hero-subtitle">
-                        Massages sur mesure • Soins Visage Bio • Drainage Lymphatique • Kobido
+                        Massages sur mesure d&apos;exception · Soins du Visage Bio · Drainage &amp; Kobido
                     </p>
 
                     <p className="hero-description">
-                        Dans un cocon de douceur et d&apos;intimité, chaque soin est pensé sur mesure pour relâcher les tensions, apaiser l&apos;esprit et sublimer votre peau.
+                        Dans un cocon de douceur et de sérénité, chaque soin est pensé sur mesure pour relâcher les tensions, apaiser l&apos;esprit et reconnecter le corps.
                     </p>
 
                     {/* CTAs */}
@@ -124,22 +123,21 @@ export default function VideoHero({ siteInfo }) {
                             rel="noopener noreferrer"
                             className="hero-btn-primary"
                         >
-                            <Calendar size={18} />
                             <span>PRENDRE RENDEZ-VOUS</span>
                         </a>
 
                         <Link href="/carte-des-soins" className="hero-btn-secondary">
-                            <span>DÉCOUVRIR LA CARTE DES SOINS</span>
+                            <span>DÉCOUVRIR LES SOINS</span>
                         </Link>
                     </div>
 
                     {/* Reassurance Palace Spa Ribbon */}
                     <div className="hero-reassurance-ribbon">
-                        <span className="ribbon-item">Cosmétiques BIO Nohèm & Green Spa</span>
+                        <span className="ribbon-item">Cosmétiques BIO Nohèm &amp; Green Spa</span>
                         <span className="ribbon-diamond" aria-hidden="true">✦</span>
-                        <span className="ribbon-item">Parking gratuit devant le Pôle Santé</span>
+                        <span className="ribbon-item">Parking Gratuit au Pôle Santé</span>
                         <span className="ribbon-diamond" aria-hidden="true">✦</span>
-                        <span className="ribbon-item">Note d&apos;excellence 5,0/5 ★★★★★</span>
+                        <span className="ribbon-item">Avis 5,0/5 sur Planity &amp; Google</span>
                     </div>
                 </div>
             </div>

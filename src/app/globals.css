@@ -39,10 +39,10 @@ html,
   --border:      rgba(142, 102, 47, 0.28);
   --border-soft: rgba(142, 102, 47, 0.16);
 
-  --radius-sm:   10px;
-  --radius-md:   20px;
-  --radius-lg:   28px;
-  --radius-xl:   36px;
+  --radius-sm:   2px;
+  --radius-md:   3px;
+  --radius-lg:   4px;
+  --radius-xl:   6px;
 
   --ease:        cubic-bezier(0.22, 1, 0.36, 1);
   --transition:  all 0.4s var(--ease);
@@ -71,6 +71,12 @@ html,
 .public-page-wrapper {
   padding-top: var(--header-h);
   min-height: calc(100vh - var(--header-h));
+}
+
+/* Sur la page d'accueil, la vidéo s'étend jusqu'en haut (pixel 0) sous le header : zéro trait blanc */
+.public-page-wrapper:has(.spa-hero),
+.public-page-wrapper:has(.home-page) {
+  padding-top: 0 !important;
 }
 
 * {

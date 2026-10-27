@@ -193,7 +193,7 @@ export default function GalleryClient({ posts }) {
     const [isSeeding, setIsSeeding] = useState(false);
 
     const handleSeed = async () => {
-        if (!confirm("Veux-tu restaurer 3 exemples de réalisations culinaires dans la galerie ?")) return;
+        if (!confirm("Veux-tu restaurer 3 exemples de photos d'ambiance et soins bien-être dans la galerie ?")) return;
         setIsSeeding(true);
         try {
             const res = await seedSampleGalleryPosts();
@@ -462,7 +462,7 @@ export default function GalleryClient({ posts }) {
             <div style={{ width: '100%', maxWidth: '900px', marginBottom: '2rem' }}>
                 <h1 className="admin-page-title">Galerie - Photos &amp; Vidéos</h1>
                 <p style={{ color: 'var(--admin-text-muted)', marginBottom: '1.25rem', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                    Ajoute et gère les photos et vidéos de cuisine. Modifie leurs titres et légendes en français et en anglais pour la page publique <strong>Galerie</strong>.
+                    Ajoute et gère les photos et vidéos du salon, des soins et de l&apos;ambiance. Modifie leurs titres et légendes en français et en anglais pour la page publique <strong>Galerie</strong>.
                 </p>
 
                 {/* BANDEAU CAPACITÉ */}
@@ -662,7 +662,7 @@ export default function GalleryClient({ posts }) {
                                             defaultValue={editingPost.caption || ''}
                                             className="admin-input"
                                             rows="3"
-                                            placeholder="Ex : Préparation du buffet dînatoire en direct du labo..."
+                                            placeholder="Ex : Ambiance tamisée et huiles chaudes dans la cabine de soin..."
                                         />
                                     </div>
                                     <div>
@@ -672,7 +672,7 @@ export default function GalleryClient({ posts }) {
                                             defaultValue={editingPost.caption_en || ''}
                                             className="admin-input"
                                             rows="3"
-                                            placeholder="e.g. Freshly prepared buffet live from our kitchen..."
+                                            placeholder="e.g. Warm gentle lighting and fragrant botanical oils in the treatment room..."
                                         />
                                     </div>
                                 </div>
@@ -930,7 +930,7 @@ export default function GalleryClient({ posts }) {
                                         name="caption"
                                         className="admin-input"
                                         rows="2"
-                                        placeholder="Ex : Préparation du buffet dînatoire en direct du labo..."
+                                        placeholder="Ex : Ambiance tamisée et huiles chaudes dans la cabine de soin..."
                                     />
                                 </div>
                                 <div>
@@ -939,7 +939,7 @@ export default function GalleryClient({ posts }) {
                                         name="caption_en"
                                         className="admin-input"
                                         rows="2"
-                                        placeholder="e.g. Freshly prepared buffet live from our kitchen..."
+                                        placeholder="e.g. Warm gentle lighting and fragrant botanical oils in the treatment room..."
                                     />
                                 </div>
                             </div>
@@ -1003,7 +1003,7 @@ export default function GalleryClient({ posts }) {
                             Aucune photo publiée pour le moment
                         </h3>
                         <p style={{ fontSize: '0.9rem', color: '#665A51', maxWidth: '520px', margin: '0 auto 1.75rem', lineHeight: '1.6' }}>
-                            La galerie en ligne est actuellement vide (peut-être après une session de test ou de suppression). Tu peux ajouter tes nouvelles photos ci-dessus, ou restaurer 3 exemples culinaires en 1 clic.
+                            La galerie en ligne est actuellement vide (peut-être après une session de test ou de suppression). Tu peux ajouter tes nouvelles photos ci-dessus, ou restaurer 3 exemples bien-être en 1 clic.
                         </p>
                         <button
                             type="button"
@@ -1029,7 +1029,7 @@ export default function GalleryClient({ posts }) {
                             {isSeeding ? (
                                 <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> Restauration en cours...</>
                             ) : (
-                                <><Sparkles size={16} /> Restaurer 3 exemples culinaires</>
+                                <><Sparkles size={16} /> Restaurer 3 exemples bien-être</>
                             )}
                         </button>
                     </div>

@@ -10,7 +10,7 @@ export default function Header({ siteInfo }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const pathname = usePathname();
-    const isHome = pathname === '/';
+    const isHome = pathname === '/' || pathname === '';
 
     const phone = siteInfo?.phone || '06 51 65 21 42';
     const phoneTel = phone.replace(/\s+/g, '');
@@ -18,7 +18,8 @@ export default function Header({ siteInfo }) {
     const instagramUrl = siteInfo?.instagram || 'https://www.instagram.com/laparentheseharmonieuse/';
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 40);
+        const onScroll = () => setScrolled(window.scrollY > 30);
+        onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);

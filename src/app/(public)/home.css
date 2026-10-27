@@ -1,7 +1,7 @@
 /* ==========================================================================
    HOME PAGE - LA PARENTHÈSE HARMONIEUSE
-   Direction Artistique Haute Beauté & Spa de Sérénité
-   Palace Aesthetic (Inspiration Auberge de Beauté, Dior Spa)
+   Direction Artistique : Haute Beauté, Cocon Luxe & Palace Spa
+   Inspiration Auberge de Beauté (Salon-de-Provence) & Spas 5 Étoiles
    ========================================================================== */
 
 .home-page {
@@ -9,7 +9,7 @@
     overflow-x: hidden;
 }
 
-/* Base Container & Section Spacing - Expanded for 4K / Ultrawide */
+/* Base Container & Section Spacing */
 .container {
     width: 100%;
     max-width: 1400px;
@@ -20,10 +20,10 @@
 .section-tag {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.65rem;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: #9C7A4D;
     margin-bottom: 0.85rem;
@@ -32,14 +32,14 @@
 
 .section-tag::before {
     content: '';
-    width: 1.4rem;
+    width: 1.6rem;
     height: 1px;
     background: #9C7A4D;
 }
 
 .section-title {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+    font-size: clamp(2.4rem, 4.4vw, 3.8rem);
     font-weight: 500;
     color: #231E1B;
     line-height: 1.15;
@@ -55,8 +55,8 @@
 
 .section-subtitle {
     font-size: 1.05rem;
-    color: #352E2A;
-    font-weight: 450;
+    color: #38302B;
+    font-weight: 400;
     max-width: 680px;
     line-height: 1.7;
     margin: 0 auto;
@@ -75,7 +75,7 @@
     padding: 7.5rem 0 6.5rem;
     background: #FAF7F2;
     position: relative;
-    border-bottom: 1px solid rgba(197, 168, 128, 0.15);
+    border-bottom: 1px solid rgba(197, 168, 128, 0.18);
 }
 
 .bienvenue-grid {
@@ -92,25 +92,25 @@
 
 .portrait-frame {
     position: relative;
-    border-radius: 260px 260px 28px 28px;
+    border-radius: 260px 260px 3px 3px;
     overflow: visible;
-    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.09);
+    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.08);
 }
 
 .portrait-img {
     width: 100%;
     height: auto;
-    border-radius: 260px 260px 28px 28px;
+    border-radius: 260px 260px 3px 3px;
     display: block;
     object-fit: cover;
-    border: 1px solid rgba(197, 168, 128, 0.35);
+    border: 1px solid rgba(197, 168, 128, 0.4);
 }
 
 .portrait-aura {
     position: absolute;
     inset: -14px;
-    border-radius: 275px 275px 38px 38px;
-    border: 1px solid rgba(197, 168, 128, 0.3);
+    border-radius: 275px 275px 8px 8px;
+    border: 1px solid rgba(197, 168, 128, 0.35);
     pointer-events: none;
     z-index: -1;
 }
@@ -118,59 +118,47 @@
 .portrait-badge {
     position: absolute;
     bottom: -15px;
-    right: -15px;
+    right: 20px;
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.35);
-    border-radius: 18px;
-    padding: 0.85rem 1.4rem;
+    border: 1px solid rgba(197, 168, 128, 0.45);
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.1);
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #2C2623;
+    box-shadow: 0 8px 24px rgba(44, 38, 35, 0.08);
 }
 
 .badge-sparkle {
-    color: #B9925E;
+    color: #9C7A4D;
 }
 
-.badge-name {
-    display: block;
+/* Lead text */
+.lead-quote {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #2C2623;
-    line-height: 1.1;
-}
-
-.badge-title {
-    display: block;
-    font-size: 0.72rem;
-    color: #554A42;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-/* Content */
-.bienvenue-lead {
-    font-size: 1.25rem;
-    font-weight: 500;
-    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: 1.35rem;
     font-style: italic;
-    color: #251F1C;
-    line-height: 1.6;
-    margin-bottom: 1.35rem;
+    color: #382F2A;
+    line-height: 1.55;
+    margin-bottom: 1.4rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid #8E662F;
 }
 
-.bienvenue-p {
+.bienvenue-text-body p {
     font-size: 0.98rem;
-    color: #2F2723;
-    font-weight: 450;
+    color: #2D2520;
+    font-weight: 400;
     line-height: 1.8;
     margin-bottom: 1.25rem;
 }
 
-/* Pillars: Haute Parfumerie Design */
+/* Pillars: Haute Parfumerie & Palace */
 .pillars-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -181,11 +169,11 @@
 .pillar-item {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1.1rem;
     background: #FFFFFF;
-    padding: 1.25rem 1.35rem;
-    border-radius: 14px;
-    border: 1px solid rgba(197, 168, 128, 0.22);
+    padding: 1.35rem 1.4rem;
+    border-radius: 2px;
+    border: 1px solid rgba(197, 168, 128, 0.28);
     box-shadow: 0 4px 18px rgba(44, 38, 35, 0.03);
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
 }
@@ -193,36 +181,37 @@
 .pillar-item:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 28px rgba(44, 38, 35, 0.07);
-    border-color: rgba(197, 168, 128, 0.45);
+    border-color: rgba(197, 168, 128, 0.6);
 }
 
 .pillar-icon-box {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 2px;
     background: rgba(185, 146, 94, 0.1);
-    color: #9C7A4D;
+    color: #8E662F;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    border: 1px solid rgba(185, 146, 94, 0.2);
+    border: 1px solid rgba(185, 146, 94, 0.25);
 }
 
 .pillar-item h4 {
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: #2C2623;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
 }
 
 .pillar-item p {
-    font-size: 0.82rem;
-    color: #38302B;
-    font-weight: 450;
-    line-height: 1.5;
+    font-size: 0.84rem;
+    color: #4A403A;
+    font-weight: 400;
+    line-height: 1.55;
     margin: 0;
 }
 
@@ -236,47 +225,50 @@
 .btn-approach {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    background: #2C2623;
+    gap: 0.6rem;
+    background: #231E1B;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.85rem 1.8rem;
-    border-radius: 999px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    padding: 0.95rem 2.2rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    transition: all 0.25s ease;
+    border: 1px solid #231E1B;
+    transition: all 0.3s ease;
 }
 
 .btn-approach:hover {
-    background: #B9925E;
+    background: #8E662F;
+    border-color: #8E662F;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(185, 146, 94, 0.35);
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.3);
 }
 
 .btn-reserve-inline {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    background: transparent;
-    color: #9C7A4D;
-    border: 1px solid #9C7A4D;
+    gap: 0.6rem;
+    background: #96703B;
+    color: #FFFFFF;
+    border: 1px solid #C4A265;
     text-decoration: none;
-    padding: 0.85rem 1.8rem;
-    border-radius: 999px;
-    font-size: 0.82rem;
+    padding: 0.95rem 2.2rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(150, 112, 59, 0.28);
 }
 
 .btn-reserve-inline:hover {
-    background: #9C7A4D;
-    color: #FFF;
+    background: #A88147;
+    border-color: #EBD3B0;
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(156, 122, 77, 0.25);
+    box-shadow: 0 8px 24px rgba(150, 112, 59, 0.45);
 }
 
 /* ==========================================================================
@@ -286,45 +278,48 @@
     padding: 7.5rem 0;
     background: #F5EFE8;
     position: relative;
+    border-top: 1px solid rgba(197, 168, 128, 0.18);
 }
 
-/* Category Tabs */
+/* Category Tabs - Luxury Editorial Tabs */
 .category-tabs {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
     flex-wrap: wrap;
     margin-top: 2.25rem;
 }
 
 .cat-tab-btn {
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.3);
-    color: #5A504A;
-    padding: 0.6rem 1.35rem;
-    border-radius: 999px;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    color: #3D352F;
+    padding: 0.65rem 1.6rem;
+    border-radius: 2px;
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     cursor: pointer;
     transition: all 0.25s ease;
 }
 
 .cat-tab-btn:hover {
-    border-color: #9C7A4D;
-    color: #2C2623;
+    border-color: #8E662F;
+    color: #8E662F;
+    background: #FAF7F2;
 }
 
 .cat-tab-btn.active {
-    background: #2C2623;
+    background: #231E1B;
     color: #FFFFFF;
-    border-color: #2C2623;
+    border-color: #231E1B;
     box-shadow: 0 4px 16px rgba(44, 38, 35, 0.18);
 }
 
-/* Soins Grid: 3 columns on wide screens */
+/* Soins Grid */
 .soins-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
@@ -334,23 +329,24 @@
 
 .soin-card {
     background: #FFFFFF;
-    border-radius: 20px;
+    border-radius: 3px;
     overflow: hidden;
-    border: 1px solid rgba(197, 168, 128, 0.25);
-    box-shadow: 0 10px 35px rgba(44, 38, 35, 0.05);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 8px 30px rgba(44, 38, 35, 0.04);
     display: flex;
     flex-direction: column;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .soin-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 20px 48px rgba(44, 38, 35, 0.11);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 45px rgba(44, 38, 35, 0.09);
+    border-color: rgba(197, 168, 128, 0.65);
 }
 
 .soin-card-media {
     position: relative;
-    height: 250px;
+    height: 255px;
     width: 100%;
     overflow: hidden;
     background: #EFE7DC;
@@ -364,44 +360,46 @@
 }
 
 .soin-card:hover .soin-card-img {
-    transform: scale(1.06);
+    transform: scale(1.05);
 }
 
 .soin-badge {
     position: absolute;
     top: 1.15rem;
     left: 1.15rem;
-    background: rgba(44, 38, 35, 0.88);
+    background: rgba(25, 20, 18, 0.88);
     backdrop-filter: blur(10px);
-    color: #EBD3B0;
-    padding: 0.32rem 0.85rem;
-    border-radius: 999px;
-    font-size: 0.7rem;
+    color: #F5E0C2;
+    padding: 0.35rem 0.95rem;
+    border-radius: 2px;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    border: 1px solid rgba(216, 182, 133, 0.45);
+    border: 1px solid rgba(226, 194, 144, 0.5);
 }
 
 .soin-duration-tag {
     position: absolute;
     bottom: 1.15rem;
     right: 1.15rem;
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    color: #2C2623;
-    padding: 0.3rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.74rem;
-    font-weight: 500;
+    color: #231E1B;
+    padding: 0.35rem 0.85rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(197, 168, 128, 0.35);
 }
 
 .soin-card-body {
-    padding: 2rem;
+    padding: 2.25rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -410,34 +408,34 @@
 .soin-category-label {
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #9C7A4D;
+    color: #8E662F;
     margin-bottom: 0.5rem;
 }
 
 .soin-card-title {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.65rem;
+    font-size: 1.7rem;
     font-weight: 600;
-    color: #2C2623;
+    color: #231E1B;
     line-height: 1.25;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.45rem;
 }
 
 .soin-card-subtitle {
-    font-size: 0.86rem;
+    font-size: 0.88rem;
     font-style: italic;
-    color: #4A3E37;
-    margin-bottom: 0.95rem;
+    color: #554A43;
+    margin-bottom: 1rem;
 }
 
 .soin-card-desc {
-    font-size: 0.9rem;
-    color: #2D2520;
-    font-weight: 450;
-    line-height: 1.65;
-    margin-bottom: 1.75rem;
+    font-size: 0.92rem;
+    color: #332B25;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 1.85rem;
     flex-grow: 1;
 }
 
@@ -446,7 +444,7 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 1.35rem;
-    border-top: 1px solid rgba(197, 168, 128, 0.2);
+    border-top: 1px solid rgba(197, 168, 128, 0.22);
     gap: 1rem;
 }
 
@@ -456,16 +454,16 @@
 }
 
 .soin-price-label {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #554A42;
+    letter-spacing: 0.12em;
+    color: #655B53;
     font-weight: 500;
 }
 
 .soin-price-val {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.75rem;
+    font-size: 1.85rem;
     font-weight: 700;
     color: #8E662F;
     line-height: 1;
@@ -474,7 +472,7 @@
 .soin-actions-wrap {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.65rem;
 }
 
 .btn-card-details {
@@ -482,72 +480,75 @@
     align-items: center;
     gap: 0.35rem;
     background: transparent;
-    border: 1px solid rgba(44, 38, 35, 0.22);
-    color: #5A504A;
-    padding: 0.5rem 0.95rem;
-    border-radius: 999px;
-    font-size: 0.76rem;
-    font-weight: 500;
+    border: 1px solid rgba(44, 38, 35, 0.3);
+    color: #2C2623;
+    padding: 0.55rem 1rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
 }
 
 .btn-card-details:hover {
     background: #FAF7F2;
-    border-color: #2C2623;
-    color: #2C2623;
+    border-color: #8E662F;
+    color: #8E662F;
 }
 
 .btn-card-reserve {
     display: inline-flex;
     align-items: center;
-    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.52rem 1.25rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
+    padding: 0.58rem 1.35rem;
+    border-radius: 2px;
+    font-size: 0.74rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    box-shadow: 0 4px 14px rgba(163, 127, 78, 0.32);
+    border: 1px solid #B8925A;
+    box-shadow: 0 4px 14px rgba(142, 102, 47, 0.3);
     transition: all 0.25s ease;
 }
 
 .btn-card-reserve:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(163, 127, 78, 0.45);
-    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+    box-shadow: 0 6px 18px rgba(142, 102, 47, 0.45);
+    background: #A07335;
 }
 
 .soins-view-all {
     text-align: center;
-    margin-top: 4rem;
+    margin-top: 4.5rem;
 }
 
 .btn-view-all-soins {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.65rem;
     background: #FFFFFF;
-    border: 1.5px solid #9C7A4D;
-    color: #9C7A4D;
+    border: 1px solid #8E662F;
+    color: #8E662F;
     text-decoration: none;
-    padding: 0.95rem 2.2rem;
-    border-radius: 999px;
-    font-size: 0.86rem;
+    padding: 1rem 2.6rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     box-shadow: 0 4px 18px rgba(44, 38, 35, 0.04);
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
 }
 
 .btn-view-all-soins:hover {
-    background: #9C7A4D;
+    background: #8E662F;
     color: #FFFFFF;
     transform: translateY(-2px);
-    box-shadow: 0 8px 26px rgba(156, 122, 77, 0.28);
+    box-shadow: 0 8px 26px rgba(142, 102, 47, 0.3);
 }
 
 /* ==========================================================================
@@ -556,7 +557,7 @@
 .service-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(30, 24, 21, 0.7);
+    background: rgba(20, 16, 14, 0.72);
     backdrop-filter: blur(10px);
     z-index: 2000;
     display: flex;
@@ -567,14 +568,14 @@
 
 .service-modal-box {
     background: #FAF7F2;
-    border-radius: 24px;
+    border-radius: 3px;
     width: 100%;
     max-width: 660px;
     max-height: 85vh;
     overflow-y: auto;
     padding: 2.75rem;
     position: relative;
-    border: 1px solid rgba(197, 168, 128, 0.35);
+    border: 1px solid rgba(197, 168, 128, 0.45);
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
     animation: modalScale 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
@@ -582,7 +583,7 @@
 @keyframes modalScale {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scale(0.96);
     }
     to {
         opacity: 1;
@@ -599,26 +600,24 @@
     color: #5A504A;
     cursor: pointer;
     padding: 0.4rem;
-    border-radius: 50%;
     transition: all 0.2s ease;
 }
 
 .modal-close-btn:hover {
-    background: rgba(185, 146, 94, 0.15);
     color: #2C2623;
 }
 
 .modal-category {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #9C7A4D;
+    color: #8E662F;
 }
 
 .modal-title {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 2rem;
+    font-size: 2.1rem;
     font-weight: 600;
     color: #2C2623;
     line-height: 1.2;
@@ -628,7 +627,7 @@
 .modal-subtitle {
     font-size: 0.94rem;
     font-style: italic;
-    color: #7A6F67;
+    color: #655B53;
 }
 
 .modal-meta-pills {
@@ -643,52 +642,55 @@
     align-items: center;
     gap: 0.45rem;
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.25);
-    padding: 0.4rem 0.95rem;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    color: #3A3430;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    padding: 0.45rem 1.15rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: #2C2623;
 }
 
 .price-pill {
-    background: rgba(185, 146, 94, 0.15);
-    border-color: #9C7A4D;
-    color: #9C7A4D;
-    font-weight: 600;
+    background: #FAF7F2;
+    border-color: #8E662F;
+    color: #8E662F;
+    font-weight: 700;
 }
 
 .modal-content h4 {
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: #2C2623;
     margin: 1.35rem 0 0.45rem;
 }
 
 .modal-content p {
-    font-size: 0.94rem;
-    color: #2F2723;
-    font-weight: 450;
-    line-height: 1.7;
+    font-size: 0.95rem;
+    color: #38302B;
+    font-weight: 400;
+    line-height: 1.75;
     margin-bottom: 0.75rem;
 }
 
 .modal-contraindications {
     background: #FDF3E7;
-    border: 1px solid #E6BA7E;
-    border-radius: 12px;
-    padding: 1rem 1.35rem;
+    border-left: 3px solid #8E662F;
+    border-radius: 2px;
+    padding: 1.1rem 1.35rem;
     margin-top: 1.5rem;
 }
 
 .modal-contraindications h4 {
-    color: #945B0A;
+    color: #8E662F;
     margin-top: 0;
 }
 
 .modal-contraindications p {
-    color: #7A4F0B;
-    font-size: 0.86rem;
+    color: #5D4119;
+    font-size: 0.88rem;
     margin: 0;
 }
 
@@ -704,17 +706,22 @@
 .modal-btn-planity {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    background: linear-gradient(135deg, #B9925E 0%, #9C7A4D 100%);
+    gap: 0.6rem;
+    background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.8rem 1.8rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 0.9rem 2.2rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    box-shadow: 0 6px 20px rgba(156, 122, 77, 0.35);
+    border: 1px solid #B8925A;
+    box-shadow: 0 4px 16px rgba(142, 102, 47, 0.3);
+}
+
+.modal-btn-planity:hover {
+    background: #A07335;
 }
 
 .modal-btn-contact {
@@ -727,17 +734,17 @@
    5. BANNIÈRE CARTE CADEAU - Haute Épicerie & Cocon
    ========================================================================== */
 .section-cadeau-banner {
-    padding: 5rem 0;
+    padding: 6rem 0;
     background: #FAF7F2;
 }
 
 .cadeau-banner-card {
-    background: linear-gradient(135deg, #241E1B 0%, #352B25 100%);
-    border-radius: 28px;
+    background: linear-gradient(135deg, #1F1916 0%, #2E2520 100%);
+    border-radius: 3px;
     padding: 4.5rem 4rem;
     color: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.35);
-    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.18);
+    border: 1px solid rgba(226, 194, 144, 0.45);
+    box-shadow: 0 25px 60px rgba(20, 16, 14, 0.18);
     position: relative;
     overflow: hidden;
 }
@@ -750,15 +757,15 @@
     width: 320px;
     height: 320px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(197, 168, 128, 0.2) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(197, 168, 128, 0.18) 0%, transparent 70%);
     pointer-events: none;
 }
 
 .cadeau-icon-wrap {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(197, 168, 128, 0.18);
+    width: 56px;
+    height: 56px;
+    border-radius: 2px;
+    background: rgba(197, 168, 128, 0.15);
     border: 1px solid #D8B685;
     color: #EBD3B0;
     display: flex;
@@ -771,7 +778,7 @@
     display: inline-block;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: #D8B685;
     margin-bottom: 0.85rem;
@@ -787,7 +794,7 @@
 
 .cadeau-desc {
     font-size: 1.05rem;
-    color: #D6CCC4;
+    color: #E5DDD5;
     max-width: 700px;
     line-height: 1.75;
     margin-bottom: 2.25rem;
@@ -805,7 +812,7 @@
     align-items: center;
     gap: 0.85rem;
     font-size: 0.96rem;
-    color: #F5EFE6;
+    color: #F8F5EE;
 }
 
 .format-check {
@@ -823,165 +830,54 @@
 .btn-cadeau-details {
     display: inline-flex;
     align-items: center;
-    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.95rem 2.2rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 1rem 2.4rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    border: 1px solid #B8925A;
     box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
     transition: all 0.25s ease;
 }
 
 .btn-cadeau-details:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+    background: #A07335;
+    border-color: #EBD3B0;
 }
 
 .btn-cadeau-planity {
     display: inline-flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.95rem 2.2rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 1rem 2.4rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     transition: all 0.25s ease;
 }
 
 .btn-cadeau-planity:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.25);
     border-color: #FFF;
 }
 
 /* ==========================================================================
-   6. AVIS CLIENTES
-   ========================================================================== */
-.section-avis {
-    padding: 7.5rem 0;
-    background: #FAF7F2;
-}
-
-.stars-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.35rem;
-    margin-bottom: 0.85rem;
-}
-
-.star-filled {
-    color: #B9925E;
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-    gap: 2.25rem;
-    margin-top: 3.5rem;
-}
-
-.testimonial-card {
-    background: #FFFFFF;
-    border-radius: 20px;
-    padding: 2.25rem;
-    border: 1px solid rgba(197, 168, 128, 0.22);
-    box-shadow: 0 8px 28px rgba(44, 38, 35, 0.04);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 40px rgba(44, 38, 35, 0.08);
-}
-
-.testi-stars {
-    display: flex;
-    gap: 0.25rem;
-    margin-bottom: 1.35rem;
-}
-
-.testi-comment {
-    font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.25rem;
-    font-style: italic;
-    color: #3A3430;
-    line-height: 1.65;
-    margin-bottom: 1.75rem;
-    flex-grow: 1;
-}
-
-.testi-meta {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding-top: 1.15rem;
-    border-top: 1px solid rgba(197, 168, 128, 0.18);
-}
-
-.testi-author {
-    font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: #2C2623;
-    display: block;
-}
-
-.testi-treatment {
-    font-size: 0.76rem;
-    color: #8C8078;
-    display: block;
-}
-
-.testi-source-badge {
-    background: rgba(185, 146, 94, 0.12);
-    color: #9C7A4D;
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-}
-
-.avis-cta-wrap {
-    text-align: center;
-    margin-top: 3.5rem;
-}
-
-.btn-google-review {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #9C7A4D;
-    text-decoration: underline;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
-}
-
-.btn-google-review:hover {
-    color: #2C2623;
-}
-
-/* ==========================================================================
-   7. INSTITUT & CADRE
+   6. INSTITUT & CADRE
    ========================================================================== */
 .section-institut {
     padding: 7.5rem 0;
     background: #F5EFE8;
-    border-top: 1px solid rgba(197, 168, 128, 0.15);
+    border-top: 1px solid rgba(197, 168, 128, 0.18);
 }
 
 .institut-grid {
@@ -992,20 +888,20 @@
 }
 
 .institut-lead {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 500;
     font-family: var(--font-cormorant), Georgia, serif;
     font-style: italic;
-    color: #251F1C;
+    color: #231E1B;
     line-height: 1.6;
     margin-bottom: 1.15rem;
 }
 
 .institut-p {
-    font-size: 0.96rem;
+    font-size: 0.98rem;
     color: #2E2622;
-    font-weight: 450;
-    line-height: 1.75;
+    font-weight: 400;
+    line-height: 1.8;
     margin-bottom: 1.85rem;
 }
 
@@ -1021,36 +917,36 @@
     align-items: center;
     gap: 0.85rem;
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.22);
-    padding: 0.75rem 1.15rem;
-    border-radius: 12px;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    padding: 0.85rem 1.25rem;
+    border-radius: 2px;
     font-size: 0.88rem;
     color: #2C2623;
 }
 
 .highlight-pill svg {
-    color: #9C7A4D;
+    color: #8E662F;
     flex-shrink: 0;
 }
 
 .btn-contact-institut {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    background: #2C2623;
+    gap: 0.6rem;
+    background: #231E1B;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.9rem 2rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 0.95rem 2.2rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     transition: all 0.25s ease;
 }
 
 .btn-contact-institut:hover {
-    background: #9C7A4D;
+    background: #8E662F;
     transform: translateY(-2px);
 }
 
@@ -1062,10 +958,10 @@
 }
 
 .gallery-main-img {
-    border-radius: 20px;
+    border-radius: 3px;
     overflow: hidden;
-    border: 1px solid rgba(197, 168, 128, 0.3);
-    box-shadow: 0 16px 40px rgba(44, 38, 35, 0.1);
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    box-shadow: 0 16px 40px rgba(44, 38, 35, 0.08);
 }
 
 .gallery-sub-row {
@@ -1075,10 +971,10 @@
 }
 
 .gallery-sub-img {
-    border-radius: 16px;
+    border-radius: 3px;
     overflow: hidden;
-    border: 1px solid rgba(197, 168, 128, 0.25);
-    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.08);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.06);
 }
 
 .inst-img {
@@ -1091,7 +987,7 @@
 
 .gallery-main-img:hover .inst-img,
 .gallery-sub-img:hover .inst-img {
-    transform: scale(1.05);
+    transform: scale(1.04);
 }
 
 /* Responsive */

@@ -1,18 +1,19 @@
 /* ==========================================================================
    PAGE MON APPROCHE - LA PARENTHÈSE HARMONIEUSE
-   Esthétique Haute Beauté, Cocon Luxe & Sérénité
+   Esthétique Haute Beauté, Cocon Luxe & Palace Spa
+   Inspiration Auberge de Beauté (Salon-de-Provence)
    ========================================================================== */
 
 .approche-page {
     background-color: #FAF7F2;
-    padding-top: 75px;
+    padding-top: 105px; /* Dégagement parfait sous le header fixe */
 }
 
 /* Luminous Palace Hero */
 .approche-hero {
     background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
     color: #2C2623;
-    padding: 5.5rem 0 4.5rem;
+    padding: 5rem 0 4.5rem;
     text-align: center;
     position: relative;
     border-bottom: 1px solid rgba(197, 168, 128, 0.22);
@@ -31,14 +32,14 @@
     align-items: center;
     gap: 0.55rem;
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.35);
-    padding: 0.42rem 1.15rem;
-    border-radius: 999px;
+    border: 1px solid rgba(197, 168, 128, 0.4);
+    padding: 0.45rem 1.35rem;
+    border-radius: 2px;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #9C7A4D;
+    color: #8E662F;
     margin-bottom: 1.5rem;
     box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
 }
@@ -49,7 +50,7 @@
     font-weight: 400;
     line-height: 1.15;
     margin: 0.4rem 0 1.25rem;
-    color: #2C2623;
+    color: #231E1B;
     letter-spacing: 0.015em;
 }
 
@@ -61,22 +62,23 @@
 
 .approche-hero-sub {
     font-size: 1.1rem;
-    color: #352E2A;
-    font-weight: 450;
+    color: #38302B;
+    font-weight: 400;
     max-width: 700px;
     margin: 0 auto 1.75rem;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 .approche-hero-reassurance {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.85rem;
-    font-size: 0.82rem;
+    gap: 1rem;
+    font-size: 0.78rem;
     color: #4D433C;
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     flex-wrap: wrap;
 }
 
@@ -99,23 +101,23 @@
 
 .story-portrait-frame {
     position: relative;
-    border-radius: 260px 260px 28px 28px;
-    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.1);
+    border-radius: 260px 260px 3px 3px;
+    box-shadow: 0 25px 60px rgba(44, 38, 35, 0.08);
 }
 
 .story-img {
     width: 100%;
     height: auto;
-    border-radius: 260px 260px 28px 28px;
+    border-radius: 260px 260px 3px 3px;
     display: block;
-    border: 1px solid rgba(197, 168, 128, 0.35);
+    border: 1px solid rgba(197, 168, 128, 0.4);
 }
 
 .story-aura {
     position: absolute;
     inset: -14px;
-    border-radius: 275px 275px 38px 38px;
-    border: 1px solid rgba(197, 168, 128, 0.3);
+    border-radius: 275px 275px 8px 8px;
+    border: 1px solid rgba(197, 168, 128, 0.35);
     pointer-events: none;
     z-index: -1;
 }
@@ -125,25 +127,27 @@
     bottom: -15px;
     right: -15px;
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.35);
-    padding: 0.85rem 1.4rem;
-    border-radius: 16px;
+    border: 1px solid rgba(197, 168, 128, 0.45);
+    padding: 0.75rem 1.4rem;
+    border-radius: 2px;
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.86rem;
+    font-size: 0.78rem;
     font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: #2C2623;
-    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.1);
+    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.08);
 }
 
 .badge-icon {
-    color: #B9925E;
+    color: #8E662F;
 }
 
 .story-lead {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 500;
     font-family: var(--font-cormorant), Georgia, serif;
     font-style: italic;
@@ -155,7 +159,7 @@
 .story-p {
     font-size: 0.98rem;
     color: #2D2520;
-    font-weight: 450;
+    font-weight: 400;
     line-height: 1.8;
     margin-bottom: 1.35rem;
 }
@@ -165,22 +169,25 @@
     padding: 1.75rem 2rem;
     background: #FFFFFF;
     border-left: 3px solid #8E662F;
-    border-radius: 0 16px 16px 0;
+    border-radius: 2px;
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    border-left-width: 3px;
+    border-left-color: #8E662F;
     font-family: var(--font-cormorant), Georgia, serif;
     font-size: 1.35rem;
     font-style: italic;
     color: #231E1B;
     font-weight: 500;
     line-height: 1.6;
-    box-shadow: 0 6px 20px rgba(44, 38, 35, 0.04);
+    box-shadow: 0 6px 20px rgba(44, 38, 35, 0.03);
 }
 
 /* Values - Haute Parfumerie Pillars */
 .approche-values-section {
     padding: 7rem 0;
     background: #F5EFE8;
-    border-top: 1px solid rgba(197, 168, 128, 0.15);
-    border-bottom: 1px solid rgba(197, 168, 128, 0.15);
+    border-top: 1px solid rgba(197, 168, 128, 0.18);
+    border-bottom: 1px solid rgba(197, 168, 128, 0.18);
 }
 
 .values-cards-grid {
@@ -191,18 +198,18 @@
 
 .value-card {
     background: #FFFFFF;
-    border-radius: 20px;
+    border-radius: 3px;
     padding: 2.5rem 2rem;
-    border: 1px solid rgba(197, 168, 128, 0.22);
-    box-shadow: 0 10px 30px rgba(44, 38, 35, 0.04);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 8px 24px rgba(44, 38, 35, 0.03);
     position: relative;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
 }
 
 .value-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 18px 42px rgba(44, 38, 35, 0.09);
-    border-color: rgba(197, 168, 128, 0.45);
+    box-shadow: 0 18px 42px rgba(44, 38, 35, 0.08);
+    border-color: rgba(197, 168, 128, 0.6);
 }
 
 .value-num {
@@ -216,15 +223,15 @@
 
 .value-title {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.55rem;
+    font-size: 1.6rem;
     font-weight: 600;
-    color: #2C2623;
+    color: #231E1B;
     margin-bottom: 0.85rem;
 }
 
 .value-desc {
     font-size: 0.92rem;
-    color: #5A504A;
+    color: #4A403A;
     line-height: 1.7;
     margin: 0;
 }
@@ -236,15 +243,15 @@
 
 .brands-box {
     background: #FFFFFF;
-    border-radius: 28px;
+    border-radius: 3px;
     padding: 4.5rem 4rem;
-    border: 1px solid rgba(197, 168, 128, 0.28);
-    box-shadow: 0 20px 50px rgba(44, 38, 35, 0.06);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 16px 40px rgba(44, 38, 35, 0.04);
 }
 
 .brands-intro {
     font-size: 1.05rem;
-    color: #5A504A;
+    color: #4A403A;
     max-width: 720px;
     line-height: 1.75;
     margin-bottom: 3.5rem;
@@ -259,39 +266,42 @@
 .brand-item {
     background: #FAF7F2;
     padding: 2.25rem;
-    border-radius: 18px;
-    border: 1px solid rgba(197, 168, 128, 0.22);
+    border-radius: 2px;
+    border: 1px solid rgba(197, 168, 128, 0.28);
     transition: transform 0.25s ease;
 }
 
 .brand-item:hover {
     transform: translateY(-3px);
+    border-color: rgba(197, 168, 128, 0.55);
 }
 
 .brand-badge-label {
     display: inline-block;
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    color: #9C7A4D;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8E662F;
     background: rgba(185, 146, 94, 0.15);
-    padding: 0.28rem 0.75rem;
-    border-radius: 999px;
+    padding: 0.32rem 0.85rem;
+    border-radius: 2px;
     margin-bottom: 0.85rem;
+    border: 1px solid rgba(185, 146, 94, 0.3);
 }
 
 .brand-item h3 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.75rem;
+    font-size: 1.8rem;
     font-weight: 600;
-    letter-spacing: 0.05em;
-    color: #2C2623;
+    letter-spacing: 0.04em;
+    color: #231E1B;
     margin-bottom: 0.85rem;
 }
 
 .brand-item p {
     font-size: 0.92rem;
-    color: #5A504A;
+    color: #4A403A;
     line-height: 1.7;
     margin: 0;
 }
@@ -302,12 +312,12 @@
 }
 
 .approche-cta-box {
-    background: linear-gradient(135deg, #241E1B 0%, #352B25 100%);
-    border-radius: 28px;
+    background: linear-gradient(135deg, #1F1916 0%, #2E2520 100%);
+    border-radius: 3px;
     padding: 4.5rem 3.5rem;
     text-align: center;
     color: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.35);
+    border: 1px solid rgba(226, 194, 144, 0.45);
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
 }
 
@@ -320,7 +330,7 @@
 
 .approche-cta-box p {
     font-size: 1.05rem;
-    color: #D6CCC4;
+    color: #E5DDD5;
     margin-bottom: 2.25rem;
     max-width: 600px;
     margin-left: auto;
@@ -338,49 +348,54 @@
 .btn-book-gold {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    gap: 0.6rem;
+    background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.95rem 2.2rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 1rem 2.4rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    box-shadow: 0 6px 20px rgba(163, 127, 78, 0.35);
+    border: 1px solid #B8925A;
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.35);
     transition: all 0.25s ease;
 }
 
 .btn-book-gold:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+    background: #A07335;
+    border-color: #EBD3B0;
 }
 
 .btn-view-carte {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    gap: 0.6rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.95rem 2.2rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 1rem 2.4rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     transition: all 0.25s ease;
 }
 
 .btn-view-carte:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.25);
     border-color: #FFF;
 }
 
 /* Responsive */
 @media (max-width: 900px) {
+    .approche-page {
+        padding-top: 90px;
+    }
     .story-grid {
         grid-template-columns: 1fr;
         gap: 3.5rem;

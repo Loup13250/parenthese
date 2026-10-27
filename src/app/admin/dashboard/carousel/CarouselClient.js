@@ -281,19 +281,19 @@ function AddSlidesFlow({ onCancel }) {
                                     <div className="cr-fields-grid">
                                         <div>
                                             <label className="admin-label">Titre (FR)</label>
-                                            <input type="text" className="admin-input" value={slide.title} onChange={(e) => updateSlide(slide.id, { title: e.target.value })} placeholder="Ex : Cuisine maison avec amour" />
+                                            <input type="text" className="admin-input" value={slide.title} onChange={(e) => updateSlide(slide.id, { title: e.target.value })} placeholder="Ex : Massages bien-être d'exception" />
                                         </div>
                                         <div>
                                             <label className="admin-label">Title (EN)</label>
-                                            <input type="text" className="admin-input" value={slide.title_en} onChange={(e) => updateSlide(slide.id, { title_en: e.target.value })} placeholder="Ex: Homemade cuisine with love" />
+                                            <input type="text" className="admin-input" value={slide.title_en} onChange={(e) => updateSlide(slide.id, { title_en: e.target.value })} placeholder="Ex: Exceptional wellness massages" />
                                         </div>
                                         <div>
                                             <label className="admin-label">Sous-titre (FR)</label>
-                                            <input type="text" className="admin-input" value={slide.subtitle} onChange={(e) => updateSlide(slide.id, { subtitle: e.target.value })} placeholder="Ex : Des plats faits maison livrés à domicile" />
+                                            <input type="text" className="admin-input" value={slide.subtitle} onChange={(e) => updateSlide(slide.id, { subtitle: e.target.value })} placeholder="Ex : Une parenthèse de sérénité sur-mesure" />
                                         </div>
                                         <div>
                                             <label className="admin-label">Subtitle (EN)</label>
-                                            <input type="text" className="admin-input" value={slide.subtitle_en} onChange={(e) => updateSlide(slide.id, { subtitle_en: e.target.value })} placeholder="Ex: Homemade dishes delivered to your door" />
+                                            <input type="text" className="admin-input" value={slide.subtitle_en} onChange={(e) => updateSlide(slide.id, { subtitle_en: e.target.value })} placeholder="Ex: A tailor-made sanctuary of peace" />
                                         </div>
                                     </div>
                                 </div>

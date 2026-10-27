@@ -30,7 +30,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'mamefricoto.vercel.app',
+        hostname: 'parenthese-mdjg.vercel.app',
       },
     ],
   },

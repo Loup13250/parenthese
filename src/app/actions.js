@@ -352,27 +352,27 @@ export async function seedSampleGalleryPosts() {
 
         const samples = [
             {
-                title: 'Buffet Cocktail Événementiel',
-                title_en: 'Event Cocktail Buffet',
-                caption: 'Assortiment de bouchées salées, navettes artisanales et verrines fraîches préparées avec passion.',
-                caption_en: 'Assortment of savory bites, handcrafted finger foods, and fresh verrines crafted with passion.',
-                image_url: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop',
+                title: 'Atmosphère Cabine & Rituels',
+                title_en: 'Sanctuary Ambiance & Rituals',
+                caption: 'Lumière feutrée, essences précieuses et douceur absolue pour un moment hors du temps.',
+                caption_en: 'Soft lighting, exquisite botanical essences and absolute serenity for a timeless retreat.',
+                image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop',
                 display_order: 1,
             },
             {
-                title: 'Plat Mijoté Traditionnel',
-                title_en: 'Traditional Slow-Cooked Dish',
-                caption: 'Nos plats du jour mijotent doucement dès le matin avec des produits frais et locaux.',
-                caption_en: 'Our daily specials simmer gently from dawn with fresh local ingredients.',
-                image_url: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop',
+                title: 'Huiles Végétales & Pierres Chaudes',
+                title_en: 'Botanical Oils & Hot Stones',
+                caption: 'Sélection d’huiles biologiques de première pression et galets volcaniques pour dénouer les tensions.',
+                caption_en: 'Carefully selected cold-pressed organic botanical oils and warm basalt stones to melt muscular tension.',
+                image_url: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1200&auto=format&fit=crop',
                 display_order: 2,
             },
             {
-                title: 'Douceurs & Desserts Maison',
-                title_en: 'Homemade Sweets & Desserts',
-                caption: 'Tartes de saison, gâteaux au citron et créations gourmandes pour sublimer vos réceptions.',
-                caption_en: 'Seasonal tarts, lemon cakes, and gourmet creations to enhance your celebrations.',
-                image_url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop',
+                title: 'Sérénité & Évasion Holistique',
+                title_en: 'Holistic Serenity & Wellness',
+                caption: 'Chaque soin est pensé sur-mesure pour vous reconnecter à votre énergie vitale et votre équilibre.',
+                caption_en: 'Each treatment is tailored to restore deep harmony, inner balance and vital energy.',
+                image_url: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1200&auto=format&fit=crop',
                 display_order: 3,
             }
         ];
@@ -387,7 +387,7 @@ export async function seedSampleGalleryPosts() {
         await logActivity({
             action: 'add',
             category: 'Galerie',
-            summary: "Restauration de 3 photos culinaires d'exemple dans la galerie",
+            summary: "Restauration de 3 photos bien-être d'exemple dans la galerie",
             details: { count: samples.length }
         });
 
@@ -2144,7 +2144,7 @@ export async function replacePricingDocumentImage(imageId, formData) {
     }
 }
 
-// --- PRIX DES REPAS FIXES ---
+// --- PRIX DES SOINS & MASSAGES ---
 export async function addFixedPrice(formData) {
     await requireAdminAuth();
     const name = (formData.get('name') || '').toString().trim();
@@ -2155,11 +2155,11 @@ export async function addFixedPrice(formData) {
     const details_en = (formData.get('details_en') || '').toString().trim();
     const badge = (formData.get('badge') || '').toString().trim();
     const badge_en = (formData.get('badge_en') || '').toString().trim();
-    const category = (formData.get('category') || 'Repas').toString().trim();
-    const category_en = (formData.get('category_en') || 'Meals').toString().trim();
+    const category = (formData.get('category') || 'Soins').toString().trim();
+    const category_en = (formData.get('category_en') || 'Treatments').toString().trim();
 
     if (!name || !price) {
-        return { error: 'Veuillez saisir le nom de la formule et son prix.' };
+        return { error: 'Veuillez saisir le nom du soin et son tarif.' };
     }
 
     const db = getDb();
@@ -2173,12 +2173,13 @@ export async function addFixedPrice(formData) {
 
     await logActivity({
         action: 'add',
-        category: 'Tarifs Repas',
-        summary: `Ajout du tarif repas : "${name}" (${price})`,
+        category: 'Tarifs Soins',
+        summary: `Ajout du tarif soin : "${name}" (${price})`,
         details: { name, price, category }
     });
 
     revalidatePath('/tarifs');
+    revalidatePath('/carte-des-soins');
     revalidatePath('/admin/dashboard/prestations');
     return { success: true };
 }
@@ -2196,11 +2197,11 @@ export async function editFixedPrice(formData) {
     const details_en = (formData.get('details_en') || '').toString().trim();
     const badge = (formData.get('badge') || '').toString().trim();
     const badge_en = (formData.get('badge_en') || '').toString().trim();
-    const category = (formData.get('category') || 'Repas').toString().trim();
-    const category_en = (formData.get('category_en') || 'Meals').toString().trim();
+    const category = (formData.get('category') || 'Soins').toString().trim();
+    const category_en = (formData.get('category_en') || 'Treatments').toString().trim();
 
     if (!name || !price) {
-        return { error: 'Veuillez saisir le nom de la formule et son prix.' };
+        return { error: 'Veuillez saisir le nom du soin et son tarif.' };
     }
 
     const db = getDb();
@@ -2212,12 +2213,13 @@ export async function editFixedPrice(formData) {
 
     await logActivity({
         action: 'update',
-        category: 'Tarifs Repas',
-        summary: `Modification du tarif repas : "${name}" (ID #${id})`,
+        category: 'Tarifs Soins',
+        summary: `Modification du tarif soin : "${name}" (ID #${id})`,
         details: { id, name, price }
     });
 
     revalidatePath('/tarifs');
+    revalidatePath('/carte-des-soins');
     revalidatePath('/admin/dashboard/prestations');
     return { success: true };
 }
@@ -2233,12 +2235,13 @@ export async function deleteFixedPrice(idOrFormData) {
 
     await logActivity({
         action: 'delete',
-        category: 'Tarifs Repas',
-        summary: `Suppression du tarif repas : "${priceRow?.name || 'Sans nom'}" (ID #${id})`,
+        category: 'Tarifs Soins',
+        summary: `Suppression du tarif soin : "${priceRow?.name || 'Sans nom'}" (ID #${id})`,
         details: { id, name: priceRow?.name }
     });
 
     revalidatePath('/tarifs');
+    revalidatePath('/carte-des-soins');
     revalidatePath('/admin/dashboard/prestations');
     return { success: true };
 }

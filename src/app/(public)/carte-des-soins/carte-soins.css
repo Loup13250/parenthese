@@ -1,18 +1,19 @@
 /* ==========================================================================
    CARTE DES SOINS - LA PARENTHÈSE HARMONIEUSE
-   Esthétique Haute Beauté, Cocon Luxe & Sérénité
+   Esthétique Haute Beauté, Cocon Luxe & Palace Spa
+   Inspiration Auberge de Beauté (Salon-de-Provence)
    ========================================================================== */
 
 .carte-soins-page {
     background-color: #FAF7F2;
-    padding-top: 75px;
+    padding-top: 105px; /* Dégagement parfait sous le header fixe */
 }
 
 /* Luminous Palace Hero */
 .carte-hero {
     background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
     color: #2C2623;
-    padding: 5.5rem 0 4.5rem;
+    padding: 5rem 0 4.5rem;
     text-align: center;
     border-bottom: 1px solid rgba(197, 168, 128, 0.22);
     position: relative;
@@ -31,20 +32,20 @@
     align-items: center;
     gap: 0.55rem;
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.35);
-    padding: 0.42rem 1.15rem;
-    border-radius: 999px;
+    border: 1px solid rgba(197, 168, 128, 0.4);
+    padding: 0.45rem 1.35rem;
+    border-radius: 2px;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #9C7A4D;
+    color: #8E662F;
     margin-bottom: 1.5rem;
     box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
 }
 
 .hero-sparkle {
-    color: #B9925E;
+    color: #8E662F;
 }
 
 .carte-hero-title {
@@ -53,7 +54,7 @@
     font-weight: 400;
     line-height: 1.15;
     margin: 0.4rem 0 1.25rem;
-    color: #2C2623;
+    color: #231E1B;
     letter-spacing: 0.015em;
 }
 
@@ -65,27 +66,28 @@
 
 .carte-hero-sub {
     font-size: 1.1rem;
-    color: #352E2A;
-    font-weight: 450;
+    color: #38302B;
+    font-weight: 400;
     max-width: 720px;
     margin: 0 auto 1.75rem;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 .carte-hero-reassurance {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.85rem;
-    font-size: 0.82rem;
+    gap: 1rem;
+    font-size: 0.78rem;
     color: #4D433C;
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     flex-wrap: wrap;
 }
 
 .reassurance-dot {
-    color: #B9925E;
+    color: #8E662F;
 }
 
 /* Content */
@@ -93,61 +95,63 @@
     padding: 5rem 0 7rem;
 }
 
-/* Filter bar */
+/* Filter bar - Luxury Editorial Tabs */
 .category-filter-bar {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
     flex-wrap: wrap;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
 }
 
 .filter-btn {
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.3);
-    color: #5A504A;
-    padding: 0.65rem 1.45rem;
-    border-radius: 999px;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    color: #4A4038;
+    padding: 0.65rem 1.6rem;
+    border-radius: 2px;
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.84rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     cursor: pointer;
     transition: all 0.25s ease;
 }
 
 .filter-btn:hover {
-    border-color: #9C7A4D;
-    color: #2C2623;
+    border-color: #8E662F;
+    color: #8E662F;
+    background: #FAF7F2;
 }
 
 .filter-btn.active {
-    background: #2C2623;
+    background: #231E1B;
     color: #FFFFFF;
-    border-color: #2C2623;
-    box-shadow: 0 4px 16px rgba(44, 38, 35, 0.16);
+    border-color: #231E1B;
+    box-shadow: 0 4px 16px rgba(44, 38, 35, 0.18);
 }
 
 /* Alert info */
 .booking-info-alert {
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.28);
-    border-left: 4px solid #B9925E;
-    border-radius: 14px;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    border-left: 3px solid #8E662F;
+    border-radius: 2px;
     padding: 1.35rem 1.65rem;
     display: flex;
     align-items: flex-start;
     gap: 1.15rem;
     margin-bottom: 3.5rem;
-    font-size: 0.94rem;
-    color: #4A423D;
-    line-height: 1.65;
+    font-size: 0.95rem;
+    color: #38302B;
+    line-height: 1.7;
     box-shadow: 0 6px 20px rgba(44, 38, 35, 0.03);
 }
 
 .alert-icon {
-    color: #B9925E;
+    color: #8E662F;
     flex-shrink: 0;
     margin-top: 0.15rem;
 }
@@ -161,24 +165,25 @@
 
 .catalogue-item-card {
     background: #FFFFFF;
-    border-radius: 20px;
+    border-radius: 3px;
     overflow: hidden;
-    border: 1px solid rgba(197, 168, 128, 0.25);
-    box-shadow: 0 10px 35px rgba(44, 38, 35, 0.05);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 8px 30px rgba(44, 38, 35, 0.04);
     display: flex;
     flex-direction: column;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .catalogue-item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 18px 45px rgba(44, 38, 35, 0.1);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 45px rgba(44, 38, 35, 0.09);
+    border-color: rgba(197, 168, 128, 0.65);
 }
 
 /* Media Box */
 .catalogue-media {
     position: relative;
-    height: 240px;
+    height: 250px;
     width: 100%;
     overflow: hidden;
     background: #EFE7DC;
@@ -199,38 +204,40 @@
     position: absolute;
     top: 1rem;
     left: 1rem;
-    background: rgba(44, 38, 35, 0.88);
+    background: rgba(25, 20, 18, 0.88);
     backdrop-filter: blur(10px);
-    color: #EBD3B0;
-    padding: 0.32rem 0.85rem;
-    border-radius: 999px;
-    font-size: 0.7rem;
+    color: #F5E0C2;
+    padding: 0.35rem 0.95rem;
+    border-radius: 2px;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    border: 1px solid rgba(216, 182, 133, 0.45);
+    border: 1px solid rgba(226, 194, 144, 0.5);
 }
 
 .catalogue-duration {
     position: absolute;
     bottom: 1rem;
     right: 1rem;
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    color: #2C2623;
-    padding: 0.3rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.74rem;
-    font-weight: 500;
+    color: #231E1B;
+    padding: 0.35rem 0.85rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(197, 168, 128, 0.35);
 }
 
 /* Body */
 .catalogue-body {
-    padding: 2rem;
+    padding: 2.25rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -246,7 +253,7 @@
 .cat-chip {
     font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #8E662F;
 }
@@ -261,35 +268,35 @@
 
 .item-title {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.65rem;
+    font-size: 1.7rem;
     font-weight: 600;
     color: #231E1B;
     line-height: 1.25;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.45rem;
 }
 
 .item-sub {
     font-size: 0.88rem;
     font-style: italic;
-    color: #4A3E37;
-    margin-bottom: 0.95rem;
+    color: #554A43;
+    margin-bottom: 1rem;
 }
 
 .item-description {
     font-size: 0.92rem;
-    color: #2D2520;
-    font-weight: 450;
+    color: #332B25;
+    font-weight: 400;
     line-height: 1.7;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.85rem;
     flex-grow: 1;
 }
 
 /* Expanded details */
 .expanded-details {
     background: #FAF7F2;
-    border-radius: 14px;
+    border-radius: 2px;
     padding: 1.35rem 1.5rem;
-    border: 1px solid rgba(197, 168, 128, 0.22);
+    border: 1px solid rgba(197, 168, 128, 0.28);
     margin-bottom: 1.5rem;
     animation: fadeIn 0.25s ease;
 }
@@ -301,8 +308,10 @@
 
 .details-block h4 {
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: #2C2623;
     margin-bottom: 0.4rem;
     display: flex;
@@ -312,8 +321,8 @@
 
 .details-block p {
     font-size: 0.88rem;
-    color: #2F2723;
-    font-weight: 450;
+    color: #38302B;
+    font-weight: 400;
     line-height: 1.65;
     margin-bottom: 0.85rem;
 }
@@ -329,7 +338,7 @@
 }
 
 .warning-block h4 {
-    color: #945B0A;
+    color: #8E662F;
 }
 
 /* Actions Row */
@@ -338,7 +347,7 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 1.35rem;
-    border-top: 1px solid rgba(197, 168, 128, 0.2);
+    border-top: 1px solid rgba(197, 168, 128, 0.22);
     gap: 1rem;
     flex-wrap: wrap;
 }
@@ -347,8 +356,10 @@
     background: none;
     border: none;
     color: #8E662F;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -358,13 +369,13 @@
 }
 
 .btn-toggle-expand:hover {
-    color: #2C2623;
+    color: #231E1B;
 }
 
 .actions-buttons-group {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
     margin-left: auto;
 }
 
@@ -374,69 +385,72 @@
     gap: 0.45rem;
     background: #FFFFFF;
     border: 1px solid rgba(197, 168, 128, 0.35);
-    color: #5A504A;
+    color: #2C2623;
     text-decoration: none;
-    padding: 0.52rem 1.05rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 500;
+    padding: 0.58rem 1.15rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     transition: all 0.2s ease;
 }
 
 .btn-offrir-card:hover {
     background: #FAF7F2;
-    border-color: #9C7A4D;
-    color: #9C7A4D;
+    border-color: #8E662F;
+    color: #8E662F;
 }
 
 .btn-reserver-direct {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 0.55rem 1.35rem;
-    border-radius: 999px;
-    font-size: 0.8rem;
+    padding: 0.58rem 1.35rem;
+    border-radius: 2px;
+    font-size: 0.74rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    box-shadow: 0 4px 14px rgba(163, 127, 78, 0.3);
+    border: 1px solid #B8925A;
+    box-shadow: 0 4px 14px rgba(142, 102, 47, 0.3);
     transition: all 0.25s ease;
 }
 
 .btn-reserver-direct:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(163, 127, 78, 0.45);
-    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+    box-shadow: 0 6px 18px rgba(142, 102, 47, 0.45);
+    background: #A07335;
 }
 
 /* Bottom reassurance */
 .carte-bottom-reassurance {
-    margin-top: 5.5rem;
+    margin-top: 6rem;
 }
 
 .reassurance-card {
     background: #FFFFFF;
-    border-radius: 24px;
+    border-radius: 3px;
     padding: 3.5rem;
     text-align: center;
-    border: 1px solid rgba(197, 168, 128, 0.28);
-    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.05);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.04);
 }
 
 .reassurance-card h3 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 2.2rem;
-    font-weight: 400;
-    color: #2C2623;
+    font-size: 2.3rem;
+    font-weight: 500;
+    color: #231E1B;
     margin-bottom: 0.85rem;
 }
 
 .reassurance-card p {
-    font-size: 1.02rem;
-    color: #5A504A;
+    font-size: 1.05rem;
+    color: #4A403A;
     max-width: 660px;
     margin: 0 auto 2.25rem;
     line-height: 1.7;
@@ -450,59 +464,60 @@
     flex-wrap: wrap;
 }
 
-.btn-book-gold {
+.btn-contact-help {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
-    color: #FFFFFF;
-    text-decoration: none;
-    padding: 0.85rem 1.85rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    gap: 0.5rem;
+    color: #2C2623;
+    background: #FFFFFF;
+    border: 1px solid rgba(44, 38, 35, 0.3);
+    padding: 0.95rem 2.2rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    box-shadow: 0 6px 20px rgba(163, 127, 78, 0.35);
+    text-decoration: none;
     transition: all 0.25s ease;
 }
 
-.btn-book-gold:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
+.btn-contact-help:hover {
+    border-color: #8E662F;
+    color: #8E662F;
+    background: #FAF7F2;
 }
 
-.btn-contact-simple {
-    color: #9C7A4D;
-    text-decoration: underline;
-    font-size: 0.9rem;
-    font-weight: 500;
+.btn-rdv-planity-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #8E662F;
+    color: #FFFFFF;
+    padding: 0.95rem 2.4rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #B8925A;
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-rdv-planity-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(142, 102, 47, 0.5);
+    background: #A07335;
 }
 
 @media (max-width: 768px) {
+    .carte-soins-page {
+        padding-top: 90px;
+    }
     .soins-catalogue-grid {
         grid-template-columns: 1fr;
     }
-
-    .catalogue-body {
-        padding: 1.5rem;
-    }
-
-    .card-actions-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .actions-buttons-group {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .btn-reserver-direct {
-        flex-grow: 1;
-        justify-content: center;
-    }
-
     .reassurance-card {
         padding: 2.25rem 1.5rem;
     }

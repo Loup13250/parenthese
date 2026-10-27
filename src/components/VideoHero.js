@@ -133,13 +133,13 @@ export default function VideoHero({ siteInfo }) {
                         </Link>
                     </div>
 
-                    {/* Reassurance pills */}
-                    <div className="hero-reassurance">
-                        <span className="reassurance-pill">Cosmétiques BIO Nohèm & Green Spa</span>
-                        <span className="reassurance-dot">•</span>
-                        <span className="reassurance-pill">Parking gratuit sur place</span>
-                        <span className="reassurance-dot">•</span>
-                        <span className="reassurance-pill">Avis 5,0/5 ★★★★★</span>
+                    {/* Reassurance Palace Spa Ribbon */}
+                    <div className="hero-reassurance-ribbon">
+                        <span className="ribbon-item">Cosmétiques BIO Nohèm & Green Spa</span>
+                        <span className="ribbon-diamond" aria-hidden="true">✦</span>
+                        <span className="ribbon-item">Parking gratuit devant le Pôle Santé</span>
+                        <span className="ribbon-diamond" aria-hidden="true">✦</span>
+                        <span className="ribbon-item">Note d&apos;excellence 5,0/5 ★★★★★</span>
                     </div>
                 </div>
             </div>

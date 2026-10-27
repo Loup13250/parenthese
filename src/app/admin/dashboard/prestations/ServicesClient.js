@@ -183,9 +183,9 @@ export default function ServicesClient({ services = [], pricingDocuments = [] })
 
             {/* En-tête */}
             <div style={{ width: '100%', maxWidth: '850px', marginBottom: '2rem' }}>
-                <h1 className="admin-page-title">Tarifs & Prestations</h1>
+                <h1 className="admin-page-title">Carte des Soins & Prestations</h1>
                 <p style={{ color: 'var(--admin-text-muted)', marginBottom: '1.5rem', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                    Gère ici tes grilles tarifaires et cartes (PDF ou Images) ainsi que les prestations traiteur présentées sur la page <strong>/tarifs</strong>.
+                    Gère ici la carte des soins (Massages, Drainage, Kobido, Visage Nohèm...), les tarifs et les documents présentés sur la page <strong>/carte-des-soins</strong>.
                 </p>
 
                 {/* Navigation par onglets (2 onglets) */}
@@ -246,7 +246,7 @@ export default function ServicesClient({ services = [], pricingDocuments = [] })
                         }}
                     >
                         <Sparkles size={16} />
-                        Nos Prestations Traiteur
+                        Soins & Rituels Bien-Être
                         <span style={{
                             padding: '2px 7px',
                             borderRadius: '9999px',
@@ -304,22 +304,22 @@ export default function ServicesClient({ services = [], pricingDocuments = [] })
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
                                     <div>
                                         <label className="admin-label">FR - Titre de la carte / document (Français) *</label>
-                                        <input type="text" name="title" required placeholder="Ex: Carte des Buffets & Cocktails 2026" className="admin-input" />
+                                        <input type="text" name="title" required placeholder="Ex: Carte des Soins & Massages 2026" className="admin-input" />
                                     </div>
                                     <div>
                                         <label className="admin-label">EN - Document Title (English)</label>
-                                        <input type="text" name="title_en" placeholder="Ex: Catering Menu & Cocktail Rates 2026" className="admin-input" />
+                                        <input type="text" name="title_en" placeholder="Ex: Wellness Rituals & Massage Rates 2026" className="admin-input" />
                                     </div>
                                 </div>
 
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
                                     <div>
                                         <label className="admin-label">FR - Description (Français)</label>
-                                        <textarea name="description" rows="2" placeholder="Ex: Détail de nos formules, pièces salées et sucrées..." className="admin-input" />
+                                        <textarea name="description" rows="2" placeholder="Ex: Détail des bienfaits, durées et protocoles de soin..." className="admin-input" />
                                     </div>
                                     <div>
                                         <label className="admin-label">EN - Description (English)</label>
-                                        <textarea name="description_en" rows="2" placeholder="Ex: Details of our catering menus and cocktails..." className="admin-input" />
+                                        <textarea name="description_en" rows="2" placeholder="Ex: Details of massage techniques, benefits and session durations..." className="admin-input" />
                                     </div>
                                 </div>
 
@@ -584,15 +584,15 @@ export default function ServicesClient({ services = [], pricingDocuments = [] })
             )}
 
             {/* ========================================================================= */}
-            {/* TAB 2: NOS PRESTATIONS TRAITEUR                                          */}
+            {/* TAB 2: NOS SOINS & RITUELS                                              */}
             {/* ========================================================================= */}
             {activeTab === 'services' && (
                 <div style={{ width: '100%', maxWidth: '850px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                         <div>
-                            <h2 style={{ fontSize: '1.15rem', color: 'var(--admin-text)', margin: 0 }}>Prestations Traiteur</h2>
+                            <h2 style={{ fontSize: '1.15rem', color: 'var(--admin-text)', margin: 0 }}>Soins & Rituels Bien-Être</h2>
                             <p style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)', margin: '4px 0 0' }}>
-                                Présentation des différents types de prestations traiteur.
+                                Présentation des différents soins et rituels bien-être de l&apos;institut.
                             </p>
                         </div>
                         {!isAddingService && !editingService && (
@@ -620,22 +620,22 @@ export default function ServicesClient({ services = [], pricingDocuments = [] })
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
                                     <div>
                                         <label className="admin-label">FR - Badge / Catégorie (Français)</label>
-                                        <input type="text" name="badge" placeholder="Ex: Sur-mesure, Pro, Cocktails..." className="admin-input" />
+                                        <input type="text" name="badge" placeholder="Ex: Signature, Relaxant, Rituels..." className="admin-input" />
                                     </div>
                                     <div>
                                         <label className="admin-label">EN - Badge / Category (English)</label>
-                                        <input type="text" name="badge_en" placeholder="Ex: Tailor-made, Corporate, Cocktails..." className="admin-input" />
+                                        <input type="text" name="badge_en" placeholder="Ex: Signature, Rituals, Wellness..." className="admin-input" />
                                     </div>
                                 </div>
 
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
                                     <div>
                                         <label className="admin-label">FR - Titre de la prestation (Français) *</label>
-                                        <input type="text" name="title" required placeholder="Ex: Buffets Dînatoires" className="admin-input" />
+                                        <input type="text" name="title" required placeholder="Ex: Massage Signature Bien-Être" className="admin-input" />
                                     </div>
                                     <div>
                                         <label className="admin-label">EN - Service Title (English)</label>
-                                        <input type="text" name="title_en" placeholder="Ex: Cocktail Receptions & Buffets" className="admin-input" />
+                                        <input type="text" name="title_en" placeholder="Ex: Signature Wellness Massage" className="admin-input" />
                                     </div>
                                 </div>
 

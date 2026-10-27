@@ -63,7 +63,7 @@ export default function ErrorBoundary({ error, reset }) {
             margin: 0,
           }}
         >
-          Un petit contretemps en cuisine...
+          Un instant d&apos;harmonie suspendu...
         </h1>
 
         <p
@@ -74,7 +74,7 @@ export default function ErrorBoundary({ error, reset }) {
             margin: '0.25rem 0 1.5rem',
           }}
         >
-          Une erreur inattendue est survenue lors de l&apos;affichage de cette page. Vous pouvez retenter votre chance ou regagner la table principale.
+          Une erreur inattendue est survenue lors de l&apos;affichage de cette page. Vous pouvez retenter l&apos;expérience ou regagner l&apos;accueil du salon.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', width: '100%' }}>

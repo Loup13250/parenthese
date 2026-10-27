@@ -1,38 +1,40 @@
 /* ==========================================================================
    CONTACT FORM - LA PARENTHÈSE HARMONIEUSE
+   Esthétique Haute Beauté, Cocon Luxe & Palace Spa
    ========================================================================== */
 
 .contact-card {
     background: #FFFFFF;
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    border: 1px solid rgba(185, 146, 94, 0.25);
-    box-shadow: 0 15px 40px rgba(44, 38, 35, 0.06);
+    border-radius: 3px;
+    padding: 3.5rem 3rem;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 15px 40px rgba(44, 38, 35, 0.05);
 }
 
 .contact-tag {
     display: inline-block;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #9C7A4D;
-    margin-bottom: 0.5rem;
+    color: #8E662F;
+    margin-bottom: 0.65rem;
 }
 
 .contact-form-header h2 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: #2C2623;
+    font-size: 2.3rem;
+    font-weight: 500;
+    color: #231E1B;
     margin-bottom: 0.5rem;
+    line-height: 1.2;
 }
 
 .contact-form-header p {
-    font-size: 0.94rem;
-    color: #6E635C;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    font-size: 0.96rem;
+    color: #554A42;
+    line-height: 1.7;
+    margin-bottom: 2.25rem;
 }
 
 /* Alerts */
@@ -40,14 +42,14 @@
     display: flex;
     align-items: flex-start;
     gap: 0.85rem;
-    padding: 1rem 1.25rem;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    margin-bottom: 1.75rem;
+    padding: 1.1rem 1.35rem;
+    border-radius: 2px;
+    font-size: 0.92rem;
+    margin-bottom: 1.85rem;
 }
 
 .alert-success {
-    background: #EFF6EE;
+    background: #F4F7F2;
     border: 1px solid #B0D6AD;
     color: #2B6127;
 }
@@ -58,7 +60,7 @@
 }
 
 .alert-error {
-    background: #FDF2F2;
+    background: #FDF4F4;
     border: 1px solid #F5C6C6;
     color: #9C2A2A;
 }
@@ -72,36 +74,38 @@
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.35rem;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.45rem;
 }
 
 .form-dual-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+    gap: 1.35rem;
 }
 
 .form-label {
     font-size: 0.82rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
-    color: #3A3430;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #231E1B;
 }
 
 .form-label .req {
-    color: #B9925E;
+    color: #8E662F;
 }
 
 .form-label em {
     font-weight: 400;
     color: #8C8078;
     font-style: italic;
+    text-transform: none;
 }
 
 .input-with-icon {
@@ -112,8 +116,8 @@
 
 .input-icon {
     position: absolute;
-    left: 1rem;
-    color: #9C7A4D;
+    left: 1.1rem;
+    color: #8E662F;
     pointer-events: none;
 }
 
@@ -122,17 +126,17 @@
 .form-textarea {
     width: 100%;
     background: #FAF7F2;
-    border: 1px solid rgba(185, 146, 94, 0.25);
-    border-radius: 10px;
-    padding: 0.8rem 1rem;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    border-radius: 2px;
+    padding: 0.9rem 1.15rem;
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.92rem;
-    color: #2C2623;
-    transition: all 0.2s ease;
+    font-size: 0.94rem;
+    color: #231E1B;
+    transition: all 0.25s ease;
 }
 
 .input-with-icon .form-input {
-    padding-left: 2.75rem;
+    padding-left: 2.85rem;
 }
 
 .form-input:focus,
@@ -140,40 +144,41 @@
 .form-textarea:focus {
     outline: none;
     background: #FFFFFF;
-    border-color: #9C7A4D;
+    border-color: #8E662F;
     box-shadow: 0 0 0 3px rgba(185, 146, 94, 0.15);
 }
 
 .form-textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 130px;
 }
 
 .form-submit-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    background: linear-gradient(135deg, #B9925E 0%, #9C7A4D 100%);
+    gap: 0.65rem;
+    background: #8E662F;
     color: #FFFFFF;
-    border: none;
-    padding: 0.95rem 2rem;
-    border-radius: 999px;
+    border: 1px solid #B8925A;
+    padding: 1.05rem 2.4rem;
+    border-radius: 2px;
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(156, 122, 77, 0.35);
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.3);
     transition: all 0.25s ease;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
 }
 
 .form-submit-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(156, 122, 77, 0.5);
-    background: linear-gradient(135deg, #C5A16E 0%, #A88455 100%);
+    box-shadow: 0 8px 25px rgba(142, 102, 47, 0.45);
+    background: #A07335;
+    border-color: #EBD3B0;
 }
 
 .form-submit-btn:disabled {
@@ -182,16 +187,16 @@
 }
 
 .form-disclaimer {
-    font-size: 0.74rem;
-    color: #8C8078;
+    font-size: 0.76rem;
+    color: #7A6F67;
     text-align: center;
-    line-height: 1.4;
-    margin-top: 0.5rem;
+    line-height: 1.5;
+    margin-top: 0.65rem;
 }
 
 @media (max-width: 640px) {
     .contact-card {
-        padding: 2rem 1.5rem;
+        padding: 2.25rem 1.6rem;
     }
 
     .form-dual-row {

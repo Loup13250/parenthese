@@ -755,7 +755,7 @@ export default function TarifsAdminClient({ pricingDocuments = [] }) {
                                     required
                                     value={addFormState.title}
                                     onChange={(e) => setAddFormState(prev => ({ ...prev, title: e.target.value }))}
-                                    placeholder="Ex: Carte des Buffets & Cocktails"
+                                    placeholder="Ex: Carte des Massages Signature & Rituels"
                                     className="admin-input"
                                 />
                             </div>
@@ -769,7 +769,7 @@ export default function TarifsAdminClient({ pricingDocuments = [] }) {
                                     name="title_en"
                                     value={addFormState.title_en}
                                     onChange={(e) => setAddFormState(prev => ({ ...prev, title_en: e.target.value }))}
-                                    placeholder="Ex: Buffet & Cocktail Menu"
+                                    placeholder="Ex: Signature Massages & Rituals Menu"
                                     className="admin-input"
                                 />
                             </div>
@@ -1525,7 +1525,7 @@ export default function TarifsAdminClient({ pricingDocuments = [] }) {
                             Aucune carte de tarif pour le moment
                         </h3>
                         <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.9rem', maxWidth: '460px', margin: '0 auto 1.5rem' }}>
-                            Ajoute ta première carte (buffet, menus traiteur, cocktails...) pour qu&apos;elle s&apos;affiche sur la page publique <strong>/tarifs</strong>.
+                            Ajoute ta première carte (carte des soins, plaquette tarifs, rituels...) pour qu&apos;elle s&apos;affiche sur la page publique <strong>/carte-des-soins</strong>.
                         </p>
                         <button
                             type="button"

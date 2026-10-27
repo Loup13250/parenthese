@@ -206,7 +206,7 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
             if (res?.error) {
                 showNotification(res.error, true);
             } else {
-                showNotification('Prestation traiteur ajoutée avec succès !');
+                showNotification('Soin ou rituel ajouté avec succès !');
                 setIsAddingService(false);
                 serviceFormRef.current?.reset();
             }
@@ -222,7 +222,7 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
             if (res?.error) {
                 showNotification(res.error, true);
             } else {
-                showNotification('Prestation traiteur mise à jour !');
+                showNotification('Soin ou rituel mis à jour !');
                 setEditingService(null);
             }
         });
@@ -362,7 +362,7 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
                                         id="tagline_en"
                                         type="text"
                                         name="tagline_en"
-                                        defaultValue={info?.tagline_en || 'Generous homemade seasonal cuisine'}
+                                        defaultValue={info?.tagline_en || 'A gentle retreat dedicated to your well-being'}
                                         className="admin-input"
                                     />
                                 </div>
@@ -512,7 +512,7 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
                             Titres &amp; intitulés de la page
                         </h2>
                         <span style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>
-                            Ex : « Une Cuisine Authentique, Préparée avec le Cœur », les 4 chiffres clés… en français et en anglais.
+                            Ex : « Une Approche Holistique et Bienveillante », les 4 piliers de soin… en français et en anglais.
                         </span>
                     </div>
                     <Link href="/admin/dashboard/textes" className="admin-btn admin-btn-secondary" style={{ fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
@@ -522,16 +522,16 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
                 <SiteTextsEditor sections={ABOUT_PAGE_TEXT_SECTIONS} overrides={customTexts} />
             </div>
 
-            {/* SECTION 2: NOS PRESTATIONS TRAITEUR */}
+            {/* SECTION 2: NOS SOINS & RITUELS */}
             <div className="admin-card">
                 <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
                         <h2 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Layers size={20} style={{ color: 'var(--admin-gold)' }} />
-                            Nos Prestations Traiteur
+                            Soins & Rituels Phares
                         </h2>
                         <span style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>
-                            Cartes présentées dans la section &quot;Nos Prestations&quot; sur la page /a-propos
+                            Sélection des soins phares présentés sur la page Mon Approche
                         </span>
                     </div>
 
@@ -589,23 +589,23 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
 
                             <div className="admin-grid-2col">
                                 <div>
-                                    <label className="admin-label" htmlFor="srv_title_fr">Titre de la prestation (FR) *</label>
-                                    <input id="srv_title_fr" type="text" name="title" required placeholder="Ex: Buffets & Cocktails" className="admin-input" />
+                                    <label className="admin-label" htmlFor="srv_title_fr">Titre du soin / massage (FR) *</label>
+                                    <input id="srv_title_fr" type="text" name="title" required placeholder="Ex: Massage Signature Bien-Être" className="admin-input" />
                                 </div>
                                 <div>
                                     <label className="admin-label" htmlFor="srv_title_en">Titre (EN)</label>
-                                    <input id="srv_title_en" type="text" name="title_en" placeholder="Ex: Buffets & Cocktails" className="admin-input" />
+                                    <input id="srv_title_en" type="text" name="title_en" placeholder="Ex: Signature Wellness Massage" className="admin-input" />
                                 </div>
                             </div>
 
                             <div className="admin-grid-2col">
                                 <div>
                                     <label className="admin-label" htmlFor="srv_desc_fr">Description détaillée (FR) *</label>
-                                    <textarea id="srv_desc_fr" name="description" rows={3} required placeholder="Pièces salées, verrines fraîches, canapés et douceurs..." className="admin-textarea" />
+                                    <textarea id="srv_desc_fr" name="description" rows={3} required placeholder="Mouvements enveloppants, huiles végétales bio précieuses, lâcher-prise total..." className="admin-textarea" />
                                 </div>
                                 <div>
                                     <label className="admin-label" htmlFor="srv_desc_en">Description (EN)</label>
-                                    <textarea id="srv_desc_en" name="description_en" rows={3} placeholder="Savory bites, fresh verrines, appetizers and sweet treats..." className="admin-textarea" />
+                                    <textarea id="srv_desc_en" name="description_en" rows={3} placeholder="Enveloping strokes, precious organic botanical oils, deep relaxation..." className="admin-textarea" />
                                 </div>
                             </div>
 

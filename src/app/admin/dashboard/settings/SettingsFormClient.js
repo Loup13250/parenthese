@@ -530,7 +530,7 @@ export default function SettingsFormClient({ info }) {
                                 type="text"
                                 name="tagline"
                                 defaultValue={info.tagline || ''}
-                                placeholder="Ex: Cuisine maison · Livraison · Retrait"
+                                placeholder="Ex: Massages bien-être · Sur rendez-vous · Salon intimiste"
                                 className="admin-input"
                             />
                         </div>
@@ -542,7 +542,7 @@ export default function SettingsFormClient({ info }) {
                                 type="text"
                                 name="tagline_en"
                                 defaultValue={info.tagline_en || ''}
-                                placeholder="Ex: Homemade cuisine · Delivery · Pick-up"
+                                placeholder="Ex: Holistic wellness massages · By appointment · Peaceful sanctuary"
                                 className="admin-input"
                             />
                         </div>

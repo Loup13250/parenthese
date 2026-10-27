@@ -138,7 +138,7 @@ export const MENU_CROP_TARGETS = [
     },
 ];
 
-/** Formats utilisés par la page tarifs et cartes traiteur. */
+/** Formats utilisés par la carte des soins et tarifs bien-être. */
 export const TARIFS_CROP_TARGETS = [
     {
         key: 'image',
@@ -150,7 +150,7 @@ export const TARIFS_CROP_TARGETS = [
         maxWidth: 1600,
         quality: 0.85,
         optional: false,
-        hint: 'Format flyer/carte A4 standard pour les cartes traiteur et formules',
+        hint: 'Format flyer/carte A4 standard pour les cartes de soins et rituels',
         aspectOptions: [
             { label: 'Flyer A4 (recommandé)', shortLabel: 'A4', value: 1 / 1.414 },
             { label: 'Portrait 4:5', shortLabel: '4:5', value: 4 / 5 },
@@ -393,9 +393,9 @@ function HeroOverlay({ portrait }) {
     return (
         <div className={`ic-hero ${portrait ? 'is-portrait' : 'is-landscape'}`} aria-hidden="true">
             <div className="ic-hero-inner">
-                <span className="ic-hero-eyebrow">Traiteur maison · Eyguières</span>
-                <span className="ic-hero-title">Le titre de ta bannière</span>
-                <span className="ic-hero-sub">Ton sous-titre apparaît ici</span>
+                <span className="ic-hero-eyebrow">Institut de beauté & bien-être · Salon-de-Provence</span>
+                <span className="ic-hero-title">La Parenthèse Harmonieuse</span>
+                <span className="ic-hero-sub">Offrez-vous une parenthèse de bien-être...</span>
                 <span className="ic-hero-btns">
                     <i className="ic-hero-btn is-primary" />
                     <i className="ic-hero-btn" />

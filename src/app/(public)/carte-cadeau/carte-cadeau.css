@@ -1,18 +1,19 @@
 /* ==========================================================================
    CARTE CADEAU - LA PARENTHÈSE HARMONIEUSE
    Esthétique Haute Beauté, Cocon Luxe & Sérénité
+   Inspiration Auberge de Beauté (Salon-de-Provence)
    ========================================================================== */
 
 .cadeau-page {
     background-color: #FAF7F2;
-    padding-top: 75px;
+    padding-top: 105px; /* Dégagement parfait sous le header fixe */
 }
 
 /* Luminous Palace Hero */
 .cadeau-page-hero {
     background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
     color: #2C2623;
-    padding: 5.5rem 0 4.5rem;
+    padding: 5rem 0 4.5rem;
     text-align: center;
     border-bottom: 1px solid rgba(197, 168, 128, 0.22);
 }
@@ -30,14 +31,14 @@
     align-items: center;
     gap: 0.55rem;
     background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.35);
-    padding: 0.42rem 1.15rem;
-    border-radius: 999px;
+    border: 1px solid rgba(197, 168, 128, 0.4);
+    padding: 0.45rem 1.35rem;
+    border-radius: 2px;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #9C7A4D;
+    color: #8E662F;
     margin-bottom: 1.5rem;
     box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
 }
@@ -48,7 +49,7 @@
     font-weight: 400;
     line-height: 1.15;
     margin: 0.4rem 0 1.25rem;
-    color: #2C2623;
+    color: #231E1B;
     letter-spacing: 0.015em;
 }
 
@@ -60,22 +61,23 @@
 
 .cadeau-page-sub {
     font-size: 1.1rem;
-    color: #352E2A;
-    font-weight: 450;
+    color: #38302B;
+    font-weight: 400;
     max-width: 700px;
     margin: 0 auto 1.75rem;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 .cadeau-hero-reassurance {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.85rem;
-    font-size: 0.82rem;
+    gap: 1rem;
+    font-size: 0.78rem;
     color: #4D433C;
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     flex-wrap: wrap;
 }
 
@@ -86,41 +88,41 @@
 
 .cadeau-intro-card {
     background: #FFFFFF;
-    border-radius: 28px;
+    border-radius: 3px;
     padding: 4rem 3.5rem;
     text-align: center;
-    border: 1px solid rgba(197, 168, 128, 0.28);
-    box-shadow: 0 16px 45px rgba(44, 38, 35, 0.05);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 16px 45px rgba(44, 38, 35, 0.04);
     max-width: 960px;
     margin: 0 auto;
 }
 
 .cadeau-intro-icon {
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    border-radius: 2px;
     background: rgba(185, 146, 94, 0.12);
-    color: #9C7A4D;
+    color: #8E662F;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.75rem;
-    border: 1px solid rgba(185, 146, 94, 0.25);
+    border: 1px solid rgba(185, 146, 94, 0.3);
 }
 
 .cadeau-intro-card h2 {
     font-family: var(--font-cormorant), Georgia, serif;
     font-size: clamp(2rem, 3.2vw, 2.6rem);
     font-weight: 500;
-    color: #2C2623;
+    color: #231E1B;
     margin-bottom: 1rem;
     line-height: 1.25;
 }
 
 .cadeau-intro-lead {
     font-size: 1.05rem;
-    color: #2E2622;
-    font-weight: 450;
+    color: #38302B;
+    font-weight: 400;
     max-width: 720px;
     margin: 0 auto 2.25rem;
     line-height: 1.75;
@@ -136,12 +138,14 @@
 
 .occasion-pill {
     background: #FAF7F2;
-    border: 1px solid rgba(197, 168, 128, 0.25);
-    padding: 0.45rem 1rem;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #6E635C;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #554942;
 }
 
 /* Formats Grid */
@@ -154,10 +158,10 @@
 
 .format-card {
     background: #FFFFFF;
-    border-radius: 24px;
+    border-radius: 3px;
     padding: 3.5rem 3rem;
-    border: 1px solid rgba(197, 168, 128, 0.25);
-    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.05);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 12px 35px rgba(44, 38, 35, 0.04);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -166,57 +170,61 @@
 
 .format-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 48px rgba(44, 38, 35, 0.1);
+    box-shadow: 0 20px 48px rgba(44, 38, 35, 0.09);
+    border-color: rgba(197, 168, 128, 0.6);
 }
 
 .featured-format {
-    border-color: #B9925E;
-    box-shadow: 0 16px 45px rgba(185, 146, 94, 0.15);
+    border-color: #8E662F;
+    box-shadow: 0 16px 45px rgba(142, 102, 47, 0.15);
 }
 
 .format-badge {
     position: absolute;
     top: -12px;
     right: 2rem;
-    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    background: #8E662F;
     color: #FFFFFF;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    padding: 0.3rem 0.85rem;
-    border-radius: 999px;
-    box-shadow: 0 4px 12px rgba(163, 127, 78, 0.35);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 2px;
+    border: 1px solid #B8925A;
+    box-shadow: 0 4px 12px rgba(142, 102, 47, 0.3);
 }
 
 .format-icon-wrap {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    border-radius: 2px;
     background: rgba(185, 146, 94, 0.12);
-    color: #9C7A4D;
+    color: #8E662F;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
+    border: 1px solid rgba(185, 146, 94, 0.25);
 }
 
 .format-card h3 {
     font-family: var(--font-cormorant), Georgia, serif;
     font-size: 1.85rem;
     font-weight: 600;
-    color: #2C2623;
+    color: #231E1B;
     margin-bottom: 0.35rem;
 }
 
 .format-subtitle {
     font-size: 0.88rem;
-    color: #8C8078;
+    color: #7A6F67;
     margin-bottom: 1.35rem;
 }
 
 .format-desc {
     font-size: 0.94rem;
-    color: #5A504A;
+    color: #38302B;
     line-height: 1.7;
     margin-bottom: 1.85rem;
 }
@@ -236,12 +244,12 @@
     align-items: flex-start;
     gap: 0.75rem;
     font-size: 0.9rem;
-    color: #4A423D;
+    color: #38302B;
     line-height: 1.5;
 }
 
 .format-perks li svg {
-    color: #B9925E;
+    color: #8E662F;
     flex-shrink: 0;
     margin-top: 0.2rem;
 }
@@ -251,6 +259,7 @@
     flex-direction: column;
     gap: 0.85rem;
     align-items: center;
+    width: 100%;
 }
 
 .btn-call-order {
@@ -258,23 +267,25 @@
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    background: #2C2623;
+    background: #231E1B;
     color: #FFFFFF;
     text-decoration: none;
     padding: 0.95rem 2rem;
-    border-radius: 999px;
-    font-size: 0.86rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     width: 100%;
+    border: 1px solid #231E1B;
     transition: all 0.25s ease;
 }
 
 .btn-call-order:hover {
-    background: #B9925E;
+    background: #8E662F;
+    border-color: #8E662F;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(185, 146, 94, 0.35);
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.3);
 }
 
 .btn-planity-gift {
@@ -282,28 +293,29 @@
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    background: linear-gradient(135deg, #B9925E 0%, #A37F4E 100%);
+    background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
     padding: 0.95rem 2rem;
-    border-radius: 999px;
-    font-size: 0.86rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     width: 100%;
-    box-shadow: 0 6px 20px rgba(163, 127, 78, 0.32);
+    border: 1px solid #B8925A;
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.3);
     transition: all 0.25s ease;
 }
 
 .btn-planity-gift:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #C5A16E 0%, #B08C5A 100%);
-    box-shadow: 0 8px 26px rgba(163, 127, 78, 0.45);
+    background: #A07335;
+    box-shadow: 0 8px 26px rgba(142, 102, 47, 0.45);
 }
 
 .link-contact-opt {
-    color: #8C8078;
+    color: #6E635C;
     text-decoration: underline;
     font-size: 0.84rem;
 }
@@ -312,17 +324,17 @@
 .gift-suggestions-box {
     margin-top: 6rem;
     background: #FFFFFF;
-    border-radius: 28px;
+    border-radius: 3px;
     padding: 4rem 3.5rem;
-    border: 1px solid rgba(197, 168, 128, 0.28);
-    box-shadow: 0 16px 45px rgba(44, 38, 35, 0.05);
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    box-shadow: 0 16px 45px rgba(44, 38, 35, 0.04);
 }
 
 .gift-suggestions-box h3 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     font-weight: 500;
-    color: #2C2623;
+    color: #231E1B;
     margin-bottom: 2.5rem;
 }
 
@@ -335,8 +347,8 @@
 .suggestion-item {
     background: #FAF7F2;
     padding: 2rem;
-    border-radius: 18px;
-    border: 1px solid rgba(197, 168, 128, 0.22);
+    border-radius: 2px;
+    border: 1px solid rgba(197, 168, 128, 0.28);
     display: flex;
     flex-direction: column;
 }
@@ -344,68 +356,71 @@
 .sugg-category {
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #9C7A4D;
+    color: #8E662F;
     margin-bottom: 0.5rem;
 }
 
 .suggestion-item h4 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.45rem;
+    font-size: 1.55rem;
     font-weight: 600;
-    color: #2C2623;
+    color: #231E1B;
     margin-bottom: 0.5rem;
 }
 
 .suggestion-item p {
-    font-size: 0.88rem;
-    color: #6E635C;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    color: #4A403A;
+    line-height: 1.65;
     margin-bottom: 1.25rem;
     flex-grow: 1;
 }
 
 .sugg-price {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #9C7A4D;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #8E662F;
 }
 
 .suggestions-action {
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 3.5rem;
 }
 
 .btn-view-carte-outline {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    border: 1.5px solid #9C7A4D;
-    color: #9C7A4D;
+    gap: 0.6rem;
+    border: 1px solid #8E662F;
+    color: #8E662F;
     text-decoration: none;
-    padding: 0.85rem 2rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 0.95rem 2.4rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     transition: all 0.25s ease;
+    background: #FFFFFF;
 }
 
 .btn-view-carte-outline:hover {
-    background: #9C7A4D;
+    background: #8E662F;
     color: #FFFFFF;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(156, 122, 77, 0.25);
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.25);
 }
 
 @media (max-width: 900px) {
+    .cadeau-page {
+        padding-top: 90px;
+    }
     .formats-grid {
         grid-template-columns: 1fr;
     }
-
     .format-card,
     .cadeau-intro-card,
     .gift-suggestions-box {

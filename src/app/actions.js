@@ -254,11 +254,11 @@ export async function updateSiteInfo(formData) {
 
     revalidatePath('/', 'layout');
     revalidatePath('/');
+    revalidatePath('/mon-approche');
+    revalidatePath('/carte-des-soins');
+    revalidatePath('/carte-cadeau');
     revalidatePath('/contact');
-    revalidatePath('/a-propos');
-    revalidatePath('/tarifs');
     revalidatePath('/galerie');
-    revalidatePath('/realisations');
     revalidatePath('/admin/dashboard/settings');
     return { success: true };
 }
@@ -454,7 +454,10 @@ export async function saveSiteTexts(updates) {
 
         revalidatePath('/', 'layout');
         revalidatePath('/');
-        revalidatePath('/a-propos');
+        revalidatePath('/mon-approche');
+        revalidatePath('/carte-des-soins');
+        revalidatePath('/carte-cadeau');
+        revalidatePath('/contact');
         revalidatePath('/admin/dashboard/textes');
         revalidatePath('/admin/dashboard/a-propos');
         revalidatePath('/admin/dashboard/settings');
@@ -1420,43 +1423,58 @@ export async function replaceWeeklyMenuImage(imageId, formData) {
     }
 }
 
-// --- PRESTATIONS ---
+// --- PRESTATIONS (SOINS & RITUELS) ---
 export async function addService(formData) {
     try {
         await requireAdminAuth();
         const title = (formData.get('title') || '').toString().trim();
-        const title_en = (formData.get('title_en') || '').toString().trim();
+        const category = (formData.get('category') || 'Massages Sur Mesure').toString().trim();
+        const category_slug = (formData.get('category_slug') || 'massages').toString().trim();
+        const subtitle = (formData.get('subtitle') || '').toString().trim();
+        const duration = (formData.get('duration') || '').toString().trim();
+        const price = (formData.get('price') || '').toString().trim();
         const description = (formData.get('description') || '').toString().trim();
-        const description_en = (formData.get('description_en') || '').toString().trim();
+        const benefits = (formData.get('benefits') || '').toString().trim();
         const badge = (formData.get('badge') || '').toString().trim();
-        const badge_en = (formData.get('badge_en') || '').toString().trim();
-        const num = (formData.get('num') || '').toString().trim();
+        const planity_url = (formData.get('planity_url') || '').toString().trim();
+        const is_featured = formData.get('is_featured') === '1' || formData.get('is_featured') === 'on' ? 1 : 0;
 
         if (!title || !description) {
-            return { error: 'Veuillez remplir le titre et la description.' };
+            return { error: 'Veuillez remplir au moins le titre et la description du soin.' };
+        }
+
+        const file = formData.get('image_file');
+        let image_url = (formData.get('image_url') || '').toString().trim();
+        if (file && file.size > 0) {
+            const uploaded = await saveUploadedFile(file);
+            if (uploaded) image_url = uploaded;
+        }
+        if (!image_url) {
+            image_url = '/images/massage-dos.jpg';
         }
 
         const db = getDb();
         const maxRow = await db.prepare('SELECT MAX(display_order) as maxOrder FROM services').get();
         const nextOrder = (maxRow?.maxOrder || 0) + 1;
 
-        const formattedNum = num || (nextOrder < 10 ? `0${nextOrder}` : `${nextOrder}`);
-
-        await db.prepare('INSERT INTO services (num, title, title_en, description, description_en, badge, badge_en, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(
-            formattedNum, title, title_en, description, description_en, badge, badge_en, nextOrder
+        await db.prepare(`
+            INSERT INTO services (category, category_slug, title, subtitle, duration, price, description, benefits, image_url, badge, planity_url, is_featured, display_order)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).run(
+            category, category_slug, title, subtitle, duration, price, description, benefits, image_url, badge, planity_url, is_featured, nextOrder
         );
 
+        revalidatePath('/', 'layout');
         revalidatePath('/');
-        revalidatePath('/a-propos');
-        revalidatePath('/tarifs');
-        revalidatePath('/admin/dashboard/a-propos');
+        revalidatePath('/carte-des-soins');
+        revalidatePath('/mon-approche');
         revalidatePath('/admin/dashboard/prestations');
 
         await logActivity({
             action: 'add',
-            category: 'Prestations',
-            summary: `Ajout d'une prestation : "${title}"`,
-            details: { title, num: formattedNum, badge }
+            category: 'Carte des Soins',
+            summary: `Ajout du soin : "${title}" (${price || 'Tarif sur mesure'})`,
+            details: { title, category, price, duration }
         });
 
         return { success: true };
@@ -1473,33 +1491,57 @@ export async function editService(formData) {
         if (!id) return { error: 'ID invalide' };
 
         const title = (formData.get('title') || '').toString().trim();
-        const title_en = (formData.get('title_en') || '').toString().trim();
+        const category = (formData.get('category') || 'Massages Sur Mesure').toString().trim();
+        const category_slug = (formData.get('category_slug') || 'massages').toString().trim();
+        const subtitle = (formData.get('subtitle') || '').toString().trim();
+        const duration = (formData.get('duration') || '').toString().trim();
+        const price = (formData.get('price') || '').toString().trim();
         const description = (formData.get('description') || '').toString().trim();
-        const description_en = (formData.get('description_en') || '').toString().trim();
+        const benefits = (formData.get('benefits') || '').toString().trim();
         const badge = (formData.get('badge') || '').toString().trim();
-        const badge_en = (formData.get('badge_en') || '').toString().trim();
-        const num = (formData.get('num') || '').toString().trim();
+        const planity_url = (formData.get('planity_url') || '').toString().trim();
+        const is_featured = formData.get('is_featured') === '1' || formData.get('is_featured') === 'on' ? 1 : 0;
 
         if (!title || !description) {
-            return { error: 'Veuillez remplir le titre et la description.' };
+            return { error: 'Veuillez remplir au moins le titre et la description du soin.' };
         }
 
         const db = getDb();
-        await db.prepare('UPDATE services SET num = ?, title = ?, title_en = ?, description = ?, description_en = ?, badge = ?, badge_en = ? WHERE id = ?').run(
-            num, title, title_en, description, description_en, badge, badge_en, id
+        const existing = await db.prepare('SELECT * FROM services WHERE id = ?').get(id);
+        if (!existing) return { error: 'Soin introuvable' };
+
+        const file = formData.get('image_file');
+        let image_url = (formData.get('image_url') || '').toString().trim();
+        if (file && file.size > 0) {
+            const uploaded = await saveUploadedFile(file);
+            if (uploaded) {
+                deleteLocalFileIfPresent(existing.image_url);
+                image_url = uploaded;
+            }
+        }
+        if (!image_url) {
+            image_url = existing.image_url || '/images/massage-dos.jpg';
+        }
+
+        await db.prepare(`
+            UPDATE services
+            SET category = ?, category_slug = ?, title = ?, subtitle = ?, duration = ?, price = ?, description = ?, benefits = ?, image_url = ?, badge = ?, planity_url = ?, is_featured = ?
+            WHERE id = ?
+        `).run(
+            category, category_slug, title, subtitle, duration, price, description, benefits, image_url, badge, planity_url, is_featured, id
         );
 
         await logActivity({
             action: 'update',
-            category: 'Prestations',
-            summary: `Modification de la prestation : "${title}" (ID #${id})`,
-            details: { id, title, num }
+            category: 'Carte des Soins',
+            summary: `Modification du soin : "${title}" (ID #${id})`,
+            details: { id, title, price, duration, is_featured }
         });
 
+        revalidatePath('/', 'layout');
         revalidatePath('/');
-        revalidatePath('/a-propos');
-        revalidatePath('/tarifs');
-        revalidatePath('/admin/dashboard/a-propos');
+        revalidatePath('/carte-des-soins');
+        revalidatePath('/mon-approche');
         revalidatePath('/admin/dashboard/prestations');
         return { success: true };
     } catch (err) {
@@ -1515,25 +1557,59 @@ export async function deleteService(idOrFormData) {
         if (!id) return { error: 'ID invalide' };
 
         const db = getDb();
-        const srv = await db.prepare('SELECT title FROM services WHERE id = ?').get(id);
+        const srv = await db.prepare('SELECT title, image_url FROM services WHERE id = ?').get(id);
+        if (srv?.image_url) {
+            deleteLocalFileIfPresent(srv.image_url);
+        }
         await db.prepare('DELETE FROM services WHERE id = ?').run(id);
 
         await logActivity({
             action: 'delete',
-            category: 'Prestations',
-            summary: `Suppression de la prestation : "${srv?.title || 'Sans titre'}" (ID #${id})`,
+            category: 'Carte des Soins',
+            summary: `Suppression du soin : "${srv?.title || 'Sans titre'}" (ID #${id})`,
             details: { id, title: srv?.title }
         });
 
+        revalidatePath('/', 'layout');
         revalidatePath('/');
-        revalidatePath('/a-propos');
-        revalidatePath('/tarifs');
-        revalidatePath('/admin/dashboard/a-propos');
+        revalidatePath('/carte-des-soins');
+        revalidatePath('/mon-approche');
         revalidatePath('/admin/dashboard/prestations');
         return { success: true };
     } catch (err) {
         console.error('[deleteService Error]:', err);
         return { error: err.message || 'Une erreur est survenue lors de la suppression de la prestation.' };
+    }
+}
+
+export async function toggleServiceFeatured(idOrFormData) {
+    try {
+        await requireAdminAuth();
+        const id = extractId(idOrFormData);
+        if (!id) return { error: 'ID invalide' };
+
+        const db = getDb();
+        const srv = await db.prepare('SELECT id, title, is_featured FROM services WHERE id = ?').get(id);
+        if (!srv) return { error: 'Soin introuvable' };
+
+        const newStatus = srv.is_featured ? 0 : 1;
+        await db.prepare('UPDATE services SET is_featured = ? WHERE id = ?').run(newStatus, id);
+
+        await logActivity({
+            action: 'toggle',
+            category: 'Carte des Soins',
+            summary: `${newStatus ? 'Mise en avant Coup de Cœur' : 'Retrait Coup de Cœur'} accueil : "${srv.title}"`,
+            details: { id, title: srv.title, is_featured: newStatus }
+        });
+
+        revalidatePath('/', 'layout');
+        revalidatePath('/');
+        revalidatePath('/carte-des-soins');
+        revalidatePath('/admin/dashboard/prestations');
+        return { success: true, is_featured: newStatus };
+    } catch (err) {
+        console.error('[toggleServiceFeatured Error]:', err);
+        return { error: err.message || 'Une erreur est survenue.' };
     }
 }
 
@@ -1558,10 +1634,10 @@ export async function reorderService(id, direction) {
             await stmt.run(i + 1, services[i].id);
         }
 
+        revalidatePath('/', 'layout');
         revalidatePath('/');
-        revalidatePath('/a-propos');
-        revalidatePath('/tarifs');
-        revalidatePath('/admin/dashboard/a-propos');
+        revalidatePath('/carte-des-soins');
+        revalidatePath('/mon-approche');
         revalidatePath('/admin/dashboard/prestations');
         return { success: true };
     } catch (err) {

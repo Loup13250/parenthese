@@ -6,90 +6,79 @@
 
 .contact-page-main {
     background-color: #FAF7F2;
-    padding-top: 105px; /* Dégagement parfait sous le header fixe */
+    padding-top: 68px; /* Dégagement net sous le header fixe */
 }
 
-/* Luminous Palace Hero */
-.contact-hero {
-    background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
-    color: #2C2623;
-    padding: 5rem 0 4.5rem;
-    text-align: center;
+/* Content Section démarrant directement en haut */
+.contact-content-section {
+    padding: 1.5rem 0 5rem;
+}
+
+/* En-tête compact intégré (sans double scroll) */
+.contact-compact-header-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 2.25rem;
     border-bottom: 1px solid rgba(197, 168, 128, 0.22);
 }
 
-.contact-hero-container {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.contact-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.4);
-    padding: 0.45rem 1.35rem;
-    border-radius: 2px;
-    font-size: 0.72rem;
-    font-weight: 600;
+.contact-kicker {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #8E662F;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
+    margin-bottom: 0.35rem;
 }
 
-.contact-hero-title {
+.contact-compact-title {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-size: clamp(1.8rem, 3.5vw, 2.75rem);
     font-weight: 400;
     line-height: 1.15;
-    margin: 0.4rem 0 1.25rem;
     color: #231E1B;
-    letter-spacing: 0.015em;
+    margin: 0;
 }
 
-.contact-hero-title .title-serif {
+.contact-compact-title .title-serif {
     color: #8E662F;
     font-style: italic;
-    font-weight: 500;
 }
 
-.contact-hero-sub {
-    font-size: 1.1rem;
-    color: #38302B;
-    font-weight: 400;
-    max-width: 700px;
-    margin: 0 auto 1.75rem;
-    line-height: 1.75;
-}
-
-.contact-hero-reassurance {
+.contact-badges-strip {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    font-size: 0.78rem;
-    color: #4D433C;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    gap: 0.5rem;
+    font-size: 0.76rem;
+    color: #6E5C4E;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     flex-wrap: wrap;
 }
 
-/* Dual Layout */
-.contact-content-section {
-    padding: 5.5rem 0 7rem;
+.badge-chip-dot {
+    color: #C5A880;
 }
 
+@media (max-width: 900px) {
+    .contact-compact-header-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.85rem;
+        margin-bottom: 1.75rem;
+    }
+}
+
+/* Dual Layout */
 .contact-dual-layout {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
-    gap: 4.5rem;
+    gap: 3.5rem;
     align-items: start;
 }
 
@@ -97,13 +86,13 @@
 .contact-info-column {
     display: flex;
     flex-direction: column;
-    gap: 2.25rem;
+    gap: 2rem;
 }
 
 .info-box {
     background: #FFFFFF;
     border-radius: 3px;
-    padding: 3rem 2.5rem;
+    padding: 2.5rem 2.25rem;
     border: 1px solid rgba(197, 168, 128, 0.3);
     box-shadow: 0 10px 30px rgba(44, 38, 35, 0.04);
 }
@@ -127,25 +116,25 @@
 
 .planity-box h3 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 2rem;
+    font-size: 1.85rem;
     font-weight: 500;
     margin-bottom: 0.85rem;
     color: #FAF7F2;
 }
 
 .planity-box p {
-    font-size: 0.95rem;
+    font-size: 0.94rem;
     color: #E8E0D8;
     font-weight: 400;
     line-height: 1.7;
-    margin-bottom: 1.85rem;
+    margin-bottom: 1.75rem;
 }
 
 .btn-planity-contact {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
+    gap: 0.75rem;
     background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
@@ -167,29 +156,35 @@
     border-color: #EBD3B0;
 }
 
-.info-box-title {
+.info-box h3 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.85rem;
+    font-size: 1.65rem;
     font-weight: 600;
     color: #231E1B;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Liste de coordonnées avec alignement icône + texte horizontal impeccable */
+.info-list-stacked {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
 }
 
 .info-item-row {
     display: flex;
+    align-items: center;
+    gap: 1.15rem;
+}
+
+.info-item-row.address-row {
     align-items: flex-start;
-    gap: 1.25rem;
-    margin-bottom: 1.85rem;
 }
 
-.info-item-row:last-child {
-    margin-bottom: 0;
-}
-
-.info-item-icon {
+.icon-circle {
     width: 44px;
     height: 44px;
-    border-radius: 2px;
+    border-radius: 50%;
     background: rgba(185, 146, 94, 0.12);
     color: #8E662F;
     display: flex;
@@ -199,76 +194,139 @@
     border: 1px solid rgba(185, 146, 94, 0.25);
 }
 
-.info-item-text h4 {
-    font-family: var(--font-dm-sans), sans-serif;
-    font-size: 0.88rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+.icon-circle-small {
+    width: 36px;
+    height: 36px;
+}
+
+.info-item-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #231E1B;
-    margin-bottom: 0.25rem;
+    color: #8E662F;
+    margin-bottom: 0.2rem;
 }
 
-.info-item-text p,
-.info-item-text a {
-    font-size: 0.94rem;
-    color: #4A403A;
-    line-height: 1.65;
+.info-link-highlight,
+.info-link {
+    font-size: 0.98rem;
+    color: #2C2623;
     text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
-.info-item-text a:hover {
+.info-link-highlight:hover,
+.info-link:hover {
     color: #8E662F;
 }
 
-/* Hours Table */
-.hours-table {
-    width: 100%;
+.address-text {
+    font-size: 0.94rem;
+    color: #38302B;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.parking-alert-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #FAF7F2;
+    padding: 0.85rem 1.15rem;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    border-radius: 2px;
+    font-size: 0.86rem;
+    color: #4A403A;
+    line-height: 1.5;
+    margin: 1.25rem 0 1.5rem;
+}
+
+.map-link-wrap {
     margin-top: 1rem;
-    border-collapse: collapse;
 }
 
-.hours-table tr {
-    border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+.btn-open-maps {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.4rem;
+    background: #FAF7F2;
+    border: 1px solid rgba(197, 168, 128, 0.45);
+    color: #8E662F;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: all 0.25s ease;
 }
 
-.hours-table tr:last-child {
+.btn-open-maps:hover {
+    background: #8E662F;
+    color: #FFFFFF;
+    border-color: #8E662F;
+}
+
+/* Grille Horaires */
+.hours-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.hour-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.18);
+    font-size: 0.88rem;
+}
+
+.hour-item:last-child {
     border-bottom: none;
 }
 
-.hours-table td {
-    padding: 0.75rem 0;
-    font-size: 0.9rem;
+.hour-item .day {
+    font-weight: 600;
+    color: #231E1B;
+}
+
+.hour-item .hour {
     color: #4A403A;
 }
 
-.hours-day {
-    font-weight: 600;
-    color: #231E1B;
-    width: 40%;
-}
-
-.hours-time {
-    text-align: right;
-    color: #554A42;
-}
-
-.hours-closed {
-    color: #8E662F;
+.hour-item.closed .hour {
+    color: #9E7153;
     font-style: italic;
     font-weight: 500;
 }
 
-@media (max-width: 960px) {
+/* Responsive */
+@media (max-width: 900px) {
     .contact-page-main {
-        padding-top: 90px;
+        padding-top: 64px;
     }
+
+    .contact-content-section {
+        padding: 1rem 0 3.5rem;
+    }
+
     .contact-dual-layout {
         grid-template-columns: 1fr;
-        gap: 3.5rem;
+        gap: 2.5rem;
     }
 
     .info-box {
-        padding: 2.5rem 1.75rem;
+        padding: 2rem 1.5rem;
     }
 }

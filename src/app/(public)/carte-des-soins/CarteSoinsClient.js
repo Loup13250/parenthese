@@ -31,33 +31,25 @@ export default function CarteSoinsClient({ services = [], siteInfo }) {
 
     return (
         <div className="carte-soins-page">
-            {/* Luminous Palace Hero */}
-            <section className="carte-hero">
-                <div className="container carte-hero-container">
-                    <div className="carte-hero-badge">
-                        <Sparkles size={14} className="hero-sparkle" />
-                        <span>RITUELS & EXPERTISE SUR MESURE</span>
-                    </div>
-                    <h1 className="carte-hero-title">
-                        Carte des Soins <br />
-                        <span className="title-serif">& Massages d&apos;Excellence</span>
-                    </h1>
-                    <p className="carte-hero-sub">
-                        Chaque soin est un moment unique sur mesure, réalisé exclusivement avec des huiles et cosmétiques certifiés BIO Nohèm et Green Spa dans un cocon privatif dédié aux femmes.
-                    </p>
-                    <div className="carte-hero-reassurance">
-                        <span>Institut exclusivement féminin</span>
-                        <span className="reassurance-dot">•</span>
-                        <span>Sur rendez-vous</span>
-                        <span className="reassurance-dot">•</span>
-                        <span>Parking gratuit</span>
-                    </div>
-                </div>
-            </section>
-
-            {/* Content & Filters */}
+            {/* Content & Filters démarrant directement en haut */}
             <section className="carte-content-section">
                 <div className="container">
+                    {/* Header compact intégré (Zéro espace vide en haut) */}
+                    <div className="carte-compact-header-wrap">
+                        <div>
+                            <span className="carte-kicker">RITUELS &amp; EXPERTISE SUR MESURE</span>
+                            <h1 className="carte-compact-title">
+                                Carte des Soins <span className="title-serif">&amp; Massages d&apos;Excellence</span>
+                            </h1>
+                        </div>
+                        <div className="carte-badges-strip">
+                            <span className="badge-chip">Institut exclusivement féminin</span>
+                            <span className="badge-chip-dot">•</span>
+                            <span className="badge-chip">Cosmétiques BIO Nohèm &amp; Green Spa</span>
+                            <span className="badge-chip-dot">•</span>
+                            <span className="badge-chip">Parking gratuit sur place</span>
+                        </div>
+                    </div>
                     {/* Category Buttons */}
                     <div className="category-filter-bar">
                         {categories.map((cat) => (

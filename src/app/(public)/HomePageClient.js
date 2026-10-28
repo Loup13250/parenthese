@@ -6,12 +6,11 @@ import VideoHero from '@/components/VideoHero';
 import { 
     Calendar, Sparkles, Star, MapPin, Clock, Phone, Heart, 
     Gift, ArrowRight, ShieldCheck, Check, Info, X, ChevronRight,
-    User, Users
+    User
 } from 'lucide-react';
 import './home.css';
 
 export default function HomePageClient({ siteInfo, services = [], testimonials = [] }) {
-    const [activeCategory, setActiveCategory] = useState('all');
     const [selectedService, setSelectedService] = useState(null);
 
     const phone = siteInfo?.phone || '06 51 65 21 42';
@@ -19,26 +18,206 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
     const planityUrl = siteInfo?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
     const reviewsUrl = siteInfo?.google_reviews || 'https://g.page/r/CQUzqKQ2SgYrEAE/review';
 
-    const categories = [
-        { id: 'all', label: 'Tous les soins' },
-        { id: 'massages', label: 'Massages sur mesure' },
-        { id: 'drainage', label: 'Drainage & Madéro' },
-        { id: 'kobido', label: 'Kobido Liftant' },
-        { id: 'visage', label: 'Soins Visage Bio' },
-        { id: 'maternite', label: 'Femmes Enceintes' },
-        { id: 'packs', label: 'Packs & Rituels' },
-    ];
+    // Sélection signature des 3 soins coup de cœur (sans redondance avec la carte des soins)
+    const signatureServices = (
+        services.filter(s => s.is_featured).length >= 3
+            ? services.filter(s => s.is_featured)
+            : services
+    ).slice(0, 3);
 
-    const filteredServices = activeCategory === 'all' 
-        ? services 
-        : services.filter(s => s.category_slug === activeCategory);
+    // Avis limités aux 3 meilleurs témoignages pour une lecture fluide et rapide sur mobile
+    const limitedTestimonials = testimonials.slice(0, 3);
 
     return (
         <div className="home-page">
             {/* 1. HERO VIDEO */}
             <VideoHero siteInfo={siteInfo} />
 
-            {/* 2. VOS COUPS DE CŒUR (Inspiration Auberge de Beauté) */}
+            {/* 2. LE COCON BIEN-ÊTRE (Affiché directement en premier sous la vidéo) */}
+            <section className="section-bienvenue" id="bienvenue-section">
+                <div className="container">
+                    <div className="bienvenue-grid">
+                        {/* Portrait Harmonie */}
+                        <div className="bienvenue-media">
+                            <div className="portrait-frame-bespoke">
+                                <Image
+                                    src={siteInfo?.about_image || '/images/harmonie-portrait.jpg'}
+                                    alt="Harmonie - Fondatrice de La Parenthèse Harmonieuse"
+                                    width={480}
+                                    height={580}
+                                    className="portrait-img-bespoke"
+                                    priority
+                                />
+                                <div className="portrait-matting" />
+                                <div className="portrait-caption-box">
+                                    <span className="caption-name">Harmonie</span>
+                                    <span className="caption-sub">Fondatrice &amp; Praticienne Bien-Être Certifiée</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Récit & Philosophie */}
+                        <div className="bienvenue-content">
+                            <span className="editorial-kicker">LE COCON BIEN-ÊTRE</span>
+                            <h2 className="bienvenue-title">
+                                Une écoute sincère, <br />
+                                <span className="title-serif">un toucher d&apos;exception</span>
+                            </h2>
+                            <div className="editorial-gold-line left-aligned" />
+
+                            <p className="bienvenue-lead">
+                                Je vous accueille dans un petit cocon chaleureux, exclusivement dédié aux femmes, au Pôle Santé Guynemer à Salon-de-Provence.
+                            </p>
+                            <p className="bienvenue-p">
+                                Après plus de 10 ans d&apos;exercice passionné au sein d&apos;instituts reconnus et de spas d&apos;hôtels étoilés, j&apos;ai souhaité créer un lieu à taille humaine, où l&apos;on ne se presse jamais.
+                            </p>
+                            <p className="bienvenue-p">
+                                Chaque soin est pensé sur mesure, adapté à vos besoins physiques et émotionnels du moment. L&apos;écoute attentive, la douceur et la bienveillance sont au cœur de chaque rendez-vous, pour faire de ce moment une véritable bulle hors du temps.
+                            </p>
+
+                            {/* Piliers d'Excellence Épurés (Zéro numéro 01 02 03) */}
+                            <div className="editorial-pillars-list">
+                                <div className="pillar-row">
+                                    <div className="pillar-bullet" aria-hidden="true" />
+                                    <div>
+                                        <h4 className="pillar-heading">Gestuelle Sur-Mesure</h4>
+                                        <p className="pillar-desc">Bilan attentif préalable pour cibler vos zones de tension et adapter le rythme ainsi que la pression.</p>
+                                    </div>
+                                </div>
+                                <div className="pillar-row">
+                                    <div className="pillar-bullet" aria-hidden="true" />
+                                    <div>
+                                        <h4 className="pillar-heading">Cocon Privatif Exclusif</h4>
+                                        <p className="pillar-desc">Un espace intime et sécurisant dédié à une seule cliente à la fois pour un lâcher-prise total sans précipitation.</p>
+                                    </div>
+                                </div>
+                                <div className="pillar-row">
+                                    <div className="pillar-bullet" aria-hidden="true" />
+                                    <div>
+                                        <h4 className="pillar-heading">Cosmétiques Biologiques</h4>
+                                        <p className="pillar-desc">Partenariats d&apos;excellence avec Nohèm (certifié BIO Ecocert) et Green Spa pour respecter votre peau et la planète.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bienvenue-actions">
+                                <Link href="/mon-approche" className="btn-auberge-reserve">
+                                    DÉCOUVRIR MON APPROCHE
+                                </Link>
+                                <a href={planityUrl} target="_blank" rel="noopener noreferrer" className="btn-auberge-gift">
+                                    PRENDRE RENDEZ-VOUS
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 3. BANDEROLE TRIPTYQUE PHOTOGRAPHIQUE (Atmosphère & Liens d'Excellence) */}
+            <section className="section-auberge-triptych">
+                <div className="triptych-row">
+                    <Link href="/mon-approche" className="triptych-tile">
+                        <Image
+                            src="/images/spa-huiles.jpg"
+                            alt="Mon Histoire & Approche"
+                            fill
+                            priority
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            className="triptych-img"
+                        />
+                        <div className="triptych-overlay">
+                            <span className="triptych-kicker">PHILOSOPHIE DU COCON</span>
+                            <h3 className="triptych-title">MON HISTOIRE &amp; MON APPROCHE</h3>
+                            <span className="triptych-cta">Découvrir le parcours →</span>
+                        </div>
+                    </Link>
+
+                    <Link href="/carte-des-soins" className="triptych-tile">
+                        <Image
+                            src="/images/massage-detente.jpg"
+                            alt="La Carte des Soins et Tarifs"
+                            fill
+                            priority
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            className="triptych-img"
+                        />
+                        <div className="triptych-overlay">
+                            <span className="triptych-kicker">RITUELS &amp; MASSAGES</span>
+                            <h3 className="triptych-title">CARTE DES SOINS &amp; TARIFS</h3>
+                            <span className="triptych-cta">Explorer tous les protocoles →</span>
+                        </div>
+                    </Link>
+
+                    <Link href="/carte-cadeau" className="triptych-tile">
+                        <Image
+                            src="/images/maternite-douceur.jpg"
+                            alt="Offrir une Carte Cadeau"
+                            fill
+                            priority
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            className="triptych-img"
+                        />
+                        <div className="triptych-overlay">
+                            <span className="triptych-kicker">ATTENTION DÉLICATE</span>
+                            <h3 className="triptych-title">OFFRIR UNE PARENTHÈSE</h3>
+                            <span className="triptych-cta">Pochettes &amp; bons en ligne →</span>
+                        </div>
+                    </Link>
+                </div>
+            </section>
+
+            {/* 4. PRENDRE RENDEZ-VOUS (Formules Solo & Carte Cadeau - Pas d'option Duo) */}
+            <section className="section-auberge-rdv">
+                <div className="container">
+                    <div className="section-header-editorial">
+                        <span className="editorial-kicker">DISPONIBILITÉS &amp; FORMULES</span>
+                        <h2 className="editorial-title">
+                            Prendre <span className="title-serif">Rendez-Vous</span>
+                        </h2>
+                        <div className="editorial-gold-line" />
+                    </div>
+
+                    <div className="rdv-twins-grid">
+                        {/* 1. Solo */}
+                        <div className="rdv-card">
+                            <div className="rdv-circle-icon">
+                                <User size={26} strokeWidth={1.5} />
+                            </div>
+                            <h3 className="rdv-card-title">En Solo</h3>
+                            <p className="rdv-card-text">
+                                Un moment d&apos;évasion rien que pour vous. Déconnectez du quotidien le temps d&apos;un massage composé sur-mesure dans un cocon privatif dédié aux femmes.
+                            </p>
+                            <a
+                                href={planityUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-rdv-action"
+                            >
+                                RÉSERVER SUR PLANITY
+                            </a>
+                        </div>
+
+                        {/* 2. Carte Cadeau */}
+                        <div className="rdv-card">
+                            <div className="rdv-circle-icon">
+                                <Gift size={26} strokeWidth={1.5} />
+                            </div>
+                            <h3 className="rdv-card-title">J&apos;ai une Carte Cadeau</h3>
+                            <p className="rdv-card-text">
+                                Vous avez reçu une jolie pochette ou un bon numérique ? Activez votre séance et choisissez votre moment en prenant contact directement.
+                            </p>
+                            <Link
+                                href="/contact"
+                                className="btn-rdv-action"
+                            >
+                                PRENDRE CONTACT
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 5. VOS COUPS DE CŒUR (Sélection signature épurée renvoyant vers la carte des soins) */}
             <section className="section-coups-de-coeur" id="coups-de-coeur-section">
                 <div className="container">
                     <div className="section-header-editorial">
@@ -48,29 +227,13 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                         </h2>
                         <div className="editorial-gold-line" />
                         <p className="editorial-lead">
-                            Les rituels et modelages les plus plébiscités par nos clientes pour dénouer les tensions, apaiser l&apos;esprit et retrouver une harmonie profonde.
+                            Une sélection de nos rituels et modelages les plus plébiscités pour dénouer les tensions, apaiser l&apos;esprit et retrouver une harmonie profonde.
                         </p>
-
-                        {/* Onglets Filtres Élégants */}
-                        <div className="soins-filter-bar" role="tablist">
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat.id}
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={activeCategory === cat.id}
-                                    className={`soins-filter-pill ${activeCategory === cat.id ? 'active' : ''}`}
-                                    onClick={() => setActiveCategory(cat.id)}
-                                >
-                                    {cat.label}
-                                </button>
-                            ))}
-                        </div>
                     </div>
 
-                    {/* Grille Style Auberge de Beauté (Cartes carrées/portrait épurées) */}
+                    {/* Grille des 3 rituels coups de cœur */}
                     <div className="soins-auberge-grid">
-                        {filteredServices.map((service) => (
+                        {signatureServices.map((service) => (
                             <article key={service.id} className="soin-auberge-card">
                                 <div className="soin-auberge-media">
                                     <Image
@@ -105,7 +268,7 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                                         </div>
                                     </div>
 
-                                    {/* Boutons Haute Beauté : RÉSERVER et OFFRIR côte à côte */}
+                                    {/* Boutons Haute Beauté : RÉSERVER et OFFRIR */}
                                     <div className="soin-auberge-actions">
                                         <a
                                             href={service.planity_url || planityUrl}
@@ -144,205 +307,7 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                 </div>
             </section>
 
-            {/* 3. PRENDRE RENDEZ-VOUS (Signature Auberge de Beauté) */}
-            <section className="section-auberge-rdv">
-                <div className="container">
-                    <div className="section-header-editorial">
-                        <span className="editorial-kicker">DISPONIBILITÉS &amp; FORMULES</span>
-                        <h2 className="editorial-title">
-                            Prendre <span className="title-serif">Rendez-Vous</span>
-                        </h2>
-                        <div className="editorial-gold-line" />
-                    </div>
-
-                    <div className="rdv-triptych-grid">
-                        {/* 1. Solo */}
-                        <div className="rdv-card">
-                            <div className="rdv-circle-icon">
-                                <User size={24} strokeWidth={1.5} />
-                            </div>
-                            <h3 className="rdv-card-title">En Solo</h3>
-                            <p className="rdv-card-text">
-                                Un moment d&apos;évasion rien que pour vous. Déconnectez du quotidien le temps d&apos;un massage composé sur-mesure.
-                            </p>
-                            <a
-                                href={planityUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-rdv-action"
-                            >
-                                RÉSERVER
-                            </a>
-                        </div>
-
-                        {/* 2. Duo */}
-                        <div className="rdv-card">
-                            <div className="rdv-circle-icon">
-                                <Users size={24} strokeWidth={1.5} />
-                            </div>
-                            <h3 className="rdv-card-title">En Duo / Complice</h3>
-                            <p className="rdv-card-text">
-                                Partagez une parenthèse de sérénité et de lâcher-prise en duo : entre amies, mère &amp; fille ou en couple.
-                            </p>
-                            <Link
-                                href="/contact"
-                                className="btn-rdv-action"
-                            >
-                                CONTACTEZ-NOUS
-                            </Link>
-                        </div>
-
-                        {/* 3. Carte Cadeau */}
-                        <div className="rdv-card">
-                            <div className="rdv-circle-icon">
-                                <Gift size={24} strokeWidth={1.5} />
-                            </div>
-                            <h3 className="rdv-card-title">J&apos;ai une Carte Cadeau</h3>
-                            <p className="rdv-card-text">
-                                Vous avez reçu une jolie pochette ou un bon numérique ? Activez votre séance et choisissez votre moment.
-                            </p>
-                            <Link
-                                href="/contact"
-                                className="btn-rdv-action"
-                            >
-                                PRENDRE CONTACT
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* 4. TRIPTYQUE PHOTOGRAPHIQUE (Atmosphère & Histoire - comme Auberge de Beauté) */}
-            <section className="section-auberge-triptych">
-                <div className="triptych-row">
-                    <Link href="/mon-approche" className="triptych-tile">
-                        <Image
-                            src="/images/spa-huiles.jpg"
-                            alt="Mon Histoire & Approche"
-                            fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            className="triptych-img"
-                        />
-                        <div className="triptych-overlay">
-                            <span className="triptych-kicker">PHILOSOPHIE DU COCON</span>
-                            <h3 className="triptych-title">MON HISTOIRE &amp; MON APPROCHE</h3>
-                            <span className="triptych-cta">Découvrir le parcours →</span>
-                        </div>
-                    </Link>
-
-                    <Link href="/carte-des-soins" className="triptych-tile">
-                        <Image
-                            src="/images/massage-detente.jpg"
-                            alt="La Carte des Soins et Tarifs"
-                            fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            className="triptych-img"
-                        />
-                        <div className="triptych-overlay">
-                            <span className="triptych-kicker">RITUELS &amp; MASSAGES</span>
-                            <h3 className="triptych-title">CARTE DES SOINS &amp; TARIFS</h3>
-                            <span className="triptych-cta">Explorer tous les protocoles →</span>
-                        </div>
-                    </Link>
-
-                    <Link href="/carte-cadeau" className="triptych-tile">
-                        <Image
-                            src="/images/maternite-douceur.jpg"
-                            alt="Offrir une Carte Cadeau"
-                            fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            className="triptych-img"
-                        />
-                        <div className="triptych-overlay">
-                            <span className="triptych-kicker">ATTENTION DÉLICATE</span>
-                            <h3 className="triptych-title">OFFRIR UNE PARENTHÈSE</h3>
-                            <span className="triptych-cta">Pochettes &amp; bons en ligne →</span>
-                        </div>
-                    </Link>
-                </div>
-            </section>
-
-            {/* 5. L'APPROCHE D'HARMONIE (Éditorial & Cocon Privatif) */}
-            <section className="section-bienvenue" id="bienvenue-section">
-                <div className="container">
-                    <div className="bienvenue-grid">
-                        {/* Portrait Harmonie - Cadre Architectural Rectangulaire Noble */}
-                        <div className="bienvenue-media">
-                            <div className="portrait-frame-bespoke">
-                                <Image
-                                    src="/images/harmonie-portrait.jpg"
-                                    alt="Harmonie - Fondatrice de La Parenthèse Harmonieuse"
-                                    width={480}
-                                    height={580}
-                                    className="portrait-img-bespoke"
-                                    priority
-                                />
-                                <div className="portrait-matting" />
-                                <div className="portrait-caption-box">
-                                    <span className="caption-name">Harmonie</span>
-                                    <span className="caption-sub">Fondatrice &amp; Praticienne Bien-Être Certifiée</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Récit & Philosophie */}
-                        <div className="bienvenue-content">
-                            <span className="editorial-kicker">LE COCON BIEN-ÊTRE</span>
-                            <h2 className="bienvenue-title">
-                                Une écoute sincère, <br />
-                                <span className="title-serif">un toucher d&apos;exception</span>
-                            </h2>
-                            <div className="editorial-gold-line left-aligned" />
-
-                            <p className="bienvenue-lead">
-                                Je vous accueille dans un petit cocon chaleureux, exclusivement dédié aux femmes, au Pôle Santé Guynemer à Salon-de-Provence.
-                            </p>
-                            <p className="bienvenue-p">
-                                Après plus de 10 ans d&apos;exercice passionné au sein d&apos;instituts reconnus et de spas d&apos;hôtels étoilés, j&apos;ai souhaité créer un lieu à taille humaine, où l&apos;on ne se presse jamais.
-                            </p>
-                            <p className="bienvenue-p">
-                                Chaque soin est pensé sur mesure, adapté à vos besoins physiques et émotionnels du moment. L&apos;écoute attentive, la douceur et la bienveillance sont au cœur de chaque rendez-vous, pour faire de ce moment une véritable bulle hors du temps.
-                            </p>
-
-                            {/* 3 Piliers Éditoriaux Aérés (Zéro icône cartoon) */}
-                            <div className="editorial-pillars-list">
-                                <div className="pillar-row">
-                                    <span className="pillar-num">01</span>
-                                    <div>
-                                        <h4 className="pillar-heading">Gestuelle Sur-Mesure</h4>
-                                        <p className="pillar-desc">Bilan attentif préalable pour cibler vos zones de tension et adapter le rythme ainsi que la pression.</p>
-                                    </div>
-                                </div>
-                                <div className="pillar-row">
-                                    <span className="pillar-num">02</span>
-                                    <div>
-                                        <h4 className="pillar-heading">Cocon Privatif Exclusif</h4>
-                                        <p className="pillar-desc">Un espace intime et sécurisant dédié à une seule cliente à la fois pour un lâcher-prise total sans précipitation.</p>
-                                    </div>
-                                </div>
-                                <div className="pillar-row">
-                                    <span className="pillar-num">03</span>
-                                    <div>
-                                        <h4 className="pillar-heading">Cosmétiques Biologiques</h4>
-                                        <p className="pillar-desc">Partenariats d&apos;excellence avec Nohèm (certifié BIO Ecocert) et Green Spa pour respecter votre peau et la planète.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bienvenue-actions">
-                                <Link href="/mon-approche" className="btn-auberge-reserve">
-                                    DÉCOUVRIR MON APPROCHE
-                                </Link>
-                                <a href={planityUrl} target="_blank" rel="noopener noreferrer" className="btn-auberge-gift">
-                                    PRENDRE RENDEZ-VOUS
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* 6. AVIS & RETOURS CLIENTES (Livre d'or Élégance) */}
+            {/* 6. AVIS & RETOURS CLIENTES (Limité à 3 témoignages pour un scroll agréable sur mobile) */}
             <section className="section-avis">
                 <div className="container">
                     <div className="section-header-editorial">
@@ -362,7 +327,7 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                     </div>
 
                     <div className="testimonials-grid-bespoke">
-                        {testimonials.map((testi) => (
+                        {limitedTestimonials.map((testi) => (
                             <div key={testi.id} className="testimonial-card-bespoke">
                                 <div className="testi-stars-row">
                                     {[...Array(testi.rating || 5)].map((_, i) => (
@@ -392,7 +357,7 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                 </div>
             </section>
 
-            {/* 7. L'ÉCRIN DU SALON (Salon-de-Provence) */}
+            {/* 7. L'ÉCRIN DU SALON (Avec la plaque officielle du cabinet au Pôle Santé Guynemer) */}
             <section className="section-institut">
                 <div className="container">
                     <div className="institut-grid">
@@ -437,14 +402,14 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                         <div className="institut-gallery-bespoke">
                             <div className="gallery-main-img-bespoke">
                                 <Image
-                                    src="/images/cabine-soin.jpg"
-                                    alt="La cabine de soin La Parenthèse Harmonieuse"
-                                    width={560}
-                                    height={400}
+                                    src="/images/plaque-institut.png"
+                                    alt="Plaque officielle La Parenthèse Harmonieuse - Pôle Santé Georges Guynemer"
+                                    width={640}
+                                    height={460}
                                     className="inst-img-bespoke"
                                 />
                                 <div className="gallery-caption-overlay">
-                                    <span>Cabine privative · Ambiance feutrée &amp; table chauffante</span>
+                                    <span>Plaque officielle · Pôle Santé Georges Guynemer, Salon-de-Provence</span>
                                 </div>
                             </div>
                         </div>

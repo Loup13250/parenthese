@@ -16,55 +16,47 @@ export default async function CarteCadeauPage() {
 
     return (
         <div className="cadeau-page">
-            {/* Luminous Palace Hero */}
-            <section className="cadeau-page-hero">
-                <div className="container cadeau-hero-container">
-                    <div className="cadeau-hero-badge">
-                        <Sparkles size={14} className="hero-sparkle" />
-                        <span>BONS CADEAUX HAUTE BEAUTÉ</span>
-                    </div>
-                    <h1 className="cadeau-page-title">
-                        Offrir une <br />
-                        <span className="title-serif">Parenthèse de Douceur</span>
-                    </h1>
-                    <p className="cadeau-page-sub">
-                        Faites plaisir à une femme qui vous est chère en lui offrant une bulle hors du temps, sur mesure et sans compromis à Salon-de-Provence.
-                    </p>
-                    <div className="cadeau-hero-reassurance">
-                        <span>Valable 6 mois</span>
-                        <span className="reassurance-dot">•</span>
-                        <span>Sur tous les rituels</span>
-                        <span className="reassurance-dot">•</span>
-                        <span>Écrin raffiné ou e-bon instantané</span>
-                    </div>
-                </div>
-            </section>
-
-            {/* Explanation Section */}
+            {/* Explanation & Formats Section démarrant directement en haut */}
             <section className="cadeau-details-section">
                 <div className="container">
+                    {/* Header compact intégré (Zéro espace vide en haut) */}
+                    <div className="cadeau-compact-header-wrap">
+                        <div>
+                            <span className="cadeau-kicker">BONS CADEAUX HAUTE BEAUTÉ</span>
+                            <h1 className="cadeau-compact-title">
+                                Offrir une <span className="title-serif">Parenthèse de Douceur</span>
+                            </h1>
+                        </div>
+                        <div className="cadeau-badges-strip">
+                            <span className="badge-chip">Valable 6 mois</span>
+                            <span className="badge-chip-dot">•</span>
+                            <span className="badge-chip">Sur tous les rituels</span>
+                            <span className="badge-chip-dot">•</span>
+                            <span className="badge-chip">Écrin physique ou e-bon</span>
+                        </div>
+                    </div>
                     <div className="cadeau-intro-card">
                         <div className="cadeau-intro-icon">
-                            <Gift size={32} />
+                            <Gift size={30} />
                         </div>
-                        <h2>Vous cherchez une idée cadeau pleine d&apos;émotion et de sens ?</h2>
+                        <h2>Offrez une bulle hors du temps, sur mesure et sans compromis</h2>
                         <p className="cadeau-intro-lead">
-                            Un moment de détente profonde, de déconnexion et de ressourcement. Nos bons cadeaux sont valables sur l&apos;ensemble de la carte des soins ou pour un montant personnalisé.
+                            Un moment d&apos;évasion profonde et de ressourcement dédié aux femmes à Salon-de-Provence. Nos bons cadeaux sont valables sur l&apos;ensemble de la carte des soins ou pour un montant libre.
                         </p>
 
                         <div className="occasions-pills">
                             <span className="occasion-pill">Anniversaire</span>
                             <span className="occasion-pill">Fête des mères</span>
-                            <span className="occasion-pill">Grossesse & Maternité</span>
-                            <span className="occasion-pill">Noël & Fêtes</span>
+                            <span className="occasion-pill">Grossesse &amp; Maternité</span>
+                            <span className="occasion-pill">Noël &amp; Fêtes</span>
                             <span className="occasion-pill">Remerciement</span>
                             <span className="occasion-pill">Délicate attention</span>
                         </div>
                     </div>
 
                     {/* Les 2 Formats */}
-                    <div className="section-header-center" style={{ marginTop: '5.5rem', marginBottom: '3.5rem' }}>
-                        <span className="section-tag">FLEXIBILITÉ & ÉLÉGANCE</span>
+                    <div className="section-header-center" style={{ marginTop: '3.5rem', marginBottom: '2.5rem' }}>
+                        <span className="section-tag">FLEXIBILITÉ &amp; ÉLÉGANCE</span>
                         <h2 className="section-title">
                             Deux formats <span className="title-serif">selon vos envies</span>
                         </h2>
@@ -102,7 +94,7 @@ export default async function CarteCadeauPage() {
                                 </li>
                                 <li>
                                     <CheckCircle2 size={16} />
-                                    <span>Retrait rapide au Pôle Santé (sur simple appel)</span>
+                                    <span>Retrait rapide au Pôle Santé Guynemer (sur simple appel)</span>
                                 </li>
                             </ul>
 
@@ -123,7 +115,7 @@ export default async function CarteCadeauPage() {
                                 <Calendar size={28} />
                             </div>
                             <h3>La Carte Cadeau Digitale</h3>
-                            <p className="format-subtitle">Achat en ligne 24h/24 & Réception immédiate</p>
+                            <p className="format-subtitle">Achat en ligne 24h/24 &amp; Réception immédiate</p>
 
                             <p className="format-desc">
                                 Idéal pour un cadeau de dernière minute ou si vous vivez loin. Vous commandez directement en ligne sur Planity et recevez le bon par email à imprimer ou à transférer.
@@ -177,7 +169,7 @@ export default async function CarteCadeauPage() {
                             </div>
 
                             <div className="suggestion-item">
-                                <span className="sugg-category">FORMULE DUO</span>
+                                <span className="sugg-category">RITUEL CORPS &amp; VISAGE</span>
                                 <h4>Pack Le Cocoon (1h30)</h4>
                                 <p>45 min Massage Sur Mesure + 45 min Soin Visage Éclat avec Nohèm BIO.</p>
                                 <span className="sugg-price">95 €</span>

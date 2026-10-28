@@ -397,10 +397,25 @@
     margin: 0 auto;
 }
 
+.rdv-twins-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.25rem;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
 @media (max-width: 900px) {
     .rdv-triptych-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .rdv-twins-grid {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
     }
 }
 
@@ -677,6 +692,16 @@
     display: flex;
     align-items: flex-start;
     gap: 1.25rem;
+}
+
+.pillar-bullet {
+    width: 7px;
+    height: 7px;
+    background: #8E662F;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.35rem;
+    box-shadow: 0 0 0 3px rgba(142, 102, 47, 0.2);
 }
 
 .pillar-num {

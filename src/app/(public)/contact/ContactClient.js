@@ -12,40 +12,32 @@ export default function ContactClient({ info }) {
 
     return (
         <main className="contact-page-main">
-            {/* Luminous Palace Hero */}
-            <section className="contact-hero">
-                <div className="container contact-hero-container">
-                    <div className="contact-hero-badge">
-                        <ShieldCheck size={14} className="hero-sparkle" />
-                        <span>INSTITUT PRIVÉ • SALON-DE-PROVENCE</span>
-                    </div>
-                    <h1 className="contact-hero-title">
-                        Me Contacter & <br />
-                        <span className="title-serif">Venir à l&apos;Institut</span>
-                    </h1>
-                    <p className="contact-hero-sub">
-                        Situé au sein du Pôle Santé Georges Guynemer à Salon-de-Provence, l&apos;institut vous accueille sur rendez-vous dans un cocon intime et sécurisant.
-                    </p>
-                    <div className="contact-hero-reassurance">
-                        <span>Parking gratuit sur place</span>
-                        <span className="reassurance-dot">•</span>
-                        <span>Accès PMR</span>
-                        <span className="reassurance-dot">•</span>
-                        <span>Sur rendez-vous du Mardi au Samedi</span>
-                    </div>
-                </div>
-            </section>
-
-            {/* Content Grid */}
             <section className="contact-content-section">
                 <div className="container">
+                    {/* Header compact intégré (Zéro espace vide en haut) */}
+                    <div className="contact-compact-header-wrap">
+                        <div>
+                            <span className="contact-kicker">INSTITUT PRIVÉ • SALON-DE-PROVENCE</span>
+                            <h1 className="contact-compact-title">
+                                Me Contacter &amp; <span className="title-serif">Venir à l&apos;Institut</span>
+                            </h1>
+                        </div>
+                        <div className="contact-badges-strip">
+                            <span className="badge-chip">Parking gratuit</span>
+                            <span className="badge-chip-dot">•</span>
+                            <span className="badge-chip">Accès PMR</span>
+                            <span className="badge-chip-dot">•</span>
+                            <span className="badge-chip">Mardi au Samedi sur RDV</span>
+                        </div>
+                    </div>
+
                     <div className="contact-dual-layout">
-                        {/* Formulaire à gauche */}
+                        {/* Formulaire de contact à gauche */}
                         <div className="contact-form-column">
                             <ContactForm />
                         </div>
 
-                        {/* Coordonnées & Horaires à droite */}
+                        {/* Coordonnées, Planning & Accès à droite - Parfaitement alignés */}
                         <div className="contact-info-column">
                             {/* Rendez-vous prioritaire Planity */}
                             <div className="info-box planity-box">
@@ -65,60 +57,70 @@ export default function ContactClient({ info }) {
                                 </a>
                             </div>
 
-                            {/* Coordonnées directes */}
+                            {/* Coordonnées directes - Alignement icône + texte impeccable */}
                             <div className="info-box">
                                 <span className="box-badge">COORDONNÉES</span>
                                 <h3>Contact direct</h3>
-                                <ul className="info-list">
-                                    <li>
+                                <div className="info-list-stacked">
+                                    <div className="info-item-row">
                                         <div className="icon-circle">
-                                            <Phone size={16} />
+                                            <Phone size={17} />
                                         </div>
-                                        <div>
+                                        <div className="info-item-text">
                                             <span className="info-label">Téléphone</span>
                                             <a href={`tel:${phoneTel}`} className="info-link-highlight">{phone}</a>
                                         </div>
-                                    </li>
-                                    <li>
+                                    </div>
+
+                                    <div className="info-item-row">
                                         <div className="icon-circle">
-                                            <Mail size={16} />
+                                            <Mail size={17} />
                                         </div>
-                                        <div>
+                                        <div className="info-item-text">
                                             <span className="info-label">Email</span>
                                             <a href={`mailto:${email}`} className="info-link">{email}</a>
                                         </div>
-                                    </li>
-                                    <li>
+                                    </div>
+
+                                    <div className="info-item-row">
                                         <div className="icon-circle">
-                                            <Instagram size={16} />
+                                            <Instagram size={17} />
                                         </div>
-                                        <div>
+                                        <div className="info-item-text">
                                             <span className="info-label">Instagram</span>
                                             <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="info-link">
                                                 @laparentheseharmonieuse
                                             </a>
                                         </div>
-                                    </li>
-                                </ul>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Adresse & Parking */}
                             <div className="info-box">
-                                <span className="box-badge">ACCÈS & PARKING</span>
+                                <span className="box-badge">ACCÈS &amp; PARKING</span>
                                 <h3>Localisation</h3>
-                                <div className="address-block">
-                                    <MapPin size={18} className="map-icon" />
-                                    <p>
-                                        <strong>La Parenthèse Harmonieuse</strong><br />
-                                        418 Avenue Georges Guynemer<br />
-                                        Au sein du Pôle Santé Georges Guynemer<br />
-                                        13300 Salon-de-Provence
-                                    </p>
+                                <div className="info-item-row address-row">
+                                    <div className="icon-circle">
+                                        <MapPin size={18} />
+                                    </div>
+                                    <div className="info-item-text">
+                                        <p className="address-text">
+                                            <strong>La Parenthèse Harmonieuse</strong><br />
+                                            418 Avenue Georges Guynemer<br />
+                                            Au sein du Pôle Santé Georges Guynemer<br />
+                                            13300 Salon-de-Provence
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div className="parking-alert">
-                                    <Car size={16} className="car-icon" />
-                                    <span>Plusieurs places de <strong>parking gratuit</strong> sont disponibles directement devant le pôle santé.</span>
+                                <div className="parking-alert-row">
+                                    <div className="icon-circle icon-circle-small">
+                                        <Car size={16} />
+                                    </div>
+                                    <div className="info-item-text">
+                                        <span>Places de <strong>parking gratuit</strong> réservées devant le pôle santé · Accès PMR de plain-pied.</span>
+                                    </div>
                                 </div>
 
                                 <div className="map-link-wrap">
@@ -136,7 +138,7 @@ export default function ContactClient({ info }) {
                             {/* Horaires */}
                             <div className="info-box">
                                 <span className="box-badge">HORAIRES D&apos;OUVERTURE</span>
-                                <h3>Créneaux de soins</h3>
+                                <h3>Créneaux de soins (sur RDV)</h3>
                                 <div className="hours-grid">
                                     <div className="hour-item">
                                         <span className="day">Mardi</span>
@@ -159,7 +161,7 @@ export default function ContactClient({ info }) {
                                         <span className="hour">09:30 - 14:00</span>
                                     </div>
                                     <div className="hour-item closed">
-                                        <span className="day">Lundi & Dimanche</span>
+                                        <span className="day">Lundi &amp; Dimanche</span>
                                         <span className="hour">Fermé</span>
                                     </div>
                                 </div>

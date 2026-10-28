@@ -2,11 +2,7 @@
 
 import { useState, useRef, useTransition } from 'react';
 import { 
-    updateAboutInfo, 
-    addService, 
-    editService, 
-    deleteService, 
-    reorderService 
+    updateAboutInfo 
 } from '@/app/actions';
 import SiteTextsEditor from '@/components/admin/SiteTextsEditor';
 import ImageCropperModal, { ABOUT_CROP_TARGETS, uid } from '@/components/admin/ImageCropper';
@@ -80,11 +76,6 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    // État des prestations
-    const [isAddingService, setIsAddingService] = useState(false);
-    const [editingService, setEditingService] = useState(null);
-    const [deleteModal, setDeleteModal] = useState(null); // { id, title }
-
     // État de la photo Mon Approche
     const [aboutPhotoPreview, setAboutPhotoPreview] = useState(info?.about_image || null);
     const [selectedPhotoFile, setSelectedPhotoFile] = useState(null);
@@ -92,7 +83,6 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
     const [photoAspect, setPhotoAspect] = useState('4 / 5');
     const [photoRatioLabel, setPhotoRatioLabel] = useState('Format 4:5 (Portrait)');
 
-    const serviceFormRef = useRef(null);
     const storyFormRef = useRef(null);
 
     const showNotification = (msg, isErr = false) => {
@@ -196,55 +186,7 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
         });
     };
 
-    // Gestionnaires des prestations
-    const handleAddService = (e) => {
-        e.preventDefault();
-        setError('');
-        const formData = new FormData(e.target);
-        startTransition(async () => {
-            const res = await addService(formData);
-            if (res?.error) {
-                showNotification(res.error, true);
-            } else {
-                showNotification('Soin ou rituel ajouté avec succès !');
-                setIsAddingService(false);
-                serviceFormRef.current?.reset();
-            }
-        });
-    };
 
-    const handleEditService = (e) => {
-        e.preventDefault();
-        setError('');
-        const formData = new FormData(e.target);
-        startTransition(async () => {
-            const res = await editService(formData);
-            if (res?.error) {
-                showNotification(res.error, true);
-            } else {
-                showNotification('Soin ou rituel mis à jour !');
-                setEditingService(null);
-            }
-        });
-    };
-
-    const handleDeleteService = (id) => {
-        startTransition(async () => {
-            const res = await deleteService(id);
-            if (res?.error) {
-                showNotification(res.error, true);
-            } else {
-                showNotification('Prestation supprimée.');
-                setDeleteModal(null);
-            }
-        });
-    };
-
-    const handleReorderService = (id, direction) => {
-        startTransition(async () => {
-            await reorderService(id, direction);
-        });
-    };
 
     return (
         <div className="anim-fade" style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
@@ -522,344 +464,33 @@ export default function AProposAdminClient({ info = {}, services = [], customTex
                 <SiteTextsEditor sections={ABOUT_PAGE_TEXT_SECTIONS} overrides={customTexts} />
             </div>
 
-            {/* SECTION 2: NOS SOINS & RITUELS */}
-            <div className="admin-card">
-                <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            {/* SECTION 2: LIEN VERS LA CARTE DES SOINS */}
+            <div className="admin-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.25rem', padding: '1.5rem 1.75rem', background: 'linear-gradient(135deg, rgba(200, 169, 110, 0.08) 0%, rgba(200, 169, 110, 0.02) 100%)', border: '1px solid rgba(200, 169, 110, 0.25)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                    <div style={{
+                        width: '48px', height: '48px', borderRadius: '10px',
+                        background: 'rgba(200, 169, 110, 0.15)', color: 'var(--admin-gold)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+                    }}>
+                        <Layers size={24} />
+                    </div>
                     <div>
-                        <h2 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <Layers size={20} style={{ color: 'var(--admin-gold)' }} />
-                            Soins & Rituels Phares
-                        </h2>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>
-                            Sélection des soins phares présentés sur la page Mon Approche
-                        </span>
-                    </div>
-
-                    {!isAddingService && (
-                        <button
-                            type="button"
-                            onClick={() => setIsAddingService(true)}
-                            className="admin-btn admin-btn-primary"
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}
-                        >
-                            <Plus size={16} /> Ajouter une Prestation
-                        </button>
-                    )}
-                </div>
-
-                {/* FORMULAIRE: NOUVELLE PRESTATION */}
-                {isAddingService && (
-                    <div style={{
-                        background: 'var(--admin-surface)',
-                        padding: '1.5rem',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(200, 169, 110, 0.4)',
-                        marginBottom: '2rem'
-                    }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-                            <h3 style={{ fontSize: '1.05rem', color: 'var(--admin-text)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                <Plus size={16} style={{ color: 'var(--admin-gold)' }} />
-                                Nouvelle Prestation
-                            </h3>
-                            <button
-                                type="button"
-                                onClick={() => setIsAddingService(false)}
-                                className="admin-btn admin-btn-secondary"
-                                style={{ padding: '4px 10px', fontSize: '0.8rem' }}
-                            >
-                                <X size={14} /> Annuler
-                            </button>
-                        </div>
-
-                        <form ref={serviceFormRef} onSubmit={handleAddService} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <div className="admin-grid-3col">
-                                <div>
-                                    <label className="admin-label" htmlFor="srv_num">Numéro</label>
-                                    <input id="srv_num" type="text" name="num" placeholder="01" defaultValue={`0${services.length + 1}`} className="admin-input" />
-                                </div>
-                                <div>
-                                    <label className="admin-label" htmlFor="srv_badge_fr">Badge (FR)</label>
-                                    <input id="srv_badge_fr" type="text" name="badge" placeholder="Ex: Sur Mesure" className="admin-input" />
-                                </div>
-                                <div>
-                                    <label className="admin-label" htmlFor="srv_badge_en">Badge (EN)</label>
-                                    <input id="srv_badge_en" type="text" name="badge_en" placeholder="Ex: Tailored" className="admin-input" />
-                                </div>
-                            </div>
-
-                            <div className="admin-grid-2col">
-                                <div>
-                                    <label className="admin-label" htmlFor="srv_title_fr">Titre du soin / massage (FR) *</label>
-                                    <input id="srv_title_fr" type="text" name="title" required placeholder="Ex: Massage Signature Bien-Être" className="admin-input" />
-                                </div>
-                                <div>
-                                    <label className="admin-label" htmlFor="srv_title_en">Titre (EN)</label>
-                                    <input id="srv_title_en" type="text" name="title_en" placeholder="Ex: Signature Wellness Massage" className="admin-input" />
-                                </div>
-                            </div>
-
-                            <div className="admin-grid-2col">
-                                <div>
-                                    <label className="admin-label" htmlFor="srv_desc_fr">Description détaillée (FR) *</label>
-                                    <textarea id="srv_desc_fr" name="description" rows={3} required placeholder="Mouvements enveloppants, huiles végétales bio précieuses, lâcher-prise total..." className="admin-textarea" />
-                                </div>
-                                <div>
-                                    <label className="admin-label" htmlFor="srv_desc_en">Description (EN)</label>
-                                    <textarea id="srv_desc_en" name="description_en" rows={3} placeholder="Enveloping strokes, precious organic botanical oils, deep relaxation..." className="admin-textarea" />
-                                </div>
-                            </div>
-
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
-                                <button type="button" onClick={() => setIsAddingService(false)} className="admin-btn admin-btn-secondary">
-                                    Annuler
-                                </button>
-                                <button type="submit" disabled={isPending} className="admin-btn admin-btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
-                                    {isPending ? <Loader2 size={15} className="spin" /> : <Plus size={15} />}
-                                    Ajouter la prestation
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                )}
-
-                {/* MODAL: MODIFIER UNE PRESTATION */}
-                {editingService && (
-                    <div style={{
-                        position: 'fixed',
-                        inset: 0,
-                        background: 'rgba(0,0,0,0.7)',
-                        backdropFilter: 'blur(4px)',
-                        zIndex: 220,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: '1.5rem'
-                    }}>
-                        <div className="admin-card anim-fade" style={{ maxWidth: '640px', width: '100%', maxHeight: '90vh', overflowY: 'auto' }}>
-                            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <h3 style={{ fontSize: '1.15rem', color: 'var(--admin-text)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <Edit3 size={18} style={{ color: 'var(--admin-gold)' }} />
-                                    Modifier la prestation
-                                </h3>
-                                <button type="button" onClick={() => setEditingService(null)} style={{ background: 'none', border: 'none', color: 'var(--admin-text-muted)', cursor: 'pointer' }}>
-                                    <X size={20} />
-                                </button>
-                            </div>
-
-                            <form onSubmit={handleEditService} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                                <input type="hidden" name="id" value={editingService.id} />
-
-                                <div className="admin-grid-3col">
-                                    <div>
-                                        <label className="admin-label" htmlFor="edit_srv_num">Numéro</label>
-                                        <input id="edit_srv_num" type="text" name="num" defaultValue={editingService.num || '01'} className="admin-input" />
-                                    </div>
-                                    <div>
-                                        <label className="admin-label" htmlFor="edit_srv_badge_fr">Badge (FR)</label>
-                                        <input id="edit_srv_badge_fr" type="text" name="badge" defaultValue={editingService.badge || ''} className="admin-input" />
-                                    </div>
-                                    <div>
-                                        <label className="admin-label" htmlFor="edit_srv_badge_en">Badge (EN)</label>
-                                        <input id="edit_srv_badge_en" type="text" name="badge_en" defaultValue={editingService.badge_en || ''} className="admin-input" />
-                                    </div>
-                                </div>
-
-                                <div className="admin-grid-2col">
-                                    <div>
-                                        <label className="admin-label" htmlFor="edit_srv_title_fr">Titre (FR) *</label>
-                                        <input id="edit_srv_title_fr" type="text" name="title" required defaultValue={editingService.title} className="admin-input" />
-                                    </div>
-                                    <div>
-                                        <label className="admin-label" htmlFor="edit_srv_title_en">Titre (EN)</label>
-                                        <input id="edit_srv_title_en" type="text" name="title_en" defaultValue={editingService.title_en || ''} className="admin-input" />
-                                    </div>
-                                </div>
-
-                                <div className="admin-grid-2col">
-                                    <div>
-                                        <label className="admin-label" htmlFor="edit_srv_desc_fr">Description (FR) *</label>
-                                        <textarea id="edit_srv_desc_fr" name="description" rows={3} required defaultValue={editingService.description} className="admin-textarea" />
-                                    </div>
-                                    <div>
-                                        <label className="admin-label" htmlFor="edit_srv_desc_en">Description (EN)</label>
-                                        <textarea id="edit_srv_desc_en" name="description_en" rows={3} defaultValue={editingService.description_en || ''} className="admin-textarea" />
-                                    </div>
-                                </div>
-
-                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.75rem' }}>
-                                    <button type="button" onClick={() => setEditingService(null)} className="admin-btn admin-btn-secondary">
-                                        Annuler
-                                    </button>
-                                    <button type="submit" disabled={isPending} className="admin-btn admin-btn-primary">
-                                        {isPending ? <Loader2 size={15} className="spin" /> : <CheckCircle2 size={15} />}
-                                        Enregistrer
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                )}
-
-                {/* LISTE DES PRESTATIONS */}
-                {services.length === 0 ? (
-                    <div style={{ textAlign: 'center', padding: '2.5rem 1rem' }}>
-                        <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.9rem' }}>
-                            Aucune prestation enregistrée pour l&apos;instant.
-                        </p>
-                    </div>
-                ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                        {services.map((srv, idx) => (
-                            <div
-                                key={srv.id}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    padding: '1rem 1.25rem',
-                                    borderRadius: '8px',
-                                    border: '1px solid var(--admin-border)',
-                                    background: 'var(--admin-surface)',
-                                    gap: '1rem',
-                                    flexWrap: 'wrap'
-                                }}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, minWidth: '260px' }}>
-                                    {/* Flèches de réorganisation */}
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleReorderService(srv.id, 'up')}
-                                            disabled={idx === 0 || isPending}
-                                            aria-label="Monter"
-                                            style={{
-                                                background: 'none',
-                                                border: '1px solid var(--admin-border)',
-                                                borderRadius: '3px',
-                                                padding: '2px',
-                                                cursor: idx === 0 ? 'not-allowed' : 'pointer',
-                                                color: idx === 0 ? 'var(--admin-border)' : 'var(--admin-text)',
-                                                opacity: idx === 0 ? 0.4 : 1,
-                                            }}
-                                        >
-                                            <ArrowUp size={13} />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleReorderService(srv.id, 'down')}
-                                            disabled={idx === services.length - 1 || isPending}
-                                            aria-label="Descendre"
-                                            style={{
-                                                background: 'none',
-                                                border: '1px solid var(--admin-border)',
-                                                borderRadius: '3px',
-                                                padding: '2px',
-                                                cursor: idx === services.length - 1 ? 'not-allowed' : 'pointer',
-                                                color: idx === services.length - 1 ? 'var(--admin-border)' : 'var(--admin-text)',
-                                                opacity: idx === services.length - 1 ? 0.4 : 1,
-                                            }}
-                                        >
-                                            <ArrowDown size={13} />
-                                        </button>
-                                    </div>
-
-                                    {/* Pastille de numéro */}
-                                    <span style={{
-                                        fontSize: '1rem',
-                                        fontWeight: '700',
-                                        fontFamily: 'var(--font-heading)',
-                                        color: 'var(--admin-gold)',
-                                        background: 'rgba(200, 169, 110, 0.1)',
-                                        padding: '4px 10px',
-                                        borderRadius: '6px',
-                                        minWidth: '38px',
-                                        textAlign: 'center'
-                                    }}>
-                                        {srv.num || `0${idx + 1}`}
-                                    </span>
-
-                                    <div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem' }}>
-                                            <strong style={{ fontSize: '0.98rem', color: 'var(--admin-text)' }}>{srv.title}</strong>
-                                            {srv.badge && (
-                                                <span style={{ fontSize: '0.7rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(200, 169, 110, 0.15)', color: 'var(--admin-gold)', fontWeight: '600' }}>
-                                                    {srv.badge}
-                                                </span>
-                                            )}
-                                        </div>
-                                        <p style={{ fontSize: '0.82rem', color: 'var(--admin-text-muted)', margin: 0, maxWidth: '600px' }}>
-                                            {srv.description}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <button
-                                        type="button"
-                                        onClick={() => setEditingService(srv)}
-                                        className="admin-btn admin-btn-secondary"
-                                        style={{ padding: '6px 12px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}
-                                    >
-                                        <Edit3 size={14} /> Modifier
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setDeleteModal({ id: srv.id, title: srv.title })}
-                                        className="admin-btn admin-btn-danger"
-                                        aria-label="Supprimer cette prestation"
-                                        style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-
-            {/* CONFIRMATION SUPPRESSION PRESTATION */}
-            {deleteModal && (
-                <div style={{
-                    position: 'fixed',
-                    inset: 0,
-                    background: 'rgba(0,0,0,0.7)',
-                    backdropFilter: 'blur(4px)',
-                    zIndex: 250,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '1.5rem'
-                }}>
-                    <div className="admin-card anim-fade" style={{ maxWidth: '400px', width: '100%' }}>
-                        <h3 style={{ fontSize: '1.15rem', color: 'var(--admin-text)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <AlertCircle size={20} style={{ color: '#C4593A' }} />
-                            Supprimer la prestation
+                        <h3 style={{ fontSize: '1.05rem', color: 'var(--admin-text)', margin: '0 0 0.25rem', fontWeight: '600' }}>
+                            Gestion des Soins &amp; Rituels
                         </h3>
-                        <p style={{ fontSize: '0.9rem', color: 'var(--admin-text-muted)', lineHeight: '1.5', marginBottom: '1.5rem' }}>
-                            Es-tu sûr(e) de vouloir supprimer <strong>&quot;{deleteModal.title}&quot;</strong> ?
+                        <p style={{ fontSize: '0.88rem', color: 'var(--admin-text-muted)', margin: 0 }}>
+                            La carte complète des soins (tarifs, durées, descriptions, photos et coups de cœur accueil) se gère directement dans l&apos;onglet dédié.
                         </p>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
-                            <button
-                                type="button"
-                                onClick={() => setDeleteModal(null)}
-                                className="admin-btn admin-btn-secondary"
-                            >
-                                Annuler
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleDeleteService(deleteModal.id)}
-                                disabled={isPending}
-                                className="admin-btn admin-btn-danger"
-                            >
-                                {isPending ? <Loader2 size={14} className="spin" /> : <Trash2 size={14} />}
-                                Supprimer
-                            </button>
-                        </div>
                     </div>
                 </div>
-            )}
+                <Link
+                    href="/admin/dashboard/prestations"
+                    className="admin-btn admin-btn-primary"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', whiteSpace: 'nowrap' }}
+                >
+                    <Sparkles size={16} /> Ouvrir la Carte des Soins
+                </Link>
+            </div>
             {/* Modal de recadrage ergonomique */}
             {cropper && (
                 <ImageCropperModal

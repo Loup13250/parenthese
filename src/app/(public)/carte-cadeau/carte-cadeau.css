@@ -6,84 +6,80 @@
 
 .cadeau-page {
     background-color: #FAF7F2;
-    padding-top: 105px; /* Dégagement parfait sous le header fixe */
-}
-
-/* Luminous Palace Hero */
-.cadeau-page-hero {
-    background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
-    color: #2C2623;
-    padding: 5rem 0 4.5rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(197, 168, 128, 0.22);
-}
-
-.cadeau-hero-container {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.cadeau-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.4);
-    padding: 0.45rem 1.35rem;
-    border-radius: 2px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #8E662F;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
-}
-
-.cadeau-page-title {
-    font-family: var(--font-cormorant), Georgia, serif;
-    font-size: clamp(2.6rem, 5vw, 4.2rem);
-    font-weight: 400;
-    line-height: 1.15;
-    margin: 0.4rem 0 1.25rem;
-    color: #231E1B;
-    letter-spacing: 0.015em;
-}
-
-.cadeau-page-title .title-serif {
-    color: #8E662F;
-    font-style: italic;
-    font-weight: 500;
-}
-
-.cadeau-page-sub {
-    font-size: 1.1rem;
-    color: #38302B;
-    font-weight: 400;
-    max-width: 700px;
-    margin: 0 auto 1.75rem;
-    line-height: 1.75;
-}
-
-.cadeau-hero-reassurance {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    font-size: 0.78rem;
-    color: #4D433C;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    flex-wrap: wrap;
+    padding-top: 68px; /* Dégagement net sous le header fixe */
 }
 
 /* Details Section */
 .cadeau-details-section {
-    padding: 5.5rem 0 7rem;
+    padding: 1.5rem 0 5rem;
+}
+
+/* Header compact intégré */
+.cadeau-compact-header-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.22);
+}
+
+.cadeau-kicker {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8E662F;
+    margin-bottom: 0.35rem;
+}
+
+.cadeau-compact-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: #231E1B;
+    margin: 0;
+}
+
+.cadeau-compact-title .title-serif {
+    color: #8E662F;
+    font-style: italic;
+}
+
+.cadeau-badges-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.76rem;
+    color: #6E5C4E;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-wrap: wrap;
+}
+
+.badge-chip-dot {
+    color: #C5A880;
+}
+
+@media (max-width: 900px) {
+    .cadeau-page {
+        padding-top: 64px;
+    }
+
+    .cadeau-details-section {
+        padding: 1rem 0 3.5rem;
+    }
+
+    .cadeau-compact-header-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
 }
 
 .cadeau-intro-card {

@@ -6,92 +6,19 @@
 
 .approche-page {
     background-color: #FAF7F2;
-    padding-top: 105px; /* Dégagement parfait sous le header fixe */
+    padding-top: 68px; /* Dégagement net et compact sous le header fixe */
 }
 
-/* Luminous Palace Hero */
-.approche-hero {
-    background: linear-gradient(180deg, #FAF7F2 0%, #F5EFE8 100%);
-    color: #2C2623;
-    padding: 5rem 0 4.5rem;
-    text-align: center;
-    position: relative;
-    border-bottom: 1px solid rgba(197, 168, 128, 0.22);
-}
-
-.approche-hero-container {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.approche-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    background: #FFFFFF;
-    border: 1px solid rgba(197, 168, 128, 0.4);
-    padding: 0.45rem 1.35rem;
-    border-radius: 2px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #8E662F;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 14px rgba(44, 38, 35, 0.03);
-}
-
-.approche-hero-title {
-    font-family: var(--font-cormorant), Georgia, serif;
-    font-size: clamp(2.6rem, 5vw, 4.2rem);
-    font-weight: 400;
-    line-height: 1.15;
-    margin: 0.4rem 0 1.25rem;
-    color: #231E1B;
-    letter-spacing: 0.015em;
-}
-
-.approche-hero-title .title-serif {
-    color: #8E662F;
-    font-style: italic;
-    font-weight: 500;
-}
-
-.approche-hero-sub {
-    font-size: 1.1rem;
-    color: #38302B;
-    font-weight: 400;
-    max-width: 700px;
-    margin: 0 auto 1.75rem;
-    line-height: 1.75;
-}
-
-.approche-hero-reassurance {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    font-size: 0.78rem;
-    color: #4D433C;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    flex-wrap: wrap;
-}
-
-/* Story Section */
+/* Story Section démarrant directement en haut */
 .approche-story-section {
-    padding: 7rem 0;
+    padding: 1.75rem 0 4.5rem;
     position: relative;
 }
 
 .story-grid {
     display: grid;
     grid-template-columns: 1fr 1.3fr;
-    gap: 5.5rem;
+    gap: 4.5rem;
     align-items: center;
 }
 
@@ -146,54 +73,96 @@
     color: #8E662F;
 }
 
+.story-reassurance-chips {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.78rem;
+    color: #6E5C4E;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0.5rem 0 1.5rem;
+    flex-wrap: wrap;
+}
+
 .story-lead {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 500;
     font-family: var(--font-cormorant), Georgia, serif;
     font-style: italic;
     color: #241E1B;
     line-height: 1.6;
-    margin-bottom: 1.35rem;
+    margin-bottom: 1.25rem;
 }
 
 .story-p {
     font-size: 0.98rem;
-    color: #2D2520;
-    font-weight: 400;
+    color: #4A403A;
     line-height: 1.8;
-    margin-bottom: 1.35rem;
+    margin-bottom: 1.25rem;
 }
 
 .story-quote {
-    margin-top: 2rem;
-    padding: 1.75rem 2rem;
-    background: #FFFFFF;
-    border-left: 3px solid #8E662F;
-    border-radius: 2px;
-    border: 1px solid rgba(197, 168, 128, 0.28);
-    border-left-width: 3px;
-    border-left-color: #8E662F;
+    margin: 2rem 0;
+    padding: 1.25rem 2rem;
+    background: #FAF5EE;
+    border-left: 2px solid #C5A880;
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.35rem;
+    font-size: 1.2rem;
     font-style: italic;
-    color: #231E1B;
-    font-weight: 500;
+    color: #2C2623;
     line-height: 1.6;
-    box-shadow: 0 6px 20px rgba(44, 38, 35, 0.03);
 }
 
-/* Values - Haute Parfumerie Pillars */
+/* Values Section (SANS NUMÉROS 01 02 03 04) */
 .approche-values-section {
-    padding: 7rem 0;
-    background: #F5EFE8;
-    border-top: 1px solid rgba(197, 168, 128, 0.18);
-    border-bottom: 1px solid rgba(197, 168, 128, 0.18);
+    padding: 5.5rem 0;
+    background: #FAF8F5;
+    border-top: 1px solid rgba(197, 168, 128, 0.25);
+    border-bottom: 1px solid rgba(197, 168, 128, 0.25);
+}
+
+.section-header-center {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 3.5rem;
+}
+
+.section-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8E662F;
+    margin-bottom: 0.85rem;
+}
+
+.section-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+    font-weight: 400;
+    color: #231E1B;
+    line-height: 1.2;
+    margin-bottom: 0.85rem;
+}
+
+.section-title .title-serif {
+    color: #8E662F;
+    font-style: italic;
+}
+
+.section-subtitle {
+    font-size: 1.02rem;
+    color: #6E5C4E;
+    line-height: 1.7;
 }
 
 .values-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
 }
 
 .value-card {
@@ -212,13 +181,12 @@
     border-color: rgba(197, 168, 128, 0.6);
 }
 
-.value-num {
-    font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 2.8rem;
-    font-weight: 500;
-    color: rgba(185, 146, 94, 0.38);
-    line-height: 1;
-    margin-bottom: 0.85rem;
+.value-gold-bullet {
+    width: 28px;
+    height: 3px;
+    background: #C5A880;
+    margin-bottom: 1.25rem;
+    border-radius: 2px;
 }
 
 .value-title {
@@ -238,7 +206,7 @@
 
 /* Brands Section */
 .approche-brands-section {
-    padding: 7rem 0;
+    padding: 5.5rem 0;
 }
 
 .brands-box {
@@ -254,7 +222,7 @@
     color: #4A403A;
     max-width: 720px;
     line-height: 1.75;
-    margin-bottom: 3.5rem;
+    margin-bottom: 3rem;
 }
 
 .brands-list-grid {
@@ -268,73 +236,75 @@
     padding: 2.25rem;
     border-radius: 2px;
     border: 1px solid rgba(197, 168, 128, 0.28);
-    transition: transform 0.25s ease;
-}
-
-.brand-item:hover {
-    transform: translateY(-3px);
-    border-color: rgba(197, 168, 128, 0.55);
 }
 
 .brand-badge-label {
-    display: inline-block;
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.18em;
-    text-transform: uppercase;
     color: #8E662F;
-    background: rgba(185, 146, 94, 0.15);
-    padding: 0.32rem 0.85rem;
-    border-radius: 2px;
-    margin-bottom: 0.85rem;
-    border: 1px solid rgba(185, 146, 94, 0.3);
+    margin-bottom: 0.75rem;
 }
 
 .brand-item h3 {
     font-family: var(--font-cormorant), Georgia, serif;
-    font-size: 1.8rem;
+    font-size: 1.85rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: #231E1B;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.75rem;
 }
 
 .brand-item p {
     font-size: 0.92rem;
-    color: #4A403A;
-    line-height: 1.7;
+    color: #4D433C;
+    line-height: 1.65;
     margin: 0;
 }
 
-/* CTA */
+/* CTA Banner - PARFAITEMENT LISIBLE */
 .approche-cta-section {
-    padding: 0 0 7rem;
+    padding-bottom: 5rem;
 }
 
 .approche-cta-box {
-    background: linear-gradient(135deg, #1F1916 0%, #2E2520 100%);
+    background: linear-gradient(135deg, #201A17 0%, #2F2620 100%);
     border-radius: 3px;
-    padding: 4.5rem 3.5rem;
+    padding: 4.5rem 3rem;
     text-align: center;
-    color: #FFFFFF;
     border: 1px solid rgba(226, 194, 144, 0.45);
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
 }
 
-.approche-cta-box h2 {
+.section-tag-light {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #E2C290;
+    margin-bottom: 0.85rem;
+}
+
+.approche-cta-box h2,
+.cta-box-title {
     font-family: var(--font-cormorant), Georgia, serif;
     font-size: clamp(2.2rem, 3.8vw, 3.2rem);
     font-weight: 400;
     margin-bottom: 1rem;
+    color: #FFFFFF !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.approche-cta-box p {
+.approche-cta-box p,
+.cta-box-desc {
     font-size: 1.05rem;
-    color: #E5DDD5;
+    color: rgba(255, 255, 255, 0.92) !important;
     margin-bottom: 2.25rem;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.65;
 }
 
 .approche-cta-buttons {
@@ -352,11 +322,11 @@
     background: #8E662F;
     color: #FFFFFF;
     text-decoration: none;
-    padding: 1rem 2.4rem;
+    padding: 0.95rem 2.2rem;
     border-radius: 2px;
     font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     border: 1px solid #B8925A;
     box-shadow: 0 6px 20px rgba(142, 102, 47, 0.35);
@@ -377,11 +347,11 @@
     border: 1px solid rgba(255, 255, 255, 0.4);
     color: #FFFFFF;
     text-decoration: none;
-    padding: 1rem 2.4rem;
+    padding: 0.95rem 2.2rem;
     border-radius: 2px;
     font-size: 0.78rem;
     font-weight: 500;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     transition: all 0.25s ease;
 }
@@ -394,19 +364,26 @@
 /* Responsive */
 @media (max-width: 900px) {
     .approche-page {
-        padding-top: 90px;
+        padding-top: 64px;
+    }
+    .approche-story-section {
+        padding: 1.25rem 0 3rem;
     }
     .story-grid {
         grid-template-columns: 1fr;
-        gap: 3.5rem;
+        gap: 2.75rem;
     }
 
     .story-portrait-frame {
-        max-width: 360px;
+        max-width: 320px;
         margin: 0 auto;
     }
 
     .brands-box {
-        padding: 2.75rem 2rem;
+        padding: 2.5rem 1.5rem;
+    }
+
+    .approche-cta-box {
+        padding: 3rem 1.5rem;
     }
 }

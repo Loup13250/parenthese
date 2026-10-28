@@ -23,8 +23,8 @@ jobs:
 
       - name: Export Turso Database Backup
         env:
-          TURSO_DATABASE_URL: ${{ secrets['TURSO_DATABASE_URL'] }}
-          TURSO_AUTH_TOKEN: ${{ secrets['TURSO_AUTH_TOKEN'] }}
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
         run: |
           node -e "
           const { createClient } = require('@libsql/client');

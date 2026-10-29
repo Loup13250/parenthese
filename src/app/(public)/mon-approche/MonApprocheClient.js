@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, ArrowRight, Feather } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { calculateHarmonieAge, formatHarmonieBio } from '@/lib/site';
 import './approche.css';
 
 const isDynamicImg = (src) => typeof src === 'string' && (src.startsWith('/api/media/') || src.startsWith('http'));
@@ -232,7 +233,7 @@ export default function MonApprocheClient({ siteInfo }) {
 
                             {aboutText ? (
                                 <div className="story-paragraphs">
-                                    {aboutText.split(/\n\s*\n/).map((paragraph, index) => (
+                                    {formatHarmonieBio(aboutText).split(/\n\s*\n/).map((paragraph, index) => (
                                         <p key={index} className={index === 0 ? 'story-lead' : 'story-p'}>
                                             {paragraph}
                                         </p>
@@ -241,7 +242,7 @@ export default function MonApprocheClient({ siteInfo }) {
                             ) : (
                                 <>
                                     <p className="story-lead">
-                                        Je m&apos;appelle Harmonie, originaire de Château-Gontier en Mayenne, et je me consacre depuis plus de 10 ans avec passion au bien-être et à l&apos;esthétique.
+                                        Je m&apos;appelle Harmonie, j&apos;ai {calculateHarmonieAge()} ans, et je suis originaire de Château-Gontier en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l&apos;esthétique.
                                     </p>
                                     <p className="story-p">
                                         Au fil des années, j&apos;ai eu la chance d&apos;exercer dans des environnements très variés : instituts traditionnels, spas d&apos;hôtels étoilés, résidences de vacances prestigieuses, tant en France qu&apos;à l&apos;étranger.

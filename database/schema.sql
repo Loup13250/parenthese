@@ -135,12 +135,12 @@ INSERT OR IGNORE INTO site_info (key, value) VALUES
 ('hero_video', '/videos/hero-massage.mp4'),
 ('hero_poster', '/images/hero-poster.jpg'),
 ('about_title', 'Une esthéticienne et masseuse passionnée, un lieu pensé pour vous'),
-('about_bio', 'Je m''appelle Harmonie, j''ai 29 ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l''esthétique. J''ai exercé dans des environnements variés : instituts, spas d''hôtels étoilés, résidences de vacances... en France comme à l''étranger.
+('about_bio', 'Je m''appelle Harmonie, j''ai 31 ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l''esthétique. J''ai exercé dans des environnements variés : instituts, spas d''hôtels étoilés, résidences de vacances... en France comme à l''étranger.
 
 Ces expériences m''ont beaucoup appris, mais aussi fait réaliser ce que je ne voulais plus : enchaîner les soins sans prendre le temps, faire du bien sans pouvoir vraiment accompagner.
 
 C''est de ce constat qu''est née La Parenthèse Harmonieuse : un lieu dédié aux femmes, pensé comme une bulle hors du temps où chaque détail a été soigné pour vous faire vivre un pur moment de relaxation et de reconnexion à soi.'),
-('about_text', 'Je m''appelle Harmonie, j''ai 29 ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l''esthétique. J''ai exercé dans des environnements variés : instituts, spas d''hôtels étoilés, résidences de vacances... en France comme à l''étranger.
+('about_text', 'Je m''appelle Harmonie, j''ai 31 ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l''esthétique. J''ai exercé dans des environnements variés : instituts, spas d''hôtels étoilés, résidences de vacances... en France comme à l''étranger.
 
 Ces expériences m''ont beaucoup appris, mais aussi fait réaliser ce que je ne voulais plus : enchaîner les soins sans prendre le temps, faire du bien sans pouvoir vraiment accompagner.
 

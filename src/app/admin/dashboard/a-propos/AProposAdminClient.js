@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import { updateAboutInfo } from '@/app/actions';
+import { calculateHarmonieAge, formatHarmonieBio } from '@/lib/site';
 import SiteTextsEditor from '@/components/admin/SiteTextsEditor';
 import ImageCropperModal, { ABOUT_CROP_TARGETS, uid } from '@/components/admin/ImageCropper';
 import { ABOUT_PAGE_TEXT_SECTIONS } from '@/lib/siteTexts';
@@ -291,7 +292,7 @@ export default function AProposAdminClient({ info = {}, customTexts = { fr: {} }
                                         name="about_text"
                                         rows={8}
                                         required
-                                        defaultValue={info?.about_text || "Je m'appelle Harmonie, j'ai 29 ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l'esthétique.\n\nAprès avoir exercé dans des spas d'hôtels étoilés et instituts reconnus, j'ai créé La Parenthèse Harmonieuse : un lieu dédié exclusivement aux femmes, pensé comme une bulle hors du temps où chaque détail a été soigné pour vous faire vivre un pur moment de relaxation et de reconnexion à soi."}
+                                        defaultValue={formatHarmonieBio(info?.about_text || info?.about_bio || `Je m'appelle Harmonie, j'ai ${calculateHarmonieAge()} ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l'esthétique.\n\nAprès avoir exercé dans des spas d'hôtels étoilés et instituts reconnus, j'ai créé La Parenthèse Harmonieuse : un lieu dédié exclusivement aux femmes, pensé comme une bulle hors du temps où chaque détail a été soigné pour vous faire vivre un pur moment de relaxation et de reconnexion à soi.`)}
                                         className="admin-textarea"
                                         placeholder="Racontez votre parcours et votre approche..."
                                     />

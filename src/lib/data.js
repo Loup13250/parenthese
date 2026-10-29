@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { getDb } from './db';
 import { isAdminRequest } from './auth';
+import { formatHarmonieBio } from './site';
 
 export const SENSITIVE_SITE_INFO_KEYS = new Set([
     'smtp_pass',
@@ -77,6 +78,14 @@ export const getSiteInfo = cache(async function getSiteInfo() {
             info.about_bio = info.about_text;
         } else if (info.about_bio && !info.about_text) {
             info.about_text = info.about_bio;
+        }
+
+        // Met à jour dynamiquement l'âge réel d'Harmonie (née le 17 août 1995) dans sa bio
+        if (info.about_text) {
+            info.about_text = formatHarmonieBio(info.about_text);
+        }
+        if (info.about_bio) {
+            info.about_bio = formatHarmonieBio(info.about_bio);
         }
         return info;
     } catch (err) {

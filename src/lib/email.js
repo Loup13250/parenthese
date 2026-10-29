@@ -15,8 +15,11 @@ export async function sendContactNotification(data) {
         console.warn('[Email] Impossible de lire site_info, utilisation des valeurs par défaut:', e.message);
     }
 
-    const recipient = siteInfo.contact_email || siteInfo.notification_email || process.env.NOTIFY_EMAIL || 'laparentheseharmonieuse@gmail.com';
-    const formspreeUrl = siteInfo.formspree_url || process.env.FORMSPREE_URL;
+    const recipient = (siteInfo.contact_email || siteInfo.notification_email || process.env.NOTIFY_EMAIL || 'laparentheseharmonieuse@gmail.com').trim();
+    let formspreeUrl = (siteInfo.formspree_url || process.env.FORMSPREE_URL || '').trim();
+    if (formspreeUrl && !formspreeUrl.startsWith('http')) {
+        formspreeUrl = `https://${formspreeUrl}`;
+    }
     const smtpPass = siteInfo.smtp_pass || process.env.SMTP_PASS;
     const resendApiKey = siteInfo.resend_api_key || process.env.RESEND_API_KEY;
 
@@ -120,6 +123,7 @@ ${message}
                 body: JSON.stringify({
                     name,
                     email,
+                    _replyto: email,
                     phone,
                     service_interest: serviceLabel,
                     preferred_date: dateLabel,

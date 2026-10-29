@@ -108,8 +108,13 @@ async function sync() {
                 const columns = keys.join(', ');
                 const values = keys.map((k) => row[k]);
 
+                // Pour préserver les réglages en production (notamment les images uploadées et configs live),
+                // on ne remplace jamais les entrées déjà existantes sur site_info, media_storage, admin_users et contact_messages.
+                const shouldIgnoreExisting = ['site_info', 'media_storage', 'admin_users', 'contact_messages'].includes(table);
+                const verb = shouldIgnoreExisting ? 'INSERT OR IGNORE' : 'INSERT OR REPLACE';
+
                 await client.execute({
-                    sql: `INSERT OR REPLACE INTO ${table} (${columns}) VALUES (${placeholders})`,
+                    sql: `${verb} INTO ${table} (${columns}) VALUES (${placeholders})`,
                     args: values,
                 });
             }

@@ -1,37 +1,37 @@
 /* ==========================================================================
-   LA PARENTHÈSE HARMONIEUSE — DESIGN SYSTEM ADMIN (ÉDITION LUXE & ERGONOMIE)
-   Palette : Albâtre Chaud, Blanc Pur, Expresso Profond & Or Champagne
+   LA PARENTHÈSE HARMONIEUSE — DESIGN SYSTEM ADMIN (ÉDITION LUXE VIVANTE)
+   Palette : Albâtre Chaud Lumineux, Blanc Pur, Expresso Profond & Or Solaire
    ========================================================================== */
 
 :root {
-    --admin-bg: #F5F2EC;
-    --admin-bg-alt: #EDE7DD;
+    --admin-bg: #FAF7F2;
+    --admin-bg-alt: #F3ECE1;
     --admin-surface: #FFFFFF;
-    --admin-surface-hover: #FAF8F4;
-    --admin-surface-subtle: #F9F6F0;
-    --admin-border: #E4DDD3;
-    --admin-border-soft: #EFEAE1;
-    --admin-border-strong: #D2C7B8;
+    --admin-surface-hover: #FCFAF6;
+    --admin-surface-subtle: #F9F5EC;
+    --admin-border: #E8E0D2;
+    --admin-border-soft: #F2EBE0;
+    --admin-border-strong: #D5C7B2;
 
-    --admin-text: #1E1915;
-    --admin-text-muted: #5A5046;
-    --admin-text-subtle: #84786B;
+    --admin-text: #1C1713;
+    --admin-text-muted: #564B3F;
+    --admin-text-subtle: #847665;
 
-    --admin-gold: #9E7339;
-    --admin-gold-light: #B88B46;
-    --admin-gold-dark: #7A5625;
-    --admin-gold-soft: rgba(158, 115, 57, 0.10);
-    --admin-gold-border: rgba(158, 115, 57, 0.28);
+    --admin-gold: #C59B27;
+    --admin-gold-light: #DEB843;
+    --admin-gold-dark: #8C6510;
+    --admin-gold-soft: rgba(197, 155, 39, 0.12);
+    --admin-gold-border: rgba(197, 155, 39, 0.32);
 
-    --admin-terracotta: #B84A27;
-    --admin-sage: #2E6F4E;
-    --admin-blue: #1D6FA5;
+    --admin-terracotta: #C94A29;
+    --admin-sage: #1F8255;
+    --admin-blue: #1E78B7;
 
-    --admin-sidebar: #181411;
-    --admin-sidebar-elev: #221C18;
+    --admin-sidebar: #17120F;
+    --admin-sidebar-elev: #211B16;
     --admin-sidebar-border: rgba(255, 255, 255, 0.08);
-    --admin-sidebar-text: #F5EFE6;
-    --admin-sidebar-muted: #A69B8D;
+    --admin-sidebar-text: #F7F2EB;
+    --admin-sidebar-muted: #ABA092;
 
     --admin-radius-xs: 6px;
     --admin-radius-sm: 8px;
@@ -40,8 +40,8 @@
     --admin-radius-xl: 20px;
 
     --admin-shadow-sm: 0 1px 3px rgba(28, 22, 18, 0.04), 0 1px 2px rgba(28, 22, 18, 0.03);
-    --admin-shadow: 0 4px 16px -2px rgba(28, 22, 18, 0.06), 0 2px 6px -1px rgba(28, 22, 18, 0.04);
-    --admin-shadow-lg: 0 14px 34px -6px rgba(28, 22, 18, 0.10), 0 4px 12px -2px rgba(28, 22, 18, 0.05);
+    --admin-shadow: 0 4px 18px -2px rgba(28, 22, 18, 0.06), 0 2px 6px -1px rgba(28, 22, 18, 0.03);
+    --admin-shadow-lg: 0 16px 38px -6px rgba(28, 22, 18, 0.10), 0 6px 14px -2px rgba(28, 22, 18, 0.05);
 
     --admin-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -783,10 +783,26 @@
     overflow: hidden;
 }
 
+.admin-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--admin-gold), transparent);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
 .admin-tile:hover {
     border-color: var(--admin-gold);
-    box-shadow: var(--admin-shadow-lg);
+    box-shadow: 0 8px 24px -4px rgba(197, 155, 39, 0.15), var(--admin-shadow-lg);
     transform: translateY(-3px);
+}
+
+.admin-tile:hover::before {
+    opacity: 1;
 }
 
 .admin-tile-top {
@@ -978,28 +994,29 @@
 }
 
 .admin-btn-primary {
-    background: linear-gradient(135deg, #2A221D 0%, #1B1612 100%);
+    background: linear-gradient(135deg, #241D17 0%, #15110E 100%);
     color: #FFFFFF;
-    border-color: #1B1612;
-    box-shadow: 0 2px 8px rgba(27, 22, 18, 0.18);
+    border-color: #1A1410;
+    box-shadow: 0 2px 8px rgba(27, 22, 18, 0.22);
 }
 
 .admin-btn-primary:hover:not(:disabled) {
-    background: linear-gradient(135deg, #9E7339 0%, #835C28 100%);
-    border-color: #835C28;
-    box-shadow: 0 4px 14px rgba(158, 115, 57, 0.28);
+    background: linear-gradient(135deg, #C59B27 0%, #A27A1A 100%);
+    border-color: #926C12;
+    box-shadow: 0 4px 16px rgba(197, 155, 39, 0.35);
     transform: translateY(-1px);
 }
 
 .admin-btn-gold {
-    background: linear-gradient(135deg, #B88B46 0%, #966B2E 100%);
+    background: linear-gradient(135deg, #D4A738 0%, #B8861B 100%);
     color: #FFFFFF;
-    border-color: #966B2E;
-    box-shadow: 0 2px 8px rgba(158, 115, 57, 0.25);
+    border-color: #A27412;
+    box-shadow: 0 2px 10px rgba(197, 155, 39, 0.30);
 }
 
 .admin-btn-gold:hover:not(:disabled) {
-    background: linear-gradient(135deg, #A37838 0%, #7F5820 100%);
+    background: linear-gradient(135deg, #DEB347 0%, #A47614 100%);
+    box-shadow: 0 4px 16px rgba(197, 155, 39, 0.40);
     transform: translateY(-1px);
 }
 
@@ -1019,12 +1036,13 @@
 .admin-btn-danger {
     background: #FFFFFF;
     color: var(--admin-terracotta);
-    border-color: rgba(184, 74, 39, 0.32);
+    border-color: rgba(201, 74, 41, 0.35);
 }
 
 .admin-btn-danger:hover:not(:disabled) {
     background: #FEF2F2;
     border-color: var(--admin-terracotta);
+    color: #991B1B;
 }
 
 .admin-btn-icon {

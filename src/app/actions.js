@@ -66,9 +66,24 @@ function extractId(idOrFormData) {
 }
 
 function revalidateSite(...extraPaths) {
-    revalidatePath('/', 'layout');
-    for (const p of extraPaths) {
-        if (p) revalidatePath(p);
+    try {
+        revalidatePath('/', 'layout');
+        revalidatePath('/');
+        revalidatePath('/mon-approche');
+        revalidatePath('/carte-des-soins');
+        revalidatePath('/prestations');
+        revalidatePath('/tarifs');
+        revalidatePath('/carte-cadeau');
+        revalidatePath('/contact');
+        revalidatePath('/galerie');
+        revalidatePath('/mentions-legales');
+        revalidatePath('/conditions-generales-de-ventes');
+        revalidatePath('/politique-de-confidentialite');
+        for (const p of extraPaths) {
+            if (p) revalidatePath(p);
+        }
+    } catch (err) {
+        console.warn('[revalidateSite] warning:', err.message);
     }
 }
 
@@ -297,9 +312,9 @@ export async function updateSiteInfo(formData) {
             'address', 'address_en', 'city', 'postal_code', 'full_address', 'parking_info',
             'hours', 'hours_en',
             'hours_tue', 'hours_wed', 'hours_thu', 'hours_fri', 'hours_sat', 'hours_sun_mon',
-            'planity_url', 'instagram', 'facebook', 'google_reviews', 'brands',
+            'planity_url', 'instagram', 'facebook', 'google_reviews', 'google_reviews_count', 'google_rating', 'brands',
             'about_title', 'about_text', 'about_text_en',
-            'hero_video', 'hero_poster',
+            'hero_title', 'hero_subtitle', 'hero_video', 'hero_poster',
             'home_featured_services_count', 'home_testimonials_count',
             'home_trip1_image', 'home_trip2_image', 'home_trip3_image', 'home_institut_image',
             'formspree_url', 'smtp_pass', 'resend_api_key',
@@ -326,6 +341,17 @@ export async function updateSiteInfo(formData) {
             }
             if (field === 'about_text') {
                 await stmt.run('about_bio', val);
+            }
+        }
+
+        // Si adresse ou code postal ou ville modifiés sans full_address explicite, recalcul automatique
+        if (formData.has('address') || formData.has('postal_code') || formData.has('city')) {
+            const curAddr = (formData.get('address') ?? (await db.prepare("SELECT value FROM site_info WHERE key = 'address'").get())?.value ?? '').toString().trim();
+            const curCp = (formData.get('postal_code') ?? (await db.prepare("SELECT value FROM site_info WHERE key = 'postal_code'").get())?.value ?? '').toString().trim();
+            const curCity = (formData.get('city') ?? (await db.prepare("SELECT value FROM site_info WHERE key = 'city'").get())?.value ?? '').toString().trim();
+            if (curAddr && (curCp || curCity)) {
+                const combined = `${curAddr}, ${curCp} ${curCity}`.trim();
+                await stmt.run('full_address', combined);
             }
         }
 
@@ -1092,7 +1118,8 @@ export async function addTestimonial(formData) {
         const treatment_name = (formData.get('treatment_name') || '').toString().trim();
         const treatment_name_en = (formData.get('treatment_name_en') || '').toString().trim();
         const source = (formData.get('source') || 'Planity').toString().trim();
-        const is_featured = formData.get('is_featured') === '0' ? 0 : 1;
+        const rawFeatured = formData.get('is_featured');
+        const is_featured = (rawFeatured === '1' || rawFeatured === 'on' || rawFeatured === 'true') ? 1 : 0;
 
         if (!author || !comment) {
             return { error: "Veuillez renseigner le prénom de la cliente et le texte de l'avis." };
@@ -1122,12 +1149,26 @@ export async function addTestimonial(formData) {
     }
 }
 
-export async function editTestimonial(formData) {
+export async function editTestimonial(idOrFormData, maybeFormData) {
     try {
         await requireAdminAuth();
         const { username, ip } = await getAdminAuditContext();
-        const id = extractId(formData);
+
+        let id;
+        let formData;
+        if (maybeFormData && typeof maybeFormData.get === 'function') {
+            id = extractId(idOrFormData) || extractId(maybeFormData);
+            formData = maybeFormData;
+        } else if (idOrFormData && typeof idOrFormData.get === 'function') {
+            id = extractId(idOrFormData);
+            formData = idOrFormData;
+        } else {
+            id = extractId(idOrFormData);
+            formData = maybeFormData;
+        }
+
         if (!id) return { error: 'ID invalide.' };
+        if (!formData || typeof formData.get !== 'function') return { error: 'Données de formulaire invalides.' };
 
         const author = (formData.get('author') || '').toString().trim();
         const rating = Math.min(5, Math.max(1, parseInt(formData.get('rating') || '5', 10) || 5));
@@ -1137,7 +1178,8 @@ export async function editTestimonial(formData) {
         const treatment_name = (formData.get('treatment_name') || '').toString().trim();
         const treatment_name_en = (formData.get('treatment_name_en') || '').toString().trim();
         const source = (formData.get('source') || 'Planity').toString().trim();
-        const is_featured = formData.get('is_featured') === '1' || formData.get('is_featured') === 'on' ? 1 : 0;
+        const rawFeatured = formData.get('is_featured');
+        const is_featured = (rawFeatured === '1' || rawFeatured === 'on' || rawFeatured === 'true') ? 1 : 0;
 
         if (!author || !comment) {
             return { error: "Veuillez renseigner le prénom de la cliente et le texte de l'avis." };

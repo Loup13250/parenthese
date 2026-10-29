@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import {
     addService,
     editService,
@@ -42,6 +43,7 @@ const CATEGORY_OPTIONS = [
 ];
 
 export default function ServicesClient({ services = [], customTexts = { fr: {} } }) {
+    const router = useRouter();
     const [prevServices, setPrevServices] = useState(services);
     const [servicesList, setServicesList] = useState(services);
     if (services !== prevServices) {
@@ -149,6 +151,7 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
                 setIsAddingService(false);
                 resetPhotoState();
                 serviceFormRef.current?.reset();
+                router.refresh();
             }
         });
     };
@@ -180,6 +183,7 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
                 showNotification('Soin mis à jour avec succès !');
                 setEditingService(null);
                 resetPhotoState();
+                router.refresh();
             }
         });
     };

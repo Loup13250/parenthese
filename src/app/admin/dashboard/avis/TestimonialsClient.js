@@ -255,6 +255,7 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                         </button>
                     </div>
                     <form onSubmit={handleEdit} style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
+                        <input type="hidden" name="id" value={editingItem.id} />
                         <div className="admin-grid-2col">
                             <div>
                                 <label className="admin-label">Prénom / Nom de la cliente *</label>

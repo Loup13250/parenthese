@@ -1299,9 +1299,44 @@ export default function SettingsFormClient({ info = {} }) {
                    8. NOTIFICATIONS EMAIL CONTACT
                    ===================================================== */}
                 <div style={{ borderBottom: '1px solid var(--admin-border-soft)', paddingBottom: '1.75rem' }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--admin-text)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Mail size={18} style={{ color: 'var(--admin-gold)' }} /> 8. Réception des Demandes Contact
-                    </h3>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.65rem' }}>
+                        <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--admin-text)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <Mail size={18} style={{ color: 'var(--admin-gold)' }} /> 8. Réception des Demandes Contact
+                        </h3>
+                        <span style={{ fontSize: '0.75rem', color: '#15803d', background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.25)', padding: '2px 8px', borderRadius: '4px', fontWeight: '600' }}>
+                            Messages enregistrés en temps réel
+                        </span>
+                    </div>
+
+                    {/* Explication claire & rassurante */}
+                    <div style={{
+                        background: 'rgba(184, 139, 70, 0.07)',
+                        border: '1px solid rgba(184, 139, 70, 0.22)',
+                        borderRadius: '10px',
+                        padding: '14px 18px',
+                        marginBottom: '1.25rem',
+                        fontSize: '0.86rem',
+                        lineHeight: '1.55',
+                        color: 'var(--admin-text)',
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                            <Sparkles size={18} style={{ color: 'var(--admin-gold)', flexShrink: 0, marginTop: '2px' }} />
+                            <div>
+                                <strong style={{ color: 'var(--admin-gold-dark)', display: 'block', marginBottom: '4px' }}>
+                                    Comment sont gérés vos messages reçus ?
+                                </strong>
+                                <ul style={{ margin: 0, paddingLeft: '1.2rem', color: 'var(--admin-text-muted)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                    <li>
+                                        <strong>1. Sauvegarde automatique :</strong> Chaque message client envoyé depuis le site est <em>systématiquement enregistré</em> dans votre base de données et accessible dans l&apos;onglet <strong>« Demandes &amp; Messages »</strong>. Rien n&apos;est perdu.
+                                    </li>
+                                    <li>
+                                        <strong>2. Notification par email :</strong> Pour recevoir une copie directement dans votre boîte de messagerie (ex: Gmail, Outlook), les serveurs web requièrent une passerelle de relais anti-spam. L&apos;option recommandée et 100% gratuite est <strong>Formspree</strong> : créez un compte sur <a href="https://formspree.io" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--admin-gold-dark)', textDecoration: 'underline', fontWeight: '600' }}>formspree.io</a> et collez l&apos;URL de votre formulaire dans la case « Relais Formspree » ci-dessous.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.15rem' }}>
                         <div>
                             <label className="admin-label">Email où recevoir les alertes messages</label>
@@ -1312,27 +1347,145 @@ export default function SettingsFormClient({ info = {} }) {
                                 placeholder="laparentheseharmonieuse@gmail.com"
                                 className="admin-input"
                             />
+                            <span className="admin-hint">Votre adresse email pour la réception des alertes.</span>
                         </div>
                         <div>
-                            <label className="admin-label">Relais Formspree (Optionnel)</label>
+                            <label className="admin-label">Relais Formspree (Gratuit • Recommandé pour alertes directes)</label>
                             <input
                                 type="url"
                                 name="formspree_url"
                                 defaultValue={info.formspree_url || ''}
-                                placeholder="https://formspree.io/f/..."
+                                placeholder="https://formspree.io/f/mbljeqkz"
                                 className="admin-input"
                             />
+                            <span className="admin-hint">URL de votre formulaire Formspree (achemine instantanément les mails vers votre boîte).</span>
                         </div>
                     </div>
                 </div>
 
-                <div style={{ paddingTop: '0.5rem', display: 'flex', justifyContent: 'center' }}>
-                    <button type="submit" className="admin-btn admin-btn-primary" disabled={loading} style={{ padding: '14px 40px', fontSize: '0.95rem' }}>
-                        {loading ? <Loader2 size={18} className="spin" /> : <Save size={18} />}
-                        {loading ? 'Enregistrement en cours…' : 'Enregistrer toutes les modifications'}
+                <div style={{ paddingTop: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    {/* Message de confirmation directement au-dessus du bouton */}
+                    {formStatus.success && (
+                        <div
+                            className="admin-alert admin-alert-success anim-fade"
+                            role="status"
+                            style={{
+                                width: '100%',
+                                maxWidth: '580px',
+                                marginBottom: '1.25rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                padding: '14px 18px',
+                                borderRadius: '10px',
+                                boxShadow: '0 4px 14px rgba(21, 128, 61, 0.12)',
+                            }}
+                        >
+                            <CheckCircle2 size={22} style={{ flexShrink: 0, color: '#15803d' }} />
+                            <div>
+                                <strong style={{ color: '#15803d', display: 'block', fontSize: '0.94rem' }}>
+                                    {formStatus.success}
+                                </strong>
+                                <span style={{ fontSize: '0.82rem', color: '#166534' }}>
+                                    Le site public a été immédiatement actualisé avec vos nouveaux paramètres.
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    {formStatus.error && (
+                        <div
+                            className="admin-alert admin-alert-error anim-fade"
+                            role="alert"
+                            style={{
+                                width: '100%',
+                                maxWidth: '580px',
+                                marginBottom: '1.25rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                padding: '14px 18px',
+                                borderRadius: '10px',
+                            }}
+                        >
+                            <AlertCircle size={22} style={{ flexShrink: 0, color: '#b91c1c' }} />
+                            <div>
+                                <strong style={{ color: '#b91c1c', display: 'block', fontSize: '0.94rem' }}>
+                                    Erreur d&apos;enregistrement
+                                </strong>
+                                <span style={{ fontSize: '0.82rem', color: '#991b1b' }}>
+                                    {formStatus.error}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="admin-btn"
+                        disabled={loading}
+                        style={{
+                            padding: '15px 44px',
+                            fontSize: '0.98rem',
+                            fontWeight: '600',
+                            borderRadius: '10px',
+                            background: formStatus.success ? '#15803d' : 'var(--admin-sidebar)',
+                            borderColor: formStatus.success ? '#15803d' : 'var(--admin-sidebar)',
+                            color: '#FFFFFF',
+                            boxShadow: formStatus.success
+                                ? '0 6px 18px rgba(21, 128, 61, 0.35)'
+                                : '0 4px 16px rgba(0, 0, 0, 0.15)',
+                            transition: 'all 0.25s ease',
+                        }}
+                    >
+                        {loading ? (
+                            <Loader2 size={19} className="spin" />
+                        ) : formStatus.success ? (
+                            <CheckCircle2 size={19} />
+                        ) : (
+                            <Save size={19} />
+                        )}
+                        {loading
+                            ? 'Enregistrement en cours…'
+                            : formStatus.success
+                            ? 'Modifications enregistrées avec succès !'
+                            : 'Enregistrer toutes les modifications'}
                     </button>
                 </div>
             </form>
+
+            {/* Notification flottante Toast (visible même si l'écran est scrollé n'importe où) */}
+            {formStatus.success && (
+                <div
+                    role="status"
+                    aria-live="polite"
+                    style={{
+                        position: 'fixed',
+                        bottom: '24px',
+                        right: '24px',
+                        zIndex: 99999,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '14px 20px',
+                        background: '#15803d',
+                        color: '#FFFFFF',
+                        borderRadius: '12px',
+                        boxShadow: '0 12px 30px rgba(0,0,0,0.22), 0 2px 6px rgba(0,0,0,0.1)',
+                        fontSize: '0.92rem',
+                        fontWeight: '600',
+                        animation: 'fadeInUp 0.25s ease-out',
+                    }}
+                >
+                    <CheckCircle2 size={22} style={{ flexShrink: 0 }} />
+                    <div>
+                        <div>{formStatus.success}</div>
+                        <div style={{ fontSize: '0.78rem', opacity: 0.92, fontWeight: 'normal', marginTop: '2px' }}>
+                            Le site public est immédiatement synchronisé.
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Modal de recadrage Logo / Favicon / Poster */}
             {cropper && (

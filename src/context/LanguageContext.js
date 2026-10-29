@@ -14,8 +14,13 @@ export function LanguageProvider({ children, overrides = null }) {
     const t = useCallback((key, params = {}) => {
         const custom = overrides?.fr?.[key] ?? overrides?.[key];
         let str = (typeof custom === 'string' && custom.trim() !== '' ? custom : null)
-            || DICTIONARY[key]
-            || key;
+            || DICTIONARY[key];
+
+        // Sécurité anti-fuite de clé brute technique (ex: home.reserveBtn)
+        if (!str) {
+            str = DICTIONARY[key] || key;
+        }
+
         if (params && typeof params === 'object') {
             for (const [pKey, pVal] of Object.entries(params)) {
                 str = str.replace(new RegExp(`\\{${pKey}\\}`, 'g'), String(pVal ?? ''));

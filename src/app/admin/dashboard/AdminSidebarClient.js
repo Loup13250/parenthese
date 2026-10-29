@@ -226,24 +226,24 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
                 </nav>
 
                 {/* Footer Sidebar */}
-                <div className="admin-sidebar-footer">
+                <div className="admin-sidebar-footer-custom">
                     <a
                         href="/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="admin-footer-btn"
+                        className="admin-sidebar-public-btn"
                         title="Voir le site en ligne"
                     >
-                        <ExternalLink size={15} />
+                        <ExternalLink size={16} />
                         <span>Voir le site</span>
                     </a>
-                    <form action={adminLogout} style={{ display: 'inline', width: '100%' }}>
+                    <form action={adminLogout} style={{ display: 'block', width: '100%', margin: 0 }}>
                         <button
                             type="submit"
-                            className="admin-footer-btn admin-logout-btn"
+                            className="admin-sidebar-logout-btn"
                             title="Se déconnecter"
                         >
-                            <LogOut size={15} />
+                            <LogOut size={16} />
                             <span>Déconnexion</span>
                         </button>
                     </form>
@@ -251,10 +251,8 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
             </aside>
 
             {/* Contenu principal */}
-            <main className="admin-main-content">
-                <div className="admin-content-wrapper">
-                    {children}
-                </div>
+            <main className="admin-content">
+                {children}
             </main>
         </div>
     );

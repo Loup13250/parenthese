@@ -17,13 +17,13 @@ export default function CarteSoinsClient({ services = [], siteInfo }) {
     const phone = siteInfo?.phone || '06 51 65 21 42';
 
     const categories = [
-        { id: 'all', label: t('tarifs.catAll') },
-        { id: 'massages', label: t('tarifs.catMassages') },
-        { id: 'drainage', label: t('tarifs.catDrainage') },
-        { id: 'kobido', label: t('tarifs.catKobido') },
-        { id: 'visage', label: t('tarifs.catVisage') },
-        { id: 'maternite', label: t('tarifs.catMaternite') },
-        { id: 'packs', label: t('tarifs.catPacks') },
+        { id: 'all', label: t('tarifs.catAll') || 'Tous les soins' },
+        { id: 'massages', label: t('tarifs.catMassages') || 'Massages Sur Mesure' },
+        { id: 'drainage', label: t('tarifs.catDrainage') || 'Drainage Lymphatique' },
+        { id: 'kobido', label: t('tarifs.catKobido') || 'Massage Kobido' },
+        { id: 'visage', label: t('tarifs.catVisage') || 'Soins Visage' },
+        { id: 'maternite', label: t('tarifs.catMaternite') || 'Femmes Enceintes' },
+        { id: 'packs', label: t('tarifs.catPacks') || 'Packs & Forfaits' },
     ];
 
     const filteredServices = selectedCategory === 'all'

@@ -17,7 +17,7 @@
 
 .story-grid {
     display: grid;
-    grid-template-columns: minmax(280px, 340px) 1fr;
+    grid-template-columns: minmax(320px, 400px) 1fr;
     gap: 4.5rem;
     align-items: center;
     justify-content: center;
@@ -31,17 +31,17 @@
 
 .story-portrait-frame {
     position: relative;
-    max-width: 320px;
+    max-width: 380px;
     width: 100%;
     margin: 0 auto;
-    border-radius: 260px 260px 3px 3px;
+    border-radius: 280px 280px 4px 4px;
     box-shadow: 0 25px 60px rgba(44, 38, 35, 0.08);
 }
 
 .story-img {
     width: 100%;
     height: auto;
-    border-radius: 260px 260px 3px 3px;
+    border-radius: 280px 280px 4px 4px;
     display: block;
     border: 1px solid rgba(197, 168, 128, 0.4);
 }
@@ -49,7 +49,7 @@
 .story-aura {
     position: absolute;
     inset: -14px;
-    border-radius: 275px 275px 8px 8px;
+    border-radius: 295px 295px 10px 10px;
     border: 1px solid rgba(197, 168, 128, 0.35);
     pointer-events: none;
     z-index: -1;

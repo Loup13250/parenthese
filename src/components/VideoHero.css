@@ -331,6 +331,15 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .hero-text-block {
+        animation: none;
+    }
+    .scroll-chevron {
+        animation: none;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .spa-hero {

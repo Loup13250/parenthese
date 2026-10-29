@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
-import { isAdminRequest } from '@/lib/auth';
+import { isAdminRequest, SESSION_COOKIE, getSessionUser, clientIp } from '@/lib/auth';
+import { SENSITIVE_SITE_INFO_KEYS } from '@/lib/data';
+import { logActivity } from '@/lib/logs';
+import { cookies, headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,7 +11,14 @@ function encodeBinary(rows) {
     return rows.map((row) => {
         const data = row.data;
         if (data == null || typeof data === 'string') return row;
-        return { ...row, data: Buffer.from(data).toString('base64'), data_encoding: 'base64' };
+        const buf = Buffer.isBuffer(data)
+            ? data
+            : data instanceof ArrayBuffer
+                ? Buffer.from(data)
+                : data instanceof Uint8Array
+                    ? Buffer.from(data.buffer, data.byteOffset, data.byteLength)
+                    : Buffer.from(data);
+        return { ...row, data: buf.toString('base64'), data_encoding: 'base64' };
     });
 }
 
@@ -19,35 +29,53 @@ export async function GET() {
 
     try {
         const db = getDb();
+        const store = await cookies();
+        const reqHeaders = await headers();
+        const username = (await getSessionUser(store.get(SESSION_COOKIE)?.value)) || 'Admin';
 
         const tables = [
             'site_info',
             'services',
-            'pricing_documents',
-            'fixed_prices',
-            'weekly_menus',
-            'weekly_menu_images',
+            'testimonials',
             'gallery_posts',
-            'carousel_images',
             'contact_messages',
-            'media_storage'
+            'media_storage',
+            'activity_logs',
         ];
 
-        const backupData = {
-            version: '1.0',
-            timestamp: new Date().toISOString(),
-            data: {}
-        };
+        const exportedTables = {};
 
         for (const table of tables) {
             try {
                 const rows = await db.prepare(`SELECT * FROM ${table}`).all();
-                backupData.data[table] = table === 'media_storage' ? encodeBinary(rows) : rows;
+                if (table === 'media_storage') {
+                    exportedTables[table] = encodeBinary(rows);
+                } else if (table === 'site_info') {
+                    exportedTables[table] = rows.filter((r) => !SENSITIVE_SITE_INFO_KEYS.has(r.key));
+                } else {
+                    exportedTables[table] = rows;
+                }
             } catch (err) {
                 console.warn(`Backup: could not export table ${table}`, err);
-                backupData.data[table] = [];
+                exportedTables[table] = [];
             }
         }
+
+        const backupData = {
+            version: '2.0',
+            site: 'La Parenthèse Harmonieuse',
+            timestamp: new Date().toISOString(),
+            tables: exportedTables,
+            data: exportedTables,
+        };
+
+        await logActivity({
+            action: 'update',
+            category: 'Sauvegarde',
+            summary: 'Téléchargement d’une sauvegarde complète de la base de données',
+            username,
+            ip: clientIp(reqHeaders),
+        });
 
         const dateStr = new Date().toISOString().split('T')[0];
         const jsonContent = JSON.stringify(backupData, null, 2);

@@ -1,33 +1,58 @@
 'use client';
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Calendar, Sparkles, Volume2, VolumeX, Play, Pause, ChevronDown } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, ChevronDown } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 import './VideoHero.css';
+
+const DEFAULT_TAGLINE_FR = 'Offrez-vous une parenthèse de bien-être...';
 
 export default function VideoHero({ siteInfo }) {
     const videoRef = useRef(null);
     const [isMuted, setIsMuted] = useState(true);
     const [isPlaying, setIsPlaying] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
+    const { t } = useLanguage();
 
     const planityUrl = siteInfo?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
+    const videoSrc = siteInfo?.hero_video || '/videos/hero-massage.mp4';
+    const posterSrc = siteInfo?.hero_poster || '/images/hero-poster.jpg';
+
+    const customTagline = siteInfo?.tagline && siteInfo.tagline.trim() && siteInfo.tagline.trim() !== DEFAULT_TAGLINE_FR
+        ? siteInfo.tagline.trim()
+        : '';
+
+    const customSubtitle = siteInfo?.subtitle && siteInfo.subtitle.trim()
+        ? siteInfo.subtitle.trim()
+        : '';
 
     useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.play().catch(() => {
-                // Autoplay policy might pause without mute
-                if (videoRef.current) {
-                    videoRef.current.muted = true;
-                    videoRef.current.play().catch(() => {});
-                }
-            });
+        const video = videoRef.current;
+        if (!video) return;
+
+        const prefersReducedMotion = typeof window !== 'undefined'
+            && window.matchMedia
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (prefersReducedMotion) {
+            video.pause();
+            return;
         }
-    }, []);
+
+        video.play().catch(() => {
+            if (videoRef.current) {
+                videoRef.current.muted = true;
+                setIsMuted(true);
+                videoRef.current.play().catch(() => {});
+            }
+        });
+    }, [videoSrc]);
 
     const toggleMute = () => {
         if (!videoRef.current) return;
-        videoRef.current.muted = !isMuted;
-        setIsMuted(!isMuted);
+        const nextMuted = !isMuted;
+        videoRef.current.muted = nextMuted;
+        setIsMuted(nextMuted);
     };
 
     const togglePlay = () => {
@@ -36,7 +61,7 @@ export default function VideoHero({ siteInfo }) {
             videoRef.current.pause();
             setIsPlaying(false);
         } else {
-            videoRef.current.play();
+            videoRef.current.play().catch(() => {});
             setIsPlaying(true);
         }
     };
@@ -49,22 +74,24 @@ export default function VideoHero({ siteInfo }) {
     };
 
     return (
-        <section className="spa-hero" aria-label="Accueil La Parenthèse Harmonieuse">
+        <section className="spa-hero" aria-label={siteInfo?.business_name || 'La Parenthèse Harmonieuse'}>
             {/* Background Video */}
             <div className="hero-video-wrapper">
                 <video
+                    key={videoSrc}
                     ref={videoRef}
+                    src={videoSrc}
                     className={`hero-bg-video ${isLoaded ? 'loaded' : ''}`}
                     autoPlay
                     muted={isMuted}
                     loop
                     playsInline
-                    poster="/images/hero-poster.jpg"
+                    preload="metadata"
+                    poster={posterSrc}
                     onLoadedData={() => setIsLoaded(true)}
-                >
-                    <source src="/videos/hero-massage.mp4" type="video/mp4" />
-                    Votre navigateur ne supporte pas la balise vidéo.
-                </video>
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                />
 
                 {/* Elegant Luxury Cinematic Overlay */}
                 <div className="hero-cinematic-overlay" />
@@ -95,24 +122,27 @@ export default function VideoHero({ siteInfo }) {
             {/* Main Content */}
             <div className="container hero-content-container">
                 <div className="hero-text-block">
-                    {/* Delicate editorial sanctuary label */}
                     <span className="hero-eyebrow-line">
-                        SALON-DE-PROVENCE · INSTITUT PRIVATIF DÉDIÉ AUX FEMMES
+                        {t('hero.eyebrow')}
                     </span>
 
-                    {/* Consigne Harmonie : "offrez vous une parenthèse de bien être" */}
                     <h1 className="hero-title">
-                        Offrez-vous une parenthèse <br className="hide-mobile" />
-                        <span className="hero-title-italic">de bien-être...</span>
+                        {customTagline ? (
+                            customTagline
+                        ) : (
+                            <>
+                                {t('hero.titleLine1')} <br className="hide-mobile" />
+                                <span className="hero-title-italic">{t('hero.titleItalic')}</span>
+                            </>
+                        )}
                     </h1>
 
-                    {/* Subtitle with pillars */}
                     <p className="hero-subtitle">
-                        Massages sur mesure d&apos;exception · Soins du Visage Bio · Drainage &amp; Kobido
+                        {customSubtitle || t('hero.subtitle')}
                     </p>
 
                     <p className="hero-description">
-                        Dans un cocon de douceur et de sérénité, chaque soin est pensé sur mesure pour relâcher les tensions, apaiser l&apos;esprit et reconnecter le corps.
+                        {t('hero.description')}
                     </p>
 
                     {/* CTAs */}
@@ -123,21 +153,21 @@ export default function VideoHero({ siteInfo }) {
                             rel="noopener noreferrer"
                             className="hero-btn-primary"
                         >
-                            <span>PRENDRE RENDEZ-VOUS</span>
+                            <span>{t('hero.bookBtn')}</span>
                         </a>
 
                         <Link href="/carte-des-soins" className="hero-btn-secondary">
-                            <span>DÉCOUVRIR LES SOINS</span>
+                            <span>{t('hero.viewMenu')}</span>
                         </Link>
                     </div>
 
                     {/* Reassurance Palace Spa Ribbon */}
                     <div className="hero-reassurance-ribbon">
-                        <span className="ribbon-item">Cosmétiques BIO Nohèm &amp; Green Spa</span>
+                        <span className="ribbon-item">{t('hero.ribbon1')}</span>
                         <span className="ribbon-diamond" aria-hidden="true">✦</span>
-                        <span className="ribbon-item">Parking Gratuit au Pôle Santé</span>
+                        <span className="ribbon-item">{t('hero.ribbon2')}</span>
                         <span className="ribbon-diamond" aria-hidden="true">✦</span>
-                        <span className="ribbon-item">Avis 5,0/5 sur Planity &amp; Google</span>
+                        <span className="ribbon-item">{t('hero.ribbon3')}</span>
                     </div>
                 </div>
             </div>
@@ -147,9 +177,9 @@ export default function VideoHero({ siteInfo }) {
                 type="button"
                 onClick={scrollToContent}
                 className="hero-scroll-btn"
-                aria-label="Défiler vers la suite"
+                aria-label={t('hero.scrollLabel')}
             >
-                <span className="scroll-label">Découvrir l&apos;institut</span>
+                <span className="scroll-label">{t('hero.scrollLabel')}</span>
                 <ChevronDown size={18} className="scroll-chevron" />
             </button>
         </section>

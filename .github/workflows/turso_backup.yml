@@ -36,27 +36,43 @@ jobs:
           }
 
           const client = createClient({
-            url: process.env.TURSO_DATABASE_URL,
+            url: process.env.TURSO_DATABASE_URL.replace(/^libsql:\/\//i, 'https://'),
             authToken: process.env.TURSO_AUTH_TOKEN
           });
 
+          const SENSITIVE = new Set(['smtp_pass', 'smtp_user', 'smtp_host', 'smtp_port', 'smtp_secure', 'resend_api_key', 'formspree_url', 'notification_email']);
+
           async function backup() {
             const tables = ['site_info', 'services', 'testimonials', 'gallery_posts', 'contact_messages', 'media_storage', 'activity_logs'];
-            const backupData = {
-              version: '1.0',
-              timestamp: new Date().toISOString(),
-              data: {}
-            };
+            const exported = {};
 
             for (const table of tables) {
               try {
                 const res = await client.execute('SELECT * FROM ' + table);
-                backupData.data[table] = res.rows;
+                let rows = Array.from(res.rows);
+                if (table === 'media_storage') {
+                  rows = rows.map(r => {
+                    if (r.data == null || typeof r.data === 'string') return r;
+                    const buf = Buffer.isBuffer(r.data) ? r.data : Buffer.from(r.data);
+                    return { ...r, data: buf.toString('base64'), data_encoding: 'base64' };
+                  });
+                } else if (table === 'site_info') {
+                  rows = rows.filter(r => !SENSITIVE.has(r.key));
+                }
+                exported[table] = rows;
               } catch (e) {
                 console.warn('Could not export table ' + table + ':', e.message);
-                backupData.data[table] = [];
+                exported[table] = [];
               }
             }
+
+            const backupData = {
+              version: '2.0',
+              site: 'La Parenthèse Harmonieuse',
+              timestamp: new Date().toISOString(),
+              tables: exported,
+              data: exported
+            };
 
             const fileName = 'turso_backup_' + new Date().toISOString().split('T')[0] + '.json';
             fs.writeFileSync(fileName, JSON.stringify(backupData, null, 2));

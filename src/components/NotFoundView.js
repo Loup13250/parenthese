@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
-import { 
-    Home, 
-    Phone, 
-    Sparkles, 
-    Heart, 
-    Gift, 
-    MapPin, 
-    ArrowRight 
+import {
+    Home,
+    Phone,
+    Sparkles,
+    Heart,
+    Gift,
+    MapPin,
+    ArrowRight
 } from 'lucide-react';
 
 export default function NotFoundView({ siteInfo }) {
@@ -18,11 +18,10 @@ export default function NotFoundView({ siteInfo }) {
     const phoneTel = phone.replace(/\s+/g, '');
 
     return (
-        <main className="not-found-page">
+        <main id="main-content" className="not-found-page">
             <div className="not-found-bg-glow" aria-hidden="true" />
 
             <div className="not-found-content">
-                {/* Chiffre 404 avec emblème sérénité */}
                 <div className="not-found-digits" aria-hidden="true">
                     <span className="not-found-num">4</span>
                     <div className="not-found-emblem" title="La Parenthèse Harmonieuse">
@@ -31,7 +30,6 @@ export default function NotFoundView({ siteInfo }) {
                     <span className="not-found-num">4</span>
                 </div>
 
-                {/* Titre et description */}
                 <h1 className="not-found-title">
                     {t('404.title')} <em>{t('404.titleItalic')}</em>
                 </h1>
@@ -40,7 +38,6 @@ export default function NotFoundView({ siteInfo }) {
                     {t('404.desc')}
                 </p>
 
-                {/* Actions principales */}
                 <div className="not-found-actions">
                     <Link href="/" className="btn-gold">
                         <Home size={18} />
@@ -53,7 +50,6 @@ export default function NotFoundView({ siteInfo }) {
                     </a>
                 </div>
 
-                {/* Liens de suggestion */}
                 <section className="not-found-suggestions" aria-label={t('404.suggestionsTitle')}>
                     <h2 className="not-found-suggestions-title">
                         {t('404.suggestionsTitle')}
@@ -107,12 +103,12 @@ export default function NotFoundView({ siteInfo }) {
                                 <MapPin size={22} />
                             </div>
                             <h3>
-                                <span>Contact &amp; Accès</span>
+                                <span>{t('404.contactTitle')}</span>
                                 <ArrowRight size={16} />
                             </h3>
-                            <p>Institut à Salon-de-Provence avec parking gratuit.</p>
+                            <p>{t('404.contactDesc')}</p>
                             <span className="not-found-card-link">
-                                Nous situer →
+                                {t('404.contactLink')} →
                             </span>
                         </Link>
                     </div>

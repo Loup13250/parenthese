@@ -115,26 +115,41 @@ export const GALLERY_CROP_TARGETS = [
     },
 ];
 
-/** Formats utilisés par le menu de la semaine. */
-export const MENU_CROP_TARGETS = [
+/** Formats utilisés par les cartes de soins (page Carte des soins & Accueil). */
+export const SERVICE_CROP_TARGETS = [
     {
         key: 'image',
-        label: 'Menu de la semaine',
-        shortLabel: 'Menu',
-        ratioLabel: '4:5',
-        aspect: 4 / 5,
-        icon: 'file',
-        maxWidth: 1600,
+        label: 'Photo du rituel / soin',
+        shortLabel: 'Photo du soin',
+        ratioLabel: '4:3',
+        aspect: 4 / 3,
+        icon: 'image',
+        maxWidth: 1400,
+        quality: 0.86,
+        optional: false,
+        hint: 'Illustration affichée sur la carte des soins et les coups de cœur',
+        aspectOptions: [
+            { label: 'Paysage doux 4:3 (recommandé)', shortLabel: '4:3', value: 4 / 3 },
+            { label: 'Cinéma 16:9', shortLabel: '16:9', value: 16 / 9 },
+            { label: 'Carré 1:1', shortLabel: '1:1', value: 1 },
+            { label: 'Portrait 4:5', shortLabel: '4:5', value: 4 / 5 },
+        ],
+    },
+];
+
+/** Formats utilisés pour l'image d'accueil (poster de la vidéo Hero). */
+export const HERO_POSTER_CROP_TARGETS = [
+    {
+        key: 'poster',
+        label: "Image d'aperçu de la bannière d'accueil",
+        shortLabel: 'Aperçu Accueil',
+        ratioLabel: '16:9',
+        aspect: 16 / 9,
+        icon: 'desktop',
+        maxWidth: 1920,
         quality: 0.85,
         optional: false,
-        hint: 'Format portrait idéal pour les pages de menu et les flyers',
-        aspectOptions: [
-            { label: 'Portrait 4:5 (recommandé)', shortLabel: '4:5', value: 4 / 5 },
-            { label: 'Flyer A4 (1:1.41)', shortLabel: 'A4', value: 1 / 1.414 },
-            { label: 'Standard 3:4', shortLabel: '3:4', value: 3 / 4 },
-            { label: 'Carré 1:1', shortLabel: '1:1', value: 1 },
-            { label: 'Paysage 16:9', shortLabel: '16:9', value: 16 / 9 },
-        ],
+        hint: 'Affichée instantanément pendant le chargement de la vidéo d’accueil',
     },
 ];
 
@@ -217,7 +232,7 @@ export const FAVICON_CROP_TARGETS = [
         maxWidth: 512,
         quality: 0.95,
         optional: false,
-        hint: 'Médaillon circulaire officiel avec fond bleu et liseré doré pour l’onglet du navigateur web',
+        hint: 'Médaillon circulaire ivoire sablé & liseré doré pour l’onglet du navigateur web',
     },
 ];
 
@@ -312,36 +327,37 @@ async function renderCrop(source, target, crop, baseName) {
         ctx.closePath();
         ctx.clip();
 
-        // Dégradé bleu signature officiel
+        // Dégradé albâtre sablé La Parenthèse Harmonieuse
         const grad = ctx.createLinearGradient(0, 0, outW, outH);
-        grad.addColorStop(0, '#3A669A');
-        grad.addColorStop(0.5, '#315B8C');
-        grad.addColorStop(1, '#244872');
+        grad.addColorStop(0, '#FAF7F2');
+        grad.addColorStop(0.55, '#F4EDE2');
+        grad.addColorStop(1, '#E8DFD1');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, outW, outH);
 
-        // Dessin de l'image de la créatrice au centre
+        // Dessin du logo au centre
         ctx.drawImage(source.img, view.left, view.top, view.vw, view.vh, 0, 0, outW, outH);
         ctx.restore();
 
-        // Liseré or chaud
+        // Liseré or champagne
         ctx.save();
         ctx.beginPath();
         ctx.arc(cx, cy, radius - Math.max(1.5, radius * 0.025), 0, Math.PI * 2);
         const goldGrad = ctx.createLinearGradient(0, 0, outW, outH);
-        goldGrad.addColorStop(0, '#FCD565');
-        goldGrad.addColorStop(0.5, '#EAA620');
-        goldGrad.addColorStop(1, '#C58512');
+        goldGrad.addColorStop(0, '#DFC49E');
+        goldGrad.addColorStop(0.5, '#C5A880');
+        goldGrad.addColorStop(1, '#9E7D52');
         ctx.strokeStyle = goldGrad;
         ctx.lineWidth = Math.max(1.5, radius * 0.025);
         ctx.stroke();
         ctx.restore();
     } else {
+        ctx.clearRect(0, 0, outW, outH);
         ctx.drawImage(source.img, view.left, view.top, view.vw, view.vh, 0, 0, outW, outH);
     }
 
     let quality = target.quality;
-    const mime = (target.key === 'favicon' || target.round) ? 'image/png' : 'image/webp';
+    const mime = (target.key === 'favicon' || target.key === 'logo' || target.round) ? 'image/png' : 'image/webp';
     let blob = await canvasToBlob(canvas, mime, quality);
     if (!blob || blob.type !== mime) {
         blob = await canvasToBlob(canvas, 'image/png', quality);
@@ -571,7 +587,7 @@ function CropFrame({ source, target, crop, onChange, showOverlay }) {
 export default function ImageCropperModal({
     items: initialItems,
     targets = HERO_CROP_TARGETS,
-    title = 'Cadre tes photos',
+    title = 'Cadrez vos photos',
     confirmLabel,
     heroPreview = false,
     onCancel,
@@ -782,7 +798,7 @@ export default function ImageCropperModal({
                         <h2 className="ic-title">{title}</h2>
                         <p className="ic-subtitle">
                             {multi ? `Photo ${activeIdx + 1} sur ${list.length} · ` : ''}
-                            Déplace et zoome la photo : ce que tu vois dans le cadre sera publié.
+                            Déplacez et zoomez la photo : ce que vous voyez dans le cadre sera publié.
                         </p>
                     </div>
                     {heroPreview && (

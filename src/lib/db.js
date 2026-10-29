@@ -8,8 +8,38 @@ const require = createRequire(import.meta.url);
 let dbWrapper;
 let localDbInstance;
 
-const DEFAULT_TURSO_URL = null;
-const DEFAULT_TURSO_TOKEN = undefined;
+const CREATE_TABLES_SQL = [
+    `CREATE TABLE IF NOT EXISTS admin_users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)`,
+    `CREATE TABLE IF NOT EXISTS site_info (key TEXT PRIMARY KEY, value TEXT)`,
+    `CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, category_slug TEXT NOT NULL, title TEXT NOT NULL, title_en TEXT, subtitle TEXT, subtitle_en TEXT, duration TEXT, price TEXT NOT NULL, description TEXT NOT NULL, description_en TEXT, benefits TEXT, benefits_en TEXT, contraindications TEXT, contraindications_en TEXT, image_url TEXT, badge TEXT, badge_en TEXT, planity_url TEXT, is_featured BOOLEAN DEFAULT 0, display_order INTEGER DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`,
+    `CREATE TABLE IF NOT EXISTS testimonials (id INTEGER PRIMARY KEY AUTOINCREMENT, author TEXT NOT NULL, rating INTEGER DEFAULT 5, date_label TEXT, comment TEXT NOT NULL, comment_en TEXT, treatment_name TEXT, treatment_name_en TEXT, source TEXT DEFAULT 'Planity', is_featured BOOLEAN DEFAULT 1, display_order INTEGER DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`,
+    `CREATE TABLE IF NOT EXISTS gallery_posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, title_en TEXT, caption TEXT, caption_en TEXT, image_url TEXT NOT NULL, thumbnail_url TEXT, media_type TEXT DEFAULT 'image', display_order INTEGER DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`,
+    `CREATE TABLE IF NOT EXISTS contact_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT DEFAULT '', service_interest TEXT, preferred_date TEXT, preferred_time TEXT, message TEXT NOT NULL, status TEXT DEFAULT 'nouveau', admin_notes TEXT DEFAULT '', is_read BOOLEAN DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`,
+    `CREATE TABLE IF NOT EXISTS media_storage (id TEXT PRIMARY KEY, mime_type TEXT NOT NULL, data BLOB NOT NULL, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`,
+    `CREATE TABLE IF NOT EXISTS admin_sessions (token_hash TEXT PRIMARY KEY, username TEXT NOT NULL, expires_at INTEGER NOT NULL)`,
+    `CREATE TABLE IF NOT EXISTS rate_limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, window_start INTEGER NOT NULL)`,
+    `CREATE TABLE IF NOT EXISTS activity_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, action TEXT NOT NULL, category TEXT NOT NULL, summary TEXT NOT NULL, details TEXT, username TEXT DEFAULT 'Admin', ip TEXT)`,
+];
+
+const ALTER_COLUMNS_SQL = [
+    `ALTER TABLE services ADD COLUMN title_en TEXT`,
+    `ALTER TABLE services ADD COLUMN subtitle_en TEXT`,
+    `ALTER TABLE services ADD COLUMN description_en TEXT`,
+    `ALTER TABLE services ADD COLUMN benefits_en TEXT`,
+    `ALTER TABLE services ADD COLUMN contraindications_en TEXT`,
+    `ALTER TABLE services ADD COLUMN badge_en TEXT`,
+    `ALTER TABLE testimonials ADD COLUMN comment_en TEXT`,
+    `ALTER TABLE testimonials ADD COLUMN treatment_name_en TEXT`,
+    `ALTER TABLE gallery_posts ADD COLUMN media_type TEXT DEFAULT 'image'`,
+    `ALTER TABLE gallery_posts ADD COLUMN title_en TEXT`,
+    `ALTER TABLE gallery_posts ADD COLUMN caption_en TEXT`,
+    `ALTER TABLE gallery_posts ADD COLUMN thumbnail_url TEXT`,
+    `ALTER TABLE contact_messages ADD COLUMN service_interest TEXT`,
+    `ALTER TABLE contact_messages ADD COLUMN preferred_date TEXT`,
+    `ALTER TABLE contact_messages ADD COLUMN preferred_time TEXT`,
+    `ALTER TABLE contact_messages ADD COLUMN status TEXT DEFAULT 'nouveau'`,
+    `ALTER TABLE contact_messages ADD COLUMN admin_notes TEXT DEFAULT ''`,
+];
 
 function toPlain(row) {
     if (!row || typeof row !== 'object') return row;
@@ -22,7 +52,6 @@ function toPlain(row) {
         } else if (typeof val === 'bigint') {
             plain[key] = Number(val);
         } else if (val !== null && val !== undefined && typeof val === 'object' && !Array.isArray(val)) {
-            // Copie superficielle des objets imbriqués, en protégeant les types binaires cachés
             try {
                 const j = JSON.stringify(val);
                 plain[key] = j === '{}' ? val : JSON.parse(j);
@@ -39,11 +68,11 @@ function toPlain(row) {
 export function getDb() {
     if (dbWrapper) return dbWrapper;
 
-    const rawTursoUrl = process.env.TURSO_DATABASE_URL || process.env.LIBSQL_URL || process.env.DATABASE_URL || DEFAULT_TURSO_URL;
-    const tursoToken = process.env.TURSO_AUTH_TOKEN || process.env.LIBSQL_AUTH_TOKEN || DEFAULT_TURSO_TOKEN;
+    const rawTursoUrl = process.env.TURSO_DATABASE_URL || process.env.LIBSQL_URL || process.env.DATABASE_URL || null;
+    const tursoToken = process.env.TURSO_AUTH_TOKEN || process.env.LIBSQL_AUTH_TOKEN || undefined;
 
     if (process.env.NODE_ENV === 'production' && (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN)) {
-        console.warn('[Turso] Attention : identifiants Turso de repli utilisés en production. Pensez à renseigner TURSO_DATABASE_URL et TURSO_AUTH_TOKEN dans les variables d’environnement Vercel.');
+        console.warn('[Turso] Attention : variables TURSO_DATABASE_URL et TURSO_AUTH_TOKEN non détectées en production.');
     }
 
     // Utilise toujours https:// plutôt que libsql:// pour un transport HTTP stable, sans coupures WebSocket
@@ -56,28 +85,19 @@ export function getDb() {
                 authToken: tursoToken,
             });
 
-            let tablesEnsured = false;
-            const ensureTables = async () => {
-                if (tablesEnsured) return;
-                try {
-                    await Promise.allSettled([
-                        client.execute(`CREATE TABLE IF NOT EXISTS admin_users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS site_info (key TEXT PRIMARY KEY, value TEXT)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, category_slug TEXT NOT NULL, title TEXT NOT NULL, subtitle TEXT, duration TEXT, price TEXT NOT NULL, description TEXT NOT NULL, benefits TEXT, contraindications TEXT, image_url TEXT, badge TEXT, planity_url TEXT, is_featured BOOLEAN DEFAULT 0, display_order INTEGER DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS testimonials (id INTEGER PRIMARY KEY AUTOINCREMENT, author TEXT NOT NULL, rating INTEGER DEFAULT 5, date_label TEXT, comment TEXT NOT NULL, treatment_name TEXT, source TEXT DEFAULT 'Planity', is_featured BOOLEAN DEFAULT 1, display_order INTEGER DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS gallery_posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, caption TEXT, image_url TEXT NOT NULL, media_type TEXT DEFAULT 'image', display_order INTEGER DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS contact_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, service_interest TEXT, preferred_date TEXT, preferred_time TEXT, message TEXT NOT NULL, status TEXT DEFAULT 'nouveau', admin_notes TEXT DEFAULT '', is_read BOOLEAN DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS media_storage (id TEXT PRIMARY KEY, mime_type TEXT NOT NULL, data BLOB NOT NULL, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS admin_sessions (token_hash TEXT PRIMARY KEY, username TEXT NOT NULL, expires_at INTEGER NOT NULL)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS rate_limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, window_start INTEGER NOT NULL)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS activity_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, action TEXT NOT NULL, category TEXT NOT NULL, summary TEXT NOT NULL, details TEXT, username TEXT DEFAULT 'Admin', ip TEXT)`),
-                        client.execute(`CREATE TABLE IF NOT EXISTS pricing_document_images (id INTEGER PRIMARY KEY AUTOINCREMENT, doc_id INTEGER NOT NULL, image_url TEXT NOT NULL, display_order INTEGER DEFAULT 0, lang TEXT DEFAULT 'fr', created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`)
-                    ]);
-                    tablesEnsured = true;
-                } catch (err) {
-                    console.error('[Turso] ensureTables error:', err);
-                    tablesEnsured = true;
+            let ensurePromise = null;
+            const ensureTables = () => {
+                if (!ensurePromise) {
+                    ensurePromise = (async () => {
+                        try {
+                            await Promise.allSettled(CREATE_TABLES_SQL.map((s) => client.execute(s)));
+                            await Promise.allSettled(ALTER_COLUMNS_SQL.map((s) => client.execute(s)));
+                        } catch (err) {
+                            console.error('[Turso] ensureTables error:', err);
+                        }
+                    })();
                 }
+                return ensurePromise;
             };
 
             dbWrapper = {
@@ -101,20 +121,20 @@ export function getDb() {
                             const res = await client.execute({ sql, args: flatArgs });
                             return {
                                 lastInsertRowid: res.lastInsertRowid ? Number(res.lastInsertRowid) : 0,
-                                changes: res.rowsAffected
+                                changes: res.rowsAffected,
                             };
-                        }
+                        },
                     };
                 },
                 async exec(sql) {
                     await ensureTables();
                     await client.executeMultiple(sql);
-                }
+                },
             };
 
             return dbWrapper;
         } catch (tursoErr) {
-            console.error("Failed to initialize Turso client:", tursoErr);
+            console.error('Failed to initialize Turso client:', tursoErr);
         }
     }
 
@@ -133,12 +153,11 @@ export function getDb() {
                 if (!fs.existsSync(tempDir)) {
                     fs.mkdirSync(tempDir, { recursive: true });
                 }
-
                 if (fs.existsSync(dbPath)) {
                     fs.copyFileSync(dbPath, tempDbPath);
                 }
             } catch (err) {
-                console.error("Failed to copy database to /tmp:", err);
+                console.error('Failed to copy database to /tmp:', err);
             }
         }
         dbPath = tempDbPath;
@@ -149,91 +168,30 @@ export function getDb() {
         }
     }
 
-    try {
-        localDbInstance = new Database(dbPath);
-        if (!isVercel) {
-            try {
-                localDbInstance.pragma('journal_mode = WAL');
-            } catch (pragmaErr) {
-                console.warn("Failed to set WAL journal mode:", pragmaErr);
-            }
+    localDbInstance = new Database(dbPath);
+    if (!isVercel) {
+        try {
+            localDbInstance.pragma('journal_mode = WAL');
+        } catch (pragmaErr) {
+            console.warn('Failed to set WAL journal mode:', pragmaErr);
         }
-    } catch (dbErr) {
-        console.error("Failed to initialize database:", dbErr);
-        throw dbErr;
     }
 
-    if (fs.existsSync(schemaPath)) {
-        try {
+    try {
+        for (const sql of CREATE_TABLES_SQL) {
+            localDbInstance.exec(sql);
+        }
+        for (const sql of ALTER_COLUMNS_SQL) {
+            try {
+                localDbInstance.prepare(sql).run();
+            } catch {}
+        }
+        if (fs.existsSync(schemaPath)) {
             const schema = fs.readFileSync(schemaPath, 'utf-8');
             localDbInstance.exec(schema);
-
-            try { localDbInstance.prepare("ALTER TABLE weekly_menus ADD COLUMN embed_url TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE weekly_menus ADD COLUMN image_url_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE weekly_menu_images ADD COLUMN lang TEXT DEFAULT 'fr'").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE gallery_posts ADD COLUMN media_type TEXT DEFAULT 'image'").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE contact_messages ADD COLUMN status TEXT DEFAULT 'nouveau'").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE contact_messages ADD COLUMN admin_notes TEXT DEFAULT ''").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE services ADD COLUMN title_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE services ADD COLUMN description_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE services ADD COLUMN badge_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE weekly_menus ADD COLUMN title_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE weekly_menus ADD COLUMN description_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE carousel_images ADD COLUMN title_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE carousel_images ADD COLUMN subtitle_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE gallery_posts ADD COLUMN title_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE gallery_posts ADD COLUMN caption_en TEXT").run(); } catch {}
-            try { localDbInstance.prepare("ALTER TABLE gallery_posts ADD COLUMN thumbnail_url TEXT").run(); } catch {}
-            try {
-                localDbInstance.exec(`
-                    CREATE TABLE IF NOT EXISTS services (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        num TEXT,
-                        title TEXT NOT NULL,
-                        description TEXT NOT NULL,
-                        badge TEXT,
-                        display_order INTEGER DEFAULT 0,
-                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                    );
-                    CREATE TABLE IF NOT EXISTS media_storage (
-                        id TEXT PRIMARY KEY,
-                        mime_type TEXT NOT NULL,
-                        data BLOB NOT NULL,
-                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                    );
-                    CREATE TABLE IF NOT EXISTS pricing_document_images (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        doc_id INTEGER NOT NULL,
-                        image_url TEXT NOT NULL,
-                        display_order INTEGER DEFAULT 0,
-                        lang TEXT DEFAULT 'fr',
-                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                    );
-                    CREATE TABLE IF NOT EXISTS admin_sessions (
-                        token_hash TEXT PRIMARY KEY,
-                        username TEXT NOT NULL,
-                        expires_at INTEGER NOT NULL
-                    );
-                    CREATE TABLE IF NOT EXISTS rate_limits (
-                        key TEXT PRIMARY KEY,
-                        count INTEGER NOT NULL,
-                        window_start INTEGER NOT NULL
-                    );
-                    CREATE TABLE IF NOT EXISTS activity_logs (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                        action TEXT NOT NULL,
-                        category TEXT NOT NULL,
-                        summary TEXT NOT NULL,
-                        details TEXT,
-                        username TEXT DEFAULT 'Admin',
-                        ip TEXT
-                    );
-                `);
-            } catch {}
-        } catch (schemaErr) {
-            console.error("Failed to run schema check:", schemaErr);
         }
+    } catch (schemaErr) {
+        console.error('Failed to run schema check:', schemaErr);
     }
 
     dbWrapper = {
@@ -249,12 +207,12 @@ export function getDb() {
                 },
                 async run(...args) {
                     return stmt.run(...args);
-                }
+                },
             };
         },
         async exec(sql) {
             localDbInstance.exec(sql);
-        }
+        },
     };
 
     return dbWrapper;

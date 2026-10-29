@@ -1,15 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'Momerkz';
-  src: url('/fonts/Momerkz-Regular.woff2') format('woff2'),
-       url('/fonts/Momerkz-Regular.woff') format('woff'),
-       url('/fonts/Momerkz-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root,
 html,
 [data-theme="light"],
@@ -57,14 +47,14 @@ html,
   /* Police Cormorant Garamond : italiques et accents */
   --font-serif:   var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
 
-  --header-h:     72px;
+  --header-h:     88px;
 }
 
-@media (max-width: 1040px) {
+@media (max-width: 1024px) {
   :root,
   [data-theme="light"],
   [data-theme="dark"] {
-    --header-h: 62px;
+    --header-h: 64px;
   }
 }
 
@@ -79,10 +69,12 @@ html,
   padding-top: 0 !important;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 html {
@@ -98,8 +90,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Grands titres : police Momerkz */
-h1, h2, .font-momerkz {
+/* Grands titres : Cormorant Garamond */
+h1, h2 {
   font-family: var(--font-heading);
   font-weight: 400;
   line-height: 1.15;
@@ -107,7 +99,7 @@ h1, h2, .font-momerkz {
   color: var(--text-1);
 }
 
-/* Petits titres et sous-titres (cartes, avis Google, pied de page, fenêtres) : DM Sans */
+/* Petits titres et sous-titres (cartes, avis, pied de page, fenêtres) : DM Sans */
 h3, h4, h5, h6 {
   font-family: var(--font-body);
   font-weight: 600;
@@ -122,10 +114,6 @@ h1 em, h2 em, .hero-title em, .title-xl em, .title-lg em, .font-serif {
   font-style: italic;
   font-weight: 600;
   letter-spacing: 0.01em;
-}
-
-.font-momerkz {
-  font-family: var(--font-momerkz), 'Momerkz', sans-serif;
 }
 
 .title-serif {
@@ -333,14 +321,15 @@ img {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  border: 1px solid transparent;
-  box-shadow: 0 4px 18px rgba(194, 87, 45, 0.25);
+  border: 1px solid #B8925A;
+  box-shadow: 0 4px 18px rgba(142, 102, 47, 0.25);
 }
 
 .btn-terra:hover {
   background: var(--terra-light);
+  color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(194, 87, 45, 0.35);
+  box-shadow: 0 10px 25px rgba(142, 102, 47, 0.35);
 }
 
 /* ===== SÉPARATEURS ===== */
@@ -611,7 +600,7 @@ img {
   overflow: visible;
   clip: auto;
   white-space: normal;
-  background-color: var(--terracotta, #C2572D);
+  background-color: var(--gold-dark, #744E1C);
   color: #FFFFFF !important;
   font-weight: 700;
   border-radius: 8px;
@@ -621,7 +610,7 @@ img {
 }
 
 :focus-visible {
-  outline: 2px solid var(--terracotta, #C2572D);
+  outline: 2px solid var(--gold, #8E662F);
   outline-offset: 3px;
 }
 
@@ -639,15 +628,15 @@ img {
    ===================================================== */
 .not-found-page {
     position: relative;
-    min-height: calc(100vh - var(--header-h, 80px));
+    min-height: calc(100vh - var(--header-h, 88px));
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5rem 1.5rem 6rem;
+    padding: 3.5rem 1.5rem 5rem;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 15%, rgba(194, 87, 45, 0.12) 0%, transparent 55%),
-                radial-gradient(circle at 85% 75%, rgba(212, 115, 77, 0.08) 0%, transparent 50%),
+    background: radial-gradient(circle at 50% 15%, rgba(197, 168, 128, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 85% 75%, rgba(142, 102, 47, 0.08) 0%, transparent 50%),
                 var(--bg);
 }
 
@@ -658,7 +647,7 @@ img {
     transform: translate(-50%, -50%);
     width: 650px;
     height: 380px;
-    background: radial-gradient(ellipse, rgba(194, 87, 45, 0.15) 0%, rgba(200, 169, 110, 0.05) 45%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(197, 168, 128, 0.2) 0%, rgba(142, 102, 47, 0.06) 45%, transparent 70%);
     filter: blur(60px);
     pointer-events: none;
     z-index: 0;
@@ -680,9 +669,9 @@ img {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(194, 87, 45, 0.1);
+    background: rgba(142, 102, 47, 0.1);
     color: var(--gold);
-    border: 1px solid rgba(194, 87, 45, 0.25);
+    border: 1px solid rgba(142, 102, 47, 0.25);
     padding: 6px 16px;
     border-radius: 2px;
     font-size: 0.8rem;
@@ -690,7 +679,7 @@ img {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(194, 87, 45, 0.08);
+    box-shadow: 0 4px 15px rgba(142, 102, 47, 0.08);
 }
 
 .not-found-digits {
@@ -708,10 +697,10 @@ img {
     font-weight: 400;
     line-height: 0.9;
     letter-spacing: -0.02em;
-    background: linear-gradient(145deg, var(--gold-light, #D4693F) 0%, var(--gold, #C2572D) 60%, var(--gold-dark, #A3431E) 100%);
+    background: linear-gradient(145deg, var(--gold-light, #B88A4C) 0%, var(--gold, #8E662F) 60%, var(--gold-dark, #744E1C) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 10px 25px rgba(194, 87, 45, 0.2));
+    filter: drop-shadow(0 10px 25px rgba(142, 102, 47, 0.18));
 }
 
 .not-found-emblem {
@@ -720,7 +709,7 @@ img {
     border-radius: 50%;
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(243, 236, 225, 0.9));
     border: 2px solid var(--border);
-    box-shadow: 0 15px 35px rgba(194, 87, 45, 0.18), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 35px rgba(142, 102, 47, 0.16), inset 0 2px 4px rgba(255, 255, 255, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -734,7 +723,7 @@ img {
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 1px dashed rgba(194, 87, 45, 0.35);
+    border: 1px dashed rgba(142, 102, 47, 0.35);
     animation: rotateDashed 25s linear infinite;
 }
 
@@ -833,14 +822,14 @@ img {
 .not-found-card:hover {
     transform: translateY(-4px);
     border-color: var(--gold);
-    box-shadow: 0 15px 35px rgba(194, 87, 45, 0.12);
+    box-shadow: 0 15px 35px rgba(142, 102, 47, 0.12);
 }
 
 .not-found-card-icon {
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: rgba(194, 87, 45, 0.08);
+    background: rgba(142, 102, 47, 0.08);
     color: var(--gold);
     display: flex;
     align-items: center;

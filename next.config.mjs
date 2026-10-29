@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: ['better-sqlite3'],
+  serverExternalPackages: ['better-sqlite3', 'sharp'],
   experimental: {
     serverActions: {
-      bodySizeLimit: '15mb',
+      bodySizeLimit: '30mb',
     },
   },
   outputFileTracingIncludes: {
@@ -37,6 +37,26 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+
+  async redirects() {
+    return [
+      {
+        source: '/galerie',
+        destination: '/carte-des-soins',
+        permanent: true,
+      },
+      {
+        source: '/admin/dashboard/galerie',
+        destination: '/admin/dashboard',
+        permanent: false,
+      },
+      {
+        source: '/admin/dashboard/carousel',
+        destination: '/admin/dashboard',
+        permanent: false,
+      },
+    ];
+  },
 
   // ===== EN-TÊTES DE SÉCURITÉ =====
   async headers() {

@@ -188,10 +188,21 @@
 
 .form-disclaimer {
     font-size: 0.76rem;
-    color: #7A6F67;
+    color: #6E635C;
     text-align: center;
-    line-height: 1.5;
+    line-height: 1.55;
     margin-top: 0.65rem;
+}
+
+.form-rgpd-link {
+    color: #744E1C;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+}
+
+.form-rgpd-link:hover {
+    color: #231E1B;
 }
 
 @media (max-width: 640px) {

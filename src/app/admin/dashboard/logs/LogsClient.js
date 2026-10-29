@@ -85,7 +85,7 @@ const KINDS = {
     login: { label: 'Connexion', color: '#3F7A55' },
     logout: { label: 'Déconnexion', color: '#7A6F63' },
     login_failed: { label: 'Échec de connexion', color: '#B5502F' },
-    security: { label: 'Accès bloqué', color: '#B5502F' },
+    security: { label: 'Sécurité', color: '#B5502F' },
 };
 
 function kindOf(action) {

@@ -1,12 +1,13 @@
 import { getDb } from './db';
+import { isAdminRequest } from './auth';
 
 /**
  * Enregistre une entrée dans le journal d'activité (Audit Logs).
- * 
+ *
  * @param {Object} entry
  * @param {string} entry.action - Code action (ex: 'add', 'update', 'delete', 'toggle', 'reorder')
- * @param {string} entry.category - Catégorie métier (ex: 'Galerie', 'Menu Semaine', 'Bannière', 'Logo & Paramètres', 'Tarifs', 'À Propos', 'Textes')
- * @param {string} entry.summary - Résumé en français clair et explicite (ex: "Suppression de la photo 'Paëlla'")
+ * @param {string} entry.category - Catégorie métier (ex: 'Galerie', 'Carte des soins', 'Bannière Accueil', 'Logo & Paramètres', 'Avis Clientes', 'Mon Approche', 'Textes')
+ * @param {string} entry.summary - Résumé en français clair et explicite
  * @param {Object|string|null} [entry.details] - Informations complémentaires ou objet JSON
  * @param {string} [entry.username] - Identifiant de l'auteur (défaut: 'Admin')
  * @param {string|null} [entry.ip] - Adresse IP du client (utile pour les connexions)
@@ -29,12 +30,13 @@ export async function logActivity({ action, category, summary, details = null, u
 }
 
 /**
- * Récupère les logs d'activité récents, triés du plus récent au plus ancien.
- * 
+ * Récupère les logs d'activité récents, triés du plus récent au plus ancien (Admin uniquement).
+ *
  * @param {number} [limit=150]
  * @returns {Promise<Array>}
  */
 export async function getActivityLogs(limit = 150) {
+    if (!(await isAdminRequest())) return [];
     try {
         const db = getDb();
         const rows = await db.prepare(`

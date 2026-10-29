@@ -1,69 +1,105 @@
 import { cache } from 'react';
 import { getDb } from './db';
+import { isAdminRequest } from './auth';
 
-function hashString(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        hash |= 0;
-    }
-    return hash;
-}
+export const SENSITIVE_SITE_INFO_KEYS = new Set([
+    'smtp_pass',
+    'smtp_user',
+    'smtp_host',
+    'smtp_port',
+    'smtp_secure',
+    'resend_api_key',
+    'formspree_url',
+    'notification_email',
+]);
 
-async function normalizeUrl(url) {
+function cleanMediaUrl(url) {
     if (!url || typeof url !== 'string') return url;
-    if (url.startsWith('data:image/') || url.startsWith('data:video/')) {
-        try {
-            const db = getDb();
-            const match = url.match(/^data:([^;]+);base64,(.+)$/);
-            if (match) {
-                const mimeType = match[1];
-                const base64Data = match[2];
-                const ext = mimeType.split('/')[1] || 'jpg';
-                const mediaId = `media-${Math.abs(hashString(base64Data))}.${ext}`;
-                
-                try {
-                    await db.prepare('INSERT OR IGNORE INTO media_storage (id, mime_type, data) VALUES (?, ?, ?)').run(mediaId, mimeType, base64Data);
-                } catch {
-                    try {
-                        await db.exec(`CREATE TABLE IF NOT EXISTS media_storage (id TEXT PRIMARY KEY, mime_type TEXT NOT NULL, data BLOB NOT NULL, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);`);
-                        await db.prepare('INSERT OR IGNORE INTO media_storage (id, mime_type, data) VALUES (?, ?, ?)').run(mediaId, mimeType, base64Data);
-                    } catch {}
-                }
-                return `/api/media/${mediaId}`;
-            }
-        } catch (e) {
-            console.error('Error migrating Data URI to media_storage:', e);
-        }
-    }
-    return url;
+    return url.trim();
 }
 
-// --- Informations du site ---
+const DEFAULT_PUBLIC_SITE_INFO = {
+    business_name: 'La Parenthèse Harmonieuse',
+    creator_name: 'Harmonie PERRAULT',
+    legal_status: 'Entrepreneur Individuel (EI)',
+    siren: '980 474 340',
+    siret: '980 474 340 00018',
+    vat_number: 'FR76980474340',
+    naf_ape: '9602B (Soins de beauté)',
+    headquarters_address: 'Chemin de Saint-Jean, Résidence Lurian, 13300 Salon-de-Provence',
+    creation_date: '21 octobre 2023',
+    tagline: 'Offrez-vous une parenthèse de bien-être...',
+    subtitle: 'Massages sur mesure • Soins Visage • Drainage Lymphatique • Kobido',
+    audience: 'Institut exclusivement dédié aux femmes',
+    phone: '06 51 65 21 42',
+    phone_raw: '0651652142',
+    address: '418 Avenue Georges Guynemer - Pôle Santé Georges Guynemer',
+    city: 'Salon-de-Provence',
+    postal_code: '13300',
+    full_address: '418 Avenue Georges Guynemer, 13300 Salon-de-Provence',
+    parking_info: "Parking gratuit et facile d'accès directement devant le Pôle Santé",
+    contact_email: 'laparentheseharmonieuse@gmail.com',
+    planity_url: 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence',
+    instagram: 'https://www.instagram.com/laparentheseharmonieuse/',
+    google_reviews: 'https://g.page/r/CQUzqKQ2SgYrEAE/review',
+    hero_video: '/videos/hero-massage.mp4',
+    hero_poster: '/images/hero-poster.jpg',
+    brands: 'Nohèm (BIO certifié Ecocert), Green Spa (BIO Cosmos), Oh My Jelly',
+    hours: 'Mardi : 10h00–13h30 / 14h30–19h00 · Mercredi : 14h00–19h00 · Jeudi : 10h00–13h30 / 14h30–18h00 · Vendredi : 10h00–13h30 / 14h30–17h30 · Samedi : 09h30–14h00',
+    hours_tue: '10:00 - 13:30 | 14:30 - 19:00',
+    hours_wed: '14:00 - 19:00',
+    hours_thu: '10:00 - 13:30 | 14:30 - 18:00',
+    hours_fri: '10:00 - 13:30 | 14:30 - 17:30',
+    hours_sat: '09:30 - 14:00',
+    hours_sun_mon: 'Fermé',
+};
+
+// --- Informations publiques du site (filtrées : aucun secret exposé au client) ---
 export const getSiteInfo = cache(async function getSiteInfo() {
     const db = getDb();
     try {
-        const rows = await db.prepare('SELECT * FROM site_info').all();
-        const info = {};
+        const rows = await db.prepare('SELECT key, value FROM site_info').all();
+        const info = { ...DEFAULT_PUBLIC_SITE_INFO };
         for (const row of rows) {
-            info[row.key] = await normalizeUrl(row.value);
+            if (!row?.key || SENSITIVE_SITE_INFO_KEYS.has(row.key)) continue;
+            if (row.value !== null && row.value !== undefined && String(row.value).trim() !== '') {
+                info[row.key] = cleanMediaUrl(row.value);
+            }
+        }
+        // Harmonise about_text et about_bio pour que toute modification dans l'admin s'applique partout
+        if (rows.some((r) => r.key === 'about_text' && r.value)) {
+            info.about_bio = info.about_text;
+        } else if (info.about_bio && !info.about_text) {
+            info.about_text = info.about_bio;
         }
         return info;
     } catch (err) {
         console.error('Error fetching site_info:', err);
-        return {
-            business_name: 'La Parenthèse Harmonieuse',
-            creator_name: 'Harmonie',
-            tagline: 'Offrez-vous une parenthèse de bien-être...',
-            subtitle: 'Massages sur mesure • Soins Visage • Drainage Lymphatique • Kobido',
-            phone: '06 51 65 21 42',
-            address: '418 Avenue Georges Guynemer - Pôle Santé Georges Guynemer, 13300 Salon-de-Provence',
-            contact_email: 'laparentheseharmonieuse@gmail.com',
-            planity_url: 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence',
-            instagram: 'https://www.instagram.com/laparentheseharmonieuse/'
-        };
+        return { ...DEFAULT_PUBLIC_SITE_INFO };
     }
 });
+
+// --- Informations d'administration (inclut notification_email & formspree_url, sans jamais exposer les mots de passe/clés API) ---
+export async function getAdminSiteInfo() {
+    const publicInfo = await getSiteInfo();
+    if (!(await isAdminRequest())) return publicInfo;
+    const db = getDb();
+    try {
+        const rows = await db
+            .prepare("SELECT key, value FROM site_info WHERE key IN ('notification_email', 'formspree_url')")
+            .all();
+        const adminInfo = { ...publicInfo };
+        for (const row of rows) {
+            if (row?.key && row.value !== null && row.value !== undefined) {
+                adminInfo[row.key] = String(row.value).trim();
+            }
+        }
+        return adminInfo;
+    } catch (err) {
+        console.error('Error fetching admin site_info:', err);
+        return publicInfo;
+    }
+}
 
 // --- Prestations & Carte des Soins ---
 export const getServices = cache(async function getServices(categorySlug = null) {
@@ -76,10 +112,10 @@ export const getServices = cache(async function getServices(categorySlug = null)
             params = [categorySlug];
         }
         const rows = await db.prepare(query).all(...params);
-        return Promise.all(rows.map(async item => ({
+        return rows.map((item) => ({
             ...item,
-            image_url: await normalizeUrl(item.image_url)
-        })));
+            image_url: cleanMediaUrl(item.image_url),
+        }));
     } catch (err) {
         console.error('Error fetching services:', err);
         return [];
@@ -89,11 +125,13 @@ export const getServices = cache(async function getServices(categorySlug = null)
 export const getFeaturedServices = cache(async function getFeaturedServices() {
     const db = getDb();
     try {
-        const rows = await db.prepare('SELECT * FROM services WHERE is_featured = 1 ORDER BY display_order ASC, id ASC LIMIT 6').all();
-        return Promise.all(rows.map(async item => ({
+        const rows = await db
+            .prepare('SELECT * FROM services WHERE is_featured = 1 ORDER BY display_order ASC, id ASC LIMIT 6')
+            .all();
+        return rows.map((item) => ({
             ...item,
-            image_url: await normalizeUrl(item.image_url)
-        })));
+            image_url: cleanMediaUrl(item.image_url),
+        }));
     } catch (err) {
         console.error('Error fetching featured services:', err);
         return [];
@@ -104,7 +142,7 @@ export const getFeaturedServices = cache(async function getFeaturedServices() {
 export const getTestimonials = cache(async function getTestimonials(onlyFeatured = false) {
     const db = getDb();
     try {
-        const query = onlyFeatured 
+        const query = onlyFeatured
             ? 'SELECT * FROM testimonials WHERE is_featured = 1 ORDER BY display_order ASC, id ASC'
             : 'SELECT * FROM testimonials ORDER BY display_order ASC, id ASC';
         return await db.prepare(query).all();
@@ -114,26 +152,28 @@ export const getTestimonials = cache(async function getTestimonials(onlyFeatured
     }
 });
 
-// --- Galerie / Photos institut ---
+// --- Galerie / Photos & Vidéos de l'institut ---
 export const getGalleryPosts = cache(async function getGalleryPosts() {
     const db = getDb();
     try {
         const rows = await db.prepare('SELECT * FROM gallery_posts ORDER BY display_order ASC, id ASC').all();
-        return Promise.all(rows.map(async post => ({
+        return rows.map((post) => ({
             ...post,
-            image_url: await normalizeUrl(post.image_url)
-        })));
+            image_url: cleanMediaUrl(post.image_url),
+            thumbnail_url: cleanMediaUrl(post.thumbnail_url),
+        }));
     } catch (err) {
         console.error('Error fetching gallery posts:', err);
         return [];
     }
 });
 
-// --- Messages reçus (Admin) ---
+// --- Messages reçus (Admin uniquement) ---
 export async function getContactMessages() {
+    if (!(await isAdminRequest())) return [];
     const db = getDb();
     try {
-        return await db.prepare('SELECT * FROM contact_messages ORDER BY created_at DESC').all();
+        return await db.prepare('SELECT * FROM contact_messages ORDER BY created_at DESC, id DESC').all();
     } catch (err) {
         console.error('Error fetching contact messages:', err);
         return [];
@@ -141,33 +181,12 @@ export async function getContactMessages() {
 }
 
 export async function getUnreadMessageCount() {
+    if (!(await isAdminRequest())) return 0;
     const db = getDb();
     try {
         const row = await db.prepare('SELECT COUNT(*) as count FROM contact_messages WHERE is_read = 0').get();
-        return row?.count || 0;
+        return Number(row?.count || 0);
     } catch {
         return 0;
     }
 }
-
-// --- Fonctions de compatibilité (anciens composants) ---
-export async function getPricingDocuments() {
-    return [];
-}
-
-export async function getAllWeeklyMenus() {
-    return [];
-}
-
-export async function getCurrentWeeklyMenu() {
-    return null;
-}
-
-export async function getCarouselImages() {
-    return [];
-}
-
-export async function getFixedPrices() {
-    return [];
-}
-

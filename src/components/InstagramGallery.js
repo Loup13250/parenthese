@@ -2,15 +2,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
-import { X, Play, Instagram, Phone, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Play, Instagram, Phone, Calendar, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import './InstagramGallery.css';
 
 export default function InstagramGallery({ posts, siteInfo, showHeader = true }) {
     const [selectedIndex, setSelectedIndex] = useState(null);
     const { t, trans, lang } = useLanguage();
 
+    const phone = siteInfo?.phone || '06 51 65 21 42';
+    const phoneTel = phone.replace(/\s+/g, '');
+    const planityUrl = siteInfo?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
+    const instagramUrl = siteInfo?.instagram || 'https://www.instagram.com/laparentheseharmonieuse/';
+
     const handleKeyDown = useCallback((e) => {
-        if (selectedIndex === null) return;
+        if (selectedIndex === null || !posts?.length) return;
         if (e.key === 'Escape') setSelectedIndex(null);
         if (e.key === 'ArrowLeft') setSelectedIndex((prev) => (prev > 0 ? prev - 1 : posts.length - 1));
         if (e.key === 'ArrowRight') setSelectedIndex((prev) => (prev < posts.length - 1 ? prev + 1 : 0));
@@ -21,10 +26,10 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
             document.body.style.overflow = 'hidden';
             window.addEventListener('keydown', handleKeyDown);
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
         }
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [selectedIndex, handleKeyDown]);
@@ -41,47 +46,49 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                     </div>
                 )}
                 <div style={{
-                    maxWidth: '560px',
+                    maxWidth: '580px',
                     margin: '1.5rem auto 0',
-                    padding: '2.5rem 1.75rem',
-                    background: 'var(--bg-card)',
-                    border: '1px solid var(--border-soft)',
-                    borderRadius: 'var(--radius-md, 20px)',
-                    boxShadow: '0 8px 30px rgba(42, 30, 23, 0.05)',
+                    padding: '3rem 2rem',
+                    background: '#FFFFFF',
+                    border: '1px solid rgba(197, 168, 128, 0.3)',
+                    borderRadius: '3px',
+                    boxShadow: '0 12px 35px rgba(44, 38, 35, 0.05)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '1.25rem'
+                    gap: '1.25rem',
                 }}>
                     <div style={{
                         width: '56px',
                         height: '56px',
                         borderRadius: '50%',
-                        background: 'rgba(194, 87, 45, 0.1)',
+                        background: 'rgba(185, 146, 94, 0.12)',
+                        border: '1px solid rgba(185, 146, 94, 0.28)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: 'var(--gold)'
+                        color: 'var(--gold)',
                     }}>
-                        <Instagram size={28} />
+                        <Instagram size={26} />
                     </div>
                     <div>
-                        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.35rem', color: 'var(--text-1)', marginBottom: '0.5rem' }}>
-                            Nouvelles photos en cours de préparation
+                        <h3 style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '1.65rem', color: '#231E1B', marginBottom: '0.5rem' }}>
+                            {t('gallery.emptyTitle')}
                         </h3>
-                        <p style={{ color: 'var(--text-2)', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
-                            Les photos de nos derniers plats faits maison et réceptions arrivent très vite. En attendant, découvrez nos actualités et réalisations sur Instagram !
+                        <p style={{ color: '#4A403A', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                            {t('gallery.empty')}
                         </p>
                     </div>
-                    {siteInfo?.instagram && (
+                    {instagramUrl && (
                         <a
-                            href={siteInfo.instagram}
+                            href={instagramUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn-gold"
+                            className="btn-terra"
                             style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem' }}
                         >
-                            <Instagram size={18} /> Voir notre Instagram
+                            <Instagram size={17} />
+                            <span>{t('gallery.follow')}</span>
                         </a>
                     )}
                 </div>
@@ -120,11 +127,21 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                                     setSelectedIndex(idx);
                                 }
                             }}
-                            aria-label={`Agrandir ${postTitle || 'cette réalisation'}`}
+                            aria-label={postTitle || 'Agrandir la photo'}
                         >
                             {post.media_type === 'video' ? (
                                 <>
-                                    <video src={post.image_url} autoPlay loop muted playsInline className="gallery-img" />
+                                    <video
+                                        src={post.image_url}
+                                        poster={post.thumbnail_url || undefined}
+                                        muted
+                                        loop
+                                        playsInline
+                                        preload="metadata"
+                                        onMouseEnter={(e) => e.currentTarget.play().catch(() => {})}
+                                        onMouseLeave={(e) => e.currentTarget.pause()}
+                                        className="gallery-img"
+                                    />
                                     <div className="video-mark" aria-hidden="true">
                                         <Play size={12} fill="currentColor" />
                                     </div>
@@ -138,7 +155,6 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                                     className="gallery-img"
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                                    priority={idx < 6}
                                     decoding="async"
                                     unoptimized
                                 />
@@ -152,19 +168,21 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                 })}
             </div>
 
-            <div className="gallery-footer text-center">
-                <a
-                    href={siteInfo?.instagram || 'https://www.instagram.com/laparentheseharmonieuse/'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-outline"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}
-                >
-                    <Instagram size={16} />
-                    {t('gallery.follow')}
-                    <ArrowRight size={14} />
-                </a>
-            </div>
+            {instagramUrl && (
+                <div className="gallery-footer text-center">
+                    <a
+                        href={instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-outline"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}
+                    >
+                        <Instagram size={16} />
+                        <span>{t('gallery.follow')}</span>
+                        <ArrowRight size={14} />
+                    </a>
+                </div>
+            )}
 
             {/* Plein écran (lightbox) */}
             {selectedPost && (
@@ -173,11 +191,9 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                     onClick={() => setSelectedIndex(null)}
                     role="dialog"
                     aria-modal="true"
-                    aria-label={trans(selectedPost, 'title') || 'Aperçu photo galerie'}
+                    aria-label={trans(selectedPost, 'title') || 'Aperçu photo'}
                 >
                     <div className="modal-wrapper" onClick={(e) => e.stopPropagation()}>
-                        
-                        {/* Boutons de navigation en dehors de la carte */}
                         {posts.length > 1 && (
                             <>
                                 <button
@@ -206,21 +222,19 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                         )}
 
                         <div className="modal-card">
-                            <button type="button" className="modal-close" onClick={() => setSelectedIndex(null)} aria-label={lang === 'en' ? 'Close' : 'Fermer'}>
+                            <button type="button" className="modal-close" onClick={() => setSelectedIndex(null)} aria-label={t('modal.close')}>
                                 <X size={18} />
                             </button>
 
                             <div
                                 className="modal-img-box"
                                 onClick={() => {
-                                    if (posts.length > 1) {
+                                    if (posts.length > 1 && selectedPost.media_type !== 'video') {
                                         setSelectedIndex((prev) => (prev < posts.length - 1 ? prev + 1 : 0));
                                     }
                                 }}
-                                style={{ cursor: posts.length > 1 ? 'pointer' : 'default', position: 'relative' }}
-                                title={posts.length > 1 ? (lang === 'en' ? 'Click for next image' : 'Cliquer pour passer à la photo suivante') : ''}
+                                style={{ cursor: posts.length > 1 && selectedPost.media_type !== 'video' ? 'pointer' : 'default', position: 'relative' }}
                             >
-                                {/* Badge compteur */}
                                 {posts.length > 1 && (
                                     <div className="lightbox-counter">
                                         {selectedIndex + 1} / {posts.length}
@@ -228,17 +242,25 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                                 )}
 
                                 {selectedPost.media_type === 'video' ? (
-                                    <video src={selectedPost.image_url} controls autoPlay loop style={{ width: '100%', maxHeight: '560px' }} />
+                                    <video
+                                        key={selectedPost.image_url}
+                                        src={selectedPost.image_url}
+                                        poster={selectedPost.thumbnail_url || undefined}
+                                        controls
+                                        autoPlay
+                                        loop
+                                        playsInline
+                                        style={{ width: '100%', maxHeight: '560px' }}
+                                    />
                                 ) : (
                                     <Image
                                         src={selectedPost.image_url}
-                                        alt={trans(selectedPost, 'title') || ''}
+                                        alt={trans(selectedPost, 'title') || 'La Parenthèse Harmonieuse'}
                                         width={1600}
                                         height={1200}
                                         className="modal-img"
                                         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                                         sizes="(max-width: 768px) 100vw, 1200px"
-                                        priority
                                         decoding="async"
                                         unoptimized
                                         key={selectedPost.image_url}
@@ -247,18 +269,29 @@ export default function InstagramGallery({ posts, siteInfo, showHeader = true })
                             </div>
                             <div className="modal-info">
                                 <div className="modal-meta">
-                                    <Image src={siteInfo?.site_icon || siteInfo?.logo || "/images/logo.png"} alt="La Parenthèse Harmonieuse" width={36} height={36} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'contain' }} unoptimized />
+                                    <Image
+                                        src={siteInfo?.site_icon || siteInfo?.logo || '/images/logo.png'}
+                                        alt={siteInfo?.business_name || 'La Parenthèse Harmonieuse'}
+                                        width={36}
+                                        height={36}
+                                        style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'contain' }}
+                                        unoptimized
+                                    />
                                     <div className="modal-meta-text">
-                                        <strong>La Parenthèse Harmonieuse</strong>
-                                        <span>{lang === 'en' ? 'Salon-de-Provence · Wellness Haven' : 'Salon-de-Provence · Cocon de Soin'}</span>
+                                        <strong>{siteInfo?.business_name || 'La Parenthèse Harmonieuse'}</strong>
+                                        <span>Salon-de-Provence · Cocon de Soin</span>
                                     </div>
                                 </div>
                                 {trans(selectedPost, 'title') && <h3 className="modal-title">{trans(selectedPost, 'title')}</h3>}
                                 {trans(selectedPost, 'caption') && <p className="modal-caption">{trans(selectedPost, 'caption')}</p>}
-                                <div className="modal-cta">
-                                    <a href={`tel:${(siteInfo?.phone || '06 51 65 21 42').replace(/\s+/g, '')}`} className="btn-terra modal-cta-btn">
-                                        <Phone size={15} />
-                                        {lang === 'en' ? 'Book' : 'Réserver'} - {siteInfo?.phone || '06 51 65 21 42'}
+                                <div className="modal-cta" style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                                    <a href={planityUrl} target="_blank" rel="noopener noreferrer" className="btn-terra modal-cta-btn">
+                                        <Calendar size={15} />
+                                        <span>{t('nav.bookPlanity')}</span>
+                                    </a>
+                                    <a href={`tel:${phoneTel}`} className="btn-outline modal-cta-btn" style={{ padding: '11px' }}>
+                                        <Phone size={14} />
+                                        <span>{phone}</span>
                                     </a>
                                 </div>
                             </div>

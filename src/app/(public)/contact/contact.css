@@ -6,7 +6,7 @@
 
 .contact-page-main {
     background-color: #FAF7F2;
-    padding-top: 68px; /* Dégagement net sous le header fixe */
+    padding-top: 1.25rem;
 }
 
 /* Content Section démarrant directement en haut */
@@ -306,7 +306,7 @@
 }
 
 .hour-item.closed .hour {
-    color: #9E7153;
+    color: #744E1C;
     font-style: italic;
     font-weight: 500;
 }
@@ -314,7 +314,7 @@
 /* Responsive */
 @media (max-width: 900px) {
     .contact-page-main {
-        padding-top: 64px;
+        padding-top: 0.75rem;
     }
 
     .contact-content-section {

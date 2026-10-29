@@ -6,28 +6,34 @@
 
 .approche-page {
     background-color: #FAF7F2;
-    padding-top: 68px; /* Dégagement net et compact sous le header fixe */
+    padding-top: 1.5rem;
 }
 
 /* Story Section démarrant directement en haut */
 .approche-story-section {
-    padding: 1.75rem 0 4.5rem;
+    padding: 1.25rem 0 4.5rem;
     position: relative;
 }
 
 .story-grid {
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
+    grid-template-columns: minmax(280px, 340px) 1fr;
     gap: 4.5rem;
     align-items: center;
+    justify-content: center;
 }
 
 .story-media {
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .story-portrait-frame {
     position: relative;
+    max-width: 320px;
+    width: 100%;
+    margin: 0 auto;
     border-radius: 260px 260px 3px 3px;
     box-shadow: 0 25px 60px rgba(44, 38, 35, 0.08);
 }
@@ -364,10 +370,10 @@
 /* Responsive */
 @media (max-width: 900px) {
     .approche-page {
-        padding-top: 64px;
+        padding-top: 1rem;
     }
     .approche-story-section {
-        padding: 1.25rem 0 3rem;
+        padding: 1rem 0 3rem;
     }
     .story-grid {
         grid-template-columns: 1fr;

@@ -11,13 +11,14 @@ export default function ErrorBoundary({ error, reset }) {
 
   return (
     <main
+      id="main-content"
       style={{
         minHeight: '80vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '3rem 1.5rem',
-        background: 'radial-gradient(circle at 50% 20%, rgba(194, 87, 45, 0.1) 0%, transparent 60%), var(--bg)',
+        background: 'radial-gradient(circle at 50% 20%, rgba(184, 139, 70, 0.12) 0%, transparent 60%), var(--bg)',
         color: 'var(--text-1)',
         textAlign: 'center',
       }}
@@ -28,7 +29,7 @@ export default function ErrorBoundary({ error, reset }) {
           width: '100%',
           background: 'var(--bg-card)',
           border: '1px solid var(--border)',
-          borderRadius: '24px',
+          borderRadius: '18px',
           padding: '3rem 2rem',
           boxShadow: '0 20px 40px -15px rgba(42, 30, 23, 0.1)',
           display: 'flex',
@@ -42,7 +43,7 @@ export default function ErrorBoundary({ error, reset }) {
             width: '64px',
             height: '64px',
             borderRadius: '50%',
-            background: 'rgba(194, 87, 45, 0.1)',
+            background: 'rgba(184, 139, 70, 0.12)',
             color: 'var(--gold)',
             display: 'flex',
             alignItems: 'center',
@@ -63,7 +64,7 @@ export default function ErrorBoundary({ error, reset }) {
             margin: 0,
           }}
         >
-          Un instant d&apos;harmonie suspendu...
+          Un instant d&apos;harmonie suspendu…
         </h1>
 
         <p
@@ -74,7 +75,7 @@ export default function ErrorBoundary({ error, reset }) {
             margin: '0.25rem 0 1.5rem',
           }}
         >
-          Une erreur inattendue est survenue lors de l&apos;affichage de cette page. Vous pouvez retenter l&apos;expérience ou regagner l&apos;accueil du salon.
+          Une erreur inattendue est survenue lors de l&apos;affichage de cette page. Vous pouvez réessayer ou regagner l&apos;accueil de l&apos;institut.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', width: '100%' }}>
@@ -87,7 +88,7 @@ export default function ErrorBoundary({ error, reset }) {
             <RotateCw size={18} />
             <span>Réessayer</span>
           </button>
-          
+
           <Link href="/" className="btn-outline">
             <Home size={18} />
             <span>Retour à l&apos;accueil</span>

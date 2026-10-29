@@ -1,98 +1,124 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { submitContactForm } from '@/app/actions';
-import { Send, CheckCircle2, AlertCircle, Phone, Calendar, Mail, User, Sparkles, Heart } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import { Send, CheckCircle2, AlertCircle, Phone, Calendar, Clock, Mail, User } from 'lucide-react';
 import './ContactForm.css';
 
-export default function ContactForm() {
+export default function ContactForm({ services = [] }) {
+    const { lang, t, trans } = useLanguage();
+    const searchParams = useSearchParams();
+    const soinParam = searchParams?.get('soin')?.trim() || '';
+
+    const serviceOptions = useMemo(() => {
+        const dynamicTitles = services
+            .map((s) => trans(s, 'title'))
+            .filter(Boolean);
+
+        const baseOptions = dynamicTitles.length > 0
+            ? dynamicTitles
+            : [
+                'Massage sur mesure (Green Spa)',
+                'Drainage lymphatique',
+                'Madérothérapie',
+                'Massage liftant Kobido',
+                'Soin visage bio (Nohèm)',
+                'Soin future maman (Grossesse)',
+            ];
+
+        const extraOptions = ['Demande carte cadeau', 'Autre demande / conseil personnalisé'];
+
+        const merged = [...baseOptions, ...extraOptions];
+        if (soinParam && !merged.includes(soinParam)) {
+            return [soinParam, ...merged];
+        }
+        return merged;
+    }, [services, trans, soinParam]);
+
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
-    const [selectedService, setSelectedService] = useState('Massage sur mesure');
+    const [userSelectedService, setUserSelectedService] = useState('');
 
-    const serviceOptions = [
-        'Massage sur mesure (Green Spa)',
-        'Drainage lymphatique',
-        'Madérothérapie',
-        'Massage liftant Kobido',
-        'Soin visage bio (Nohèm)',
-        'Soin future maman (Grossesse)',
-        'Demande carte cadeau',
-        'Autre demande / question',
-    ];
+    const selectedService = userSelectedService && serviceOptions.includes(userSelectedService)
+        ? userSelectedService
+        : (soinParam || serviceOptions[0] || '');
+
+    const todayIso = useMemo(() => new Date().toISOString().split('T')[0], []);
 
     async function handleSubmit(e) {
         e.preventDefault();
+        const formEl = e.currentTarget;
         setLoading(true);
         setError('');
         setSuccess(false);
 
-        const formData = new FormData(e.target);
-        formData.set('event_type', selectedService);
+        const formData = new FormData(formEl);
+        formData.set('service_interest', selectedService || serviceOptions[0] || '');
 
         const nameVal = (formData.get('name') || '').toString().trim();
         const emailVal = (formData.get('email') || '').toString().trim();
         const phoneVal = (formData.get('phone') || '').toString().trim();
         const messageVal = (formData.get('message') || '').toString().trim();
 
-        // 1. Validation Nom
         if (!nameVal || nameVal.length < 2) {
-            setError('Veuillez renseigner votre nom complet.');
+            setError(t('contact.errorName'));
             setLoading(false);
             return;
         }
 
-        // 2. Validation Email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
         if (!emailVal || !emailRegex.test(emailVal)) {
-            setError('Veuillez saisir une adresse email valide.');
+            setError(t('contact.errorEmail'));
             setLoading(false);
             return;
         }
 
-        // 3. Validation Téléphone
         if (phoneVal) {
             if (/[a-zA-Z]/.test(phoneVal) || !/^(\+?[0-9\s().-]{8,25})$/.test(phoneVal) || phoneVal.replace(/\D/g, '').length < 8) {
-                setError('Veuillez saisir un numéro de téléphone valide (ex : 06 12 34 56 78).');
+                setError(t('contact.errorPhone'));
                 setLoading(false);
                 return;
             }
         }
 
-        // 4. Validation Message
         if (!messageVal || messageVal.length < 5) {
-            setError('Veuillez préciser votre demande dans le message (au moins 5 caractères).');
+            setError(t('contact.errorMessage'));
             setLoading(false);
             return;
         }
 
-        const res = await submitContactForm(formData);
-
-        if (res?.error) {
-            setError(res.error);
+        try {
+            const res = await submitContactForm(formData);
+            if (res?.error) {
+                setError(res.error);
+            } else {
+                setSuccess(true);
+                formEl.reset();
+            }
+        } catch {
+            setError("Une erreur réseau est survenue lors de l'envoi. Veuillez réessayer ou appeler le 06 51 65 21 42.");
+        } finally {
             setLoading(false);
-        } else {
-            setSuccess(true);
-            setLoading(false);
-            e.target.reset();
         }
     }
 
     return (
         <div className="contact-card">
             <div className="contact-form-header">
-                <span className="contact-tag">CONTACTEZ HARMONIE</span>
-                <h2>Écrivez-moi</h2>
-                <p>Une question sur un soin, une contre-indication ou une demande particulière ? Je vous réponds avec douceur et bienveillance.</p>
+                <span className="contact-tag">{t('contact.formBadge')}</span>
+                <h2>{t('contact.formTitle')}</h2>
+                <p>{t('contact.formDesc')}</p>
             </div>
 
             {success && (
-                <div className="form-alert alert-success" role="alert">
+                <div className="form-alert alert-success" role="status">
                     <CheckCircle2 size={20} className="alert-success-icon" />
                     <div>
-                        <strong>Message envoyé avec succès !</strong>
-                        <p>Merci pour votre message. Harmonie vous répondra personnellement sous 24h.</p>
+                        <strong>{t('contact.successTitle')}</strong>
+                        <p>{t('contact.successDesc')}</p>
                     </div>
                 </div>
             )}
@@ -101,31 +127,33 @@ export default function ContactForm() {
                 <div className="form-alert alert-error" role="alert">
                     <AlertCircle size={20} className="alert-error-icon" />
                     <div>
-                        <strong>Une erreur est survenue</strong>
+                        <strong>{t('contact.errorTitle')}</strong>
                         <p>{error}</p>
                     </div>
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="contact-form">
-                {/* Honeypot anti-spam caché */}
+            <form onSubmit={handleSubmit} className="contact-form" noValidate>
+                {/* Honeypot anti-spam */}
                 <input
                     type="text"
-                    name="_hp_check"
+                    name="website"
                     style={{ display: 'none', position: 'absolute', left: '-9999px' }}
                     tabIndex={-1}
                     autoComplete="off"
+                    aria-hidden="true"
                 />
 
                 {/* Prestation / Sujet */}
                 <div className="form-group">
                     <label className="form-label" htmlFor="service-select">
-                        Soin ou objet de votre message
+                        {t('contact.typeLabel')}
                     </label>
                     <select
                         id="service-select"
+                        name="service_interest"
                         value={selectedService}
-                        onChange={(e) => setSelectedService(e.target.value)}
+                        onChange={(e) => setUserSelectedService(e.target.value)}
                         className="form-select"
                     >
                         {serviceOptions.map((opt) => (
@@ -137,7 +165,7 @@ export default function ContactForm() {
                 {/* Nom et Prénom */}
                 <div className="form-group">
                     <label className="form-label" htmlFor="name-input">
-                        Votre nom et prénom <span className="req">*</span>
+                        {t('contact.nameLabel')} <span className="req">*</span>
                     </label>
                     <div className="input-with-icon">
                         <User size={16} className="input-icon" />
@@ -146,7 +174,8 @@ export default function ContactForm() {
                             type="text"
                             name="name"
                             required
-                            placeholder="ex : Sophie Martin"
+                            autoComplete="name"
+                            placeholder={t('contact.namePlaceholder')}
                             className="form-input"
                         />
                     </div>
@@ -156,7 +185,7 @@ export default function ContactForm() {
                 <div className="form-dual-row">
                     <div className="form-group">
                         <label className="form-label" htmlFor="email-input">
-                            Adresse email <span className="req">*</span>
+                            {t('contact.emailLabel')} <span className="req">*</span>
                         </label>
                         <div className="input-with-icon">
                             <Mail size={16} className="input-icon" />
@@ -165,7 +194,8 @@ export default function ContactForm() {
                                 type="email"
                                 name="email"
                                 required
-                                placeholder="nom@exemple.fr"
+                                autoComplete="email"
+                                placeholder={t('contact.emailPlaceholder')}
                                 className="form-input"
                             />
                         </div>
@@ -173,7 +203,7 @@ export default function ContactForm() {
 
                     <div className="form-group">
                         <label className="form-label" htmlFor="phone-input">
-                            Téléphone
+                            {t('contact.phoneLabel')}
                         </label>
                         <div className="input-with-icon">
                             <Phone size={16} className="input-icon" />
@@ -181,62 +211,86 @@ export default function ContactForm() {
                                 id="phone-input"
                                 type="tel"
                                 name="phone"
-                                placeholder="06 12 34 56 78"
+                                autoComplete="tel"
+                                placeholder={t('contact.phonePlaceholder')}
                                 className="form-input"
                             />
                         </div>
                     </div>
                 </div>
 
-                {/* Date souhaitée (optionnelle) */}
-                <div className="form-group">
-                    <label className="form-label" htmlFor="date-input">
-                        Période ou date souhaitée <em>(optionnel)</em>
-                    </label>
-                    <div className="input-with-icon">
-                        <Calendar size={16} className="input-icon" />
-                        <input
-                            id="date-input"
-                            type="date"
-                            name="event_date"
-                            className="form-input"
-                        />
+                {/* Dual row : Date souhaitée & Créneau préféré (optionnels) */}
+                <div className="form-dual-row">
+                    <div className="form-group">
+                        <label className="form-label" htmlFor="date-input">
+                            {t('contact.dateLabel')} <em>{t('contact.optionalBadge')}</em>
+                        </label>
+                        <div className="input-with-icon">
+                            <Calendar size={16} className="input-icon" />
+                            <input
+                                id="date-input"
+                                type="date"
+                                name="preferred_date"
+                                min={todayIso}
+                                className="form-input"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label" htmlFor="time-input">
+                            {t('contact.timeLabel')} <em>{t('contact.optionalBadge')}</em>
+                        </label>
+                        <div className="input-with-icon">
+                            <Clock size={16} className="input-icon" />
+                            <input
+                                id="time-input"
+                                type="text"
+                                name="preferred_time"
+                                placeholder={t('contact.timePlaceholder')}
+                                className="form-input"
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {/* Message */}
                 <div className="form-group">
                     <label className="form-label" htmlFor="message-input">
-                        Votre message <span className="req">*</span>
+                        {t('contact.messageLabel')} <span className="req">*</span>
                     </label>
                     <textarea
                         id="message-input"
                         name="message"
                         required
                         rows={4}
-                        placeholder="Précisez votre demande, vos disponibilités ou vos questions sur le déroulement des soins..."
+                        placeholder={t('contact.messagePlaceholder')}
                         className="form-textarea"
                     />
                 </div>
 
-                {/* Submit button */}
                 <button
                     type="submit"
                     disabled={loading}
                     className="form-submit-btn"
+                    aria-busy={loading}
+                    aria-label={loading ? t('contact.submitting') : t('contact.submitBtn')}
                 >
                     {loading ? (
-                        <span>Envoi en cours...</span>
+                        <span>{t('contact.submitting')}</span>
                     ) : (
                         <>
                             <Send size={16} />
-                            <span>Envoyer mon message</span>
+                            <span>{t('contact.submitBtn')}</span>
                         </>
                     )}
                 </button>
 
                 <p className="form-disclaimer">
-                    Vos données restent strictement confidentielles et ne sont jamais transmises à des tiers.
+                    {t('contact.rgpdNotice')}{' '}
+                    <Link href="/politique-de-confidentialite" className="form-rgpd-link">
+                        {t('contact.rgpdLink')}
+                    </Link>.
                 </p>
             </form>
         </div>

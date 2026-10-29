@@ -2,9 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { promisify } from 'util';
-import Database from 'better-sqlite3';
+import { getDb } from '../src/lib/db.js';
 
 const scrypt = promisify(crypto.scrypt);
+
+// Charge .env.local s'il est présent afin d'initialiser aussi Turso si configuré
+const envPath = path.join(process.cwd(), '.env.local');
+if (fs.existsSync(envPath)) {
+    for (const line of fs.readFileSync(envPath, 'utf8').split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) continue;
+        const idx = trimmed.indexOf('=');
+        if (idx === -1) continue;
+        const key = trimmed.slice(0, idx).trim();
+        const val = trimmed.slice(idx + 1).trim().replace(/^['"]|['"]$/g, '');
+        if (!process.env[key]) process.env[key] = val;
+    }
+}
 
 async function hashPassword(password) {
     const salt = crypto.randomBytes(16);
@@ -13,47 +27,29 @@ async function hashPassword(password) {
 }
 
 async function main() {
-    const dbDir = path.join(process.cwd(), 'database');
-    if (!fs.existsSync(dbDir)) {
-        fs.mkdirSync(dbDir, { recursive: true });
-    }
-
-    const dbPath = path.join(dbDir, 'laparenthese.db');
-    const schemaPath = path.join(dbDir, 'schema.sql');
-
-    console.log(`Initialisation de la base SQLite locale : ${dbPath}`);
-    const db = new Database(dbPath);
-
-    if (fs.existsSync(schemaPath)) {
-        const schema = fs.readFileSync(schemaPath, 'utf-8');
-        db.exec(schema);
-        console.log('Schéma et données initiales exécutés avec succès.');
-    } else {
-        console.error('schema.sql introuvable.');
-        process.exit(1);
-    }
-
-    // Création ou mise à jour du compte administrateur
     const defaultUsername = process.env.ADMIN_USER || 'admin';
     const defaultPassword = process.env.ADMIN_PASSWORD;
 
-    if (!defaultPassword) {
-        console.error('❌ Erreur : Veuillez définir la variable ADMIN_PASSWORD dans votre environnement.');
+    if (!defaultPassword || defaultPassword.length < 8) {
+        console.error('❌ Erreur : Veuillez définir la variable ADMIN_PASSWORD (8 caractères minimum) dans votre environnement.');
         process.exit(1);
     }
 
+    const db = getDb();
     const hashed = await hashPassword(defaultPassword);
 
-    const existing = db.prepare('SELECT id FROM admin_users WHERE username = ?').get(defaultUsername);
+    const existing = await db.prepare('SELECT id FROM admin_users WHERE username = ?').get(defaultUsername);
     if (!existing) {
-        db.prepare('INSERT INTO admin_users (username, password) VALUES (?, ?)').run(defaultUsername, hashed);
-        console.log(`Compte administrateur créé : Identifiant "${defaultUsername}", Mot de passe "${defaultPassword}"`);
+        await db.prepare('INSERT INTO admin_users (username, password) VALUES (?, ?)').run(defaultUsername, hashed);
+        console.log(`✅ Compte administrateur « ${defaultUsername} » créé avec succès (mot de passe chiffré scrypt).`);
     } else {
-        console.log(`Compte administrateur "${defaultUsername}" déjà existant.`);
+        await db.prepare('UPDATE admin_users SET password = ? WHERE username = ?').run(hashed, defaultUsername);
+        console.log(`✅ Mot de passe du compte administrateur « ${defaultUsername} » mis à jour avec succès.`);
     }
-
-    db.close();
-    console.log('Initialisation terminée !');
+    process.exit(0);
 }
 
-main().catch(console.error);
+main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+});

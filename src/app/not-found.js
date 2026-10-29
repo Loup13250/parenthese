@@ -4,7 +4,7 @@ import NotFoundView from '@/components/NotFoundView';
 import { getSiteInfo } from '@/lib/data';
 
 export const metadata = {
-  title: 'Page non trouvée | La Parenthèse Harmonieuse',
+  title: 'Page non trouvée',
   description: "Cette page est introuvable. Retrouvez l'ensemble de nos soins, massages et rituels bien-être chez La Parenthèse Harmonieuse à Salon-de-Provence.",
   robots: {
     index: false,

@@ -1,9 +1,10 @@
+import { getSiteInfo } from '@/lib/data';
 import { SITE_URL } from '@/lib/site';
 import MentionsLegalesClient from './MentionsLegalesClient';
 
 export const metadata = {
-    title: 'Mentions Légales | La Parenthèse Harmonieuse',
-    description: "Mentions légales officielles de l'institut La Parenthèse Harmonieuse à Salon-de-Provence : informations légales, coordonnées, hébergement et propriété intellectuelle.",
+    title: 'Mentions Légales',
+    description: "Mentions légales officielles de l'institut La Parenthèse Harmonieuse à Salon-de-Provence : informations légales LCEN, coordonnées, hébergement et propriété intellectuelle.",
     alternates: {
         canonical: `${SITE_URL}/mentions-legales`,
     },
@@ -13,6 +14,9 @@ export const metadata = {
     },
 };
 
-export default function MentionsLegalesPage() {
-    return <MentionsLegalesClient />;
+export const revalidate = 60;
+
+export default async function MentionsLegalesPage() {
+    const siteInfo = await getSiteInfo();
+    return <MentionsLegalesClient siteInfo={siteInfo} />;
 }

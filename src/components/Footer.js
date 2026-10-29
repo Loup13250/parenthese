@@ -1,15 +1,37 @@
 'use client';
 import Link from 'next/link';
-import { Instagram, MapPin, Phone, Mail, Clock, Calendar, Heart, ShieldCheck } from 'lucide-react';
+import { Instagram, Facebook, MapPin, Phone, Mail, Calendar, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 import './Footer.css';
 
+function renderHoursLines(value, fallback) {
+    const raw = (value && String(value).trim()) || fallback;
+    const parts = raw.split(/\s*(?:\/|\n)\s*/).filter(Boolean);
+    return parts.map((part, idx) => (
+        <span key={idx}>
+            {idx > 0 && <br />}
+            {part}
+        </span>
+    ));
+}
+
 export default function Footer({ siteInfo }) {
+    const { t } = useLanguage();
     const info = siteInfo || {};
+    const businessName = info.business_name || 'La Parenthèse Harmonieuse';
     const phone = info.phone || '06 51 65 21 42';
     const phoneTel = phone.replace(/\s+/g, '');
     const email = info.contact_email || 'laparentheseharmonieuse@gmail.com';
     const planityUrl = info.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
     const instagramUrl = info.instagram || 'https://www.instagram.com/laparentheseharmonieuse/';
+    const facebookUrl = info.facebook || '';
+
+    const tagline = info.tagline || t('footer.tagline');
+    const addressText = info.address || '418 Avenue Georges Guynemer, Pôle Santé Georges Guynemer';
+    const cityLine = [info.postal_code || '13300', info.city || 'Salon-de-Provence'].filter(Boolean).join(' ');
+    const parkingText = info.parking_info || 'Parking gratuit devant le pôle santé';
+    const sunMonValue = info.hours_sun_mon || t('footer.closed');
+    const isClosedLabel = /ferm|clos/i.test(sunMonValue);
 
     return (
         <footer className="spa-footer">
@@ -17,50 +39,67 @@ export default function Footer({ siteInfo }) {
                 <div className="container footer-grid">
                     {/* Brand Column */}
                     <div className="footer-col footer-brand-col">
-                        <span className="footer-brand-title">La Parenthèse Harmonieuse</span>
+                        <span className="footer-brand-title">{businessName}</span>
                         <p className="footer-brand-tagline">
-                            Offrez-vous une parenthèse de bien-être...
+                            {tagline}
                         </p>
                         <p className="footer-brand-desc">
-                            Un cocon de douceur et d&apos;écoute bienveillante exclusivement dédié aux femmes. Massages sur mesure, soins du visage bio, drainage lymphatique et Kobido à Salon-de-Provence.
+                            {t('footer.desc')}
                         </p>
                         <div className="footer-social-links">
-                            <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram La Parenthèse Harmonieuse" className="footer-social-btn">
-                                <Instagram size={17} />
-                                <span>Instagram</span>
-                            </a>
+                            {instagramUrl && (
+                                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${businessName}`} className="footer-social-btn">
+                                    <Instagram size={17} />
+                                    <span>Instagram</span>
+                                </a>
+                            )}
+                            {facebookUrl && (
+                                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label={`Facebook ${businessName}`} className="footer-social-btn">
+                                    <Facebook size={17} />
+                                    <span>Facebook</span>
+                                </a>
+                            )}
                         </div>
                     </div>
 
-                    {/* Navigation / Soins */}
+                    {/* Navigation & Carte des Soins */}
                     <div className="footer-col">
-                        <h3 className="footer-heading">Carte des Soins</h3>
+                        <h3 className="footer-heading">{t('footer.servicesTitle')}</h3>
                         <ul className="footer-menu">
-                            <li><Link href="/carte-des-soins">Massages Sur Mesure Green Spa</Link></li>
-                            <li><Link href="/carte-des-soins">Drainage Lymphatique Méthode Experte</Link></li>
-                            <li><Link href="/carte-des-soins">Combo Madérothérapie & Drainage</Link></li>
-                            <li><Link href="/carte-des-soins">Massage Liftant Visage Kobido</Link></li>
-                            <li><Link href="/carte-des-soins">Soins Visage Personnalisés Nohèm BIO</Link></li>
-                            <li><Link href="/carte-des-soins">Soins Spécial Maternité & Grossesse</Link></li>
-                            <li><Link href="/carte-des-soins">Packs, Cures & Forfaits</Link></li>
+                            <li><Link href="/carte-des-soins">{t('tarifs.catMassages')}</Link></li>
+                            <li><Link href="/carte-des-soins">{t('tarifs.catDrainage')}</Link></li>
+                            <li><Link href="/carte-des-soins">{t('tarifs.catKobido')}</Link></li>
+                            <li><Link href="/carte-des-soins">{t('tarifs.catVisage')}</Link></li>
+                            <li><Link href="/carte-des-soins">{t('tarifs.catMaternite')}</Link></li>
+                            <li><Link href="/carte-cadeau">{t('nav.gift')}</Link></li>
+                            <li><Link href="/mon-approche">{t('nav.about')}</Link></li>
                         </ul>
                     </div>
 
                     {/* Accès & Contact */}
                     <div className="footer-col">
-                        <h3 className="footer-heading">Institut & Contact</h3>
+                        <h3 className="footer-heading">{t('footer.contactTitle')}</h3>
                         <ul className="footer-contact-list">
                             <li>
                                 <MapPin size={16} className="contact-icon" />
                                 <span>
-                                    418 Avenue Georges Guynemer<br />
-                                    Pôle Santé Georges Guynemer<br />
-                                    13300 Salon-de-Provence
+                                    {addressText.split(/,\s*/).map((line, idx) => (
+                                        <span key={idx}>
+                                            {idx > 0 && <br />}
+                                            {line}
+                                        </span>
+                                    ))}
+                                    {!addressText.includes('Salon-de-Provence') && cityLine ? (
+                                        <>
+                                            <br />
+                                            {cityLine}
+                                        </>
+                                    ) : null}
                                 </span>
                             </li>
                             <li className="footer-parking-tag">
                                 <ShieldCheck size={14} className="contact-icon" />
-                                <span>Parking gratuit devant le pôle santé</span>
+                                <span>{parkingText}</span>
                             </li>
                             <li>
                                 <Phone size={16} className="contact-icon" />
@@ -75,38 +114,38 @@ export default function Footer({ siteInfo }) {
                         <div className="footer-cta-wrap">
                             <a href={planityUrl} target="_blank" rel="noopener noreferrer" className="footer-planity-btn">
                                 <Calendar size={15} />
-                                <span>Prendre RDV sur Planity</span>
+                                <span>{t('footer.bookPlanity')}</span>
                             </a>
                         </div>
                     </div>
 
                     {/* Horaires d'ouverture */}
                     <div className="footer-col">
-                        <h3 className="footer-heading">Horaires d&apos;Ouverture</h3>
+                        <h3 className="footer-heading">{t('footer.hoursTitle')}</h3>
                         <div className="footer-hours-table">
                             <div className="hours-row">
-                                <span className="day">Mardi</span>
-                                <span className="time">10:00 - 13:30<br />14:30 - 19:00</span>
+                                <span className="day">{t('footer.dayTue')}</span>
+                                <span className="time">{renderHoursLines(info.hours_tue, '10:00 - 13:30 / 14:30 - 19:00')}</span>
                             </div>
                             <div className="hours-row">
-                                <span className="day">Mercredi</span>
-                                <span className="time">14:00 - 19:00</span>
+                                <span className="day">{t('footer.dayWed')}</span>
+                                <span className="time">{renderHoursLines(info.hours_wed, '14:00 - 19:00')}</span>
                             </div>
                             <div className="hours-row">
-                                <span className="day">Jeudi</span>
-                                <span className="time">10:00 - 13:30<br />14:30 - 18:00</span>
+                                <span className="day">{t('footer.dayThu')}</span>
+                                <span className="time">{renderHoursLines(info.hours_thu, '10:00 - 13:30 / 14:30 - 18:00')}</span>
                             </div>
                             <div className="hours-row">
-                                <span className="day">Vendredi</span>
-                                <span className="time">10:00 - 13:30<br />14:30 - 17:30</span>
+                                <span className="day">{t('footer.dayFri')}</span>
+                                <span className="time">{renderHoursLines(info.hours_fri, '10:00 - 13:30 / 14:30 - 17:30')}</span>
                             </div>
                             <div className="hours-row">
-                                <span className="day">Samedi</span>
-                                <span className="time">09:30 - 14:00</span>
+                                <span className="day">{t('footer.daySat')}</span>
+                                <span className="time">{renderHoursLines(info.hours_sat, '09:30 - 14:00')}</span>
                             </div>
                             <div className="hours-row closed">
-                                <span className="day">Lundi & Dimanche</span>
-                                <span className="time">Fermé</span>
+                                <span className="day">{t('footer.daySunMon')}</span>
+                                <span className="time">{sunMonValue}</span>
                             </div>
                         </div>
                     </div>
@@ -117,17 +156,28 @@ export default function Footer({ siteInfo }) {
             <div className="footer-bottom">
                 <div className="container footer-bottom-inner">
                     <p className="copyright">
-                        © {new Date().getFullYear()} La Parenthèse Harmonieuse. Tous droits réservés.
+                        © {new Date().getFullYear()} {t('footer.copyright')}
                     </p>
                     <div className="footer-legal-links">
-                        <Link href="/mentions-legales">Mentions légales</Link>
-                        <span className="dot">•</span>
-                        <Link href="/politique-de-confidentialite">Politique de confidentialité</Link>
-                        <span className="dot">•</span>
-                        <Link href="/conditions-generales-de-ventes">CGV</Link>
-                        <span className="dot">•</span>
-                        <Link href="/admin" className="admin-link">Espace Pro</Link>
+                        <Link href="/mentions-legales">{t('footer.legalNotice')}</Link>
+                        <span className="dot" aria-hidden="true">•</span>
+                        <Link href="/politique-de-confidentialite">{t('footer.privacyPolicy')}</Link>
+                        <span className="dot" aria-hidden="true">•</span>
+                        <Link href="/conditions-generales-de-ventes">{t('footer.cgv')}</Link>
+                        <span className="dot" aria-hidden="true">•</span>
+                        <Link href="/admin" className="admin-link">{t('footer.proSpace')}</Link>
                     </div>
+                    <p className="footer-credits">
+                        Conçu par{' '}
+                        <a
+                            href="https://jl-developpement.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="footer-developer-link"
+                        >
+                            JL-Développement
+                        </a>
+                    </p>
                 </div>
             </div>
         </footer>

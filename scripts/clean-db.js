@@ -12,19 +12,15 @@ La Parenthèse Harmonieuse est née de cette vocation : un cocon d'exception à 
 
 const aboutEn = `My name is Harmonie. For over a decade, I have passionately devoted myself to the art of wellness and aesthetic rituals. Having practiced in prestigious luxury spas and institutes in France and abroad, I created La Parenthèse Harmonieuse as a sanctuary where time stands still and every woman receives tailor-made care.`;
 
-const updateStmt = db.prepare("UPDATE site_info SET value = ? WHERE key = ?");
-updateStmt.run(aboutFr, 'about_text');
-updateStmt.run(aboutEn, 'about_text_en');
-updateStmt.run('Treat yourself to a moment of pure serenity...', 'tagline_en');
-updateStmt.run(JSON.stringify({
-  fr: {
-    'about.pageTagline': 'Offrez-vous une parenthèse de bien-être...',
-    'footer.tagline': 'Offrez-vous une parenthèse de bien-être...'
-  },
-  en: {
-    'about.pageTagline': 'Treat yourself to a moment of pure serenity...',
-    'footer.tagline': 'Treat yourself to a moment of pure serenity...'
-  }
-}), 'custom_texts');
+const upsertStmt = db.prepare(`
+  INSERT INTO site_info (key, value) VALUES (?, ?)
+  ON CONFLICT(key) DO UPDATE SET value = excluded.value
+`);
 
-console.log('Database site_info cleaned and updated with Harmonie bio successfully!');
+upsertStmt.run('about_text', aboutFr);
+upsertStmt.run('about_bio', aboutFr);
+upsertStmt.run('about_text_en', aboutEn);
+upsertStmt.run('tagline_en', 'Treat yourself to a moment of pure serenity...');
+
+db.close();
+console.log('Database site_info updated with Harmonie bio successfully.');

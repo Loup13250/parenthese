@@ -10,6 +10,7 @@
   --admin-bg-2: #26201B;            /* encre : barre latérale */
   --admin-card-bg: #FFFDF8;
   --admin-surface: #F7F2E9;
+  --admin-surface-hover: #EFE7D8;
 
   --admin-text: #2A231D;
   --admin-text-muted: #5C5147;
@@ -43,6 +44,74 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@keyframes adminFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.spin {
+  animation: spin 0.85s linear infinite;
+}
+
+.animate-fade,
+.anim-fade {
+  animation: adminFadeUp 0.25s ease-out;
+}
+
+.animate-fade-up {
+  animation: adminFadeUp 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.admin-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: var(--admin-radius-sm);
+  border: 1px solid var(--admin-border);
+  background: #FFFFFF;
+  color: var(--admin-text-muted);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-btn-icon:hover:not(:disabled) {
+  background: var(--admin-surface-hover);
+  color: var(--admin-text);
+  border-color: var(--admin-gold);
+}
+
+.admin-btn-icon:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--admin-radius-sm);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-bottom: 1.25rem;
+}
+
+.admin-alert-error {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #B91C1C;
+}
+
+.admin-alert-success {
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #047857;
 }
 
 /* ==========================================================================

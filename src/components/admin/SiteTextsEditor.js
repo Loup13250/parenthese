@@ -1,11 +1,11 @@
 'use client';
 
 /**
- * SiteTextsEditor - modification des textes du site, en français ET en anglais
- * ----------------------------------------------------------------------------
- * Chaque champ est pré-rempli avec le texte actuellement affiché sur le site
- * (texte d'origine ou texte déjà personnalisé). Enregistrer = le site public est
- * mis à jour dans les deux langues. "Rétablir" = retour au texte d'origine.
+ * SiteTextsEditor - modification des textes du site (100% en Français)
+ * --------------------------------------------------------------------
+ * Chaque champ est pré-rempli avec le texte actuellement actif sur le site.
+ * Cliquer sur "Enregistrer" met à jour le site instantanément.
+ * "Rétablir l'original" réinitialise le texte à sa valeur par défaut.
  */
 
 import { useMemo, useState, useTransition } from 'react';
@@ -27,12 +27,7 @@ import { getTextLabel } from '@/lib/siteTexts';
 import { saveSiteTexts } from '@/app/actions';
 import './SiteTextsEditor.css';
 
-const LANGS = [
-    { code: 'fr', label: 'Français', flag: '🇫🇷' },
-    { code: 'en', label: 'English', flag: '🇬🇧' },
-];
-
-const defaultOf = (lang, key) => DICTIONARY[lang]?.[key] ?? DICTIONARY.fr[key] ?? '';
+const defaultOf = (key) => DICTIONARY[key] ?? '';
 
 const normalize = (s) =>
     String(s || '')
@@ -43,29 +38,28 @@ const normalize = (s) =>
 const placeholdersOf = (text) => (String(text).match(/\{[a-zA-Z]+\}/g) || []);
 
 function buildInitialValues(sections, overrides) {
-    const values = { fr: {}, en: {} };
+    const rawFr = overrides?.fr || overrides || {};
+    const values = {};
     sections.forEach((section) => {
         section.keys.forEach((key) => {
-            LANGS.forEach(({ code }) => {
-                values[code][key] = overrides?.[code]?.[key] ?? defaultOf(code, key);
-            });
+            values[key] = rawFr[key] ?? defaultOf(key);
         });
     });
     return values;
 }
 
-function TextField({ id, value, onChange, defaultText, lang }) {
-    const isLong = defaultText.length > 70 || defaultText.includes('\n') || value.length > 90 || value.includes('\n');
+function TextField({ id, value, onChange, defaultText }) {
+    const isLong = (defaultText && (defaultText.length > 70 || defaultText.includes('\n'))) ||
+        (value && (value.length > 90 || value.includes('\n')));
     const common = {
         id,
-        value,
-        lang,
+        value: value ?? '',
         onChange: (e) => onChange(e.target.value),
-        placeholder: defaultText,
+        placeholder: defaultText || '',
         spellCheck: true,
     };
     if (isLong) {
-        const rows = Math.min(8, Math.max(3, Math.ceil(Math.max(value.length, defaultText.length) / 55)));
+        const rows = Math.min(7, Math.max(3, Math.ceil(Math.max((value || '').length, (defaultText || '').length) / 60)));
         return <textarea {...common} rows={rows} className="admin-textarea st-field" />;
     }
     return <input type="text" {...common} className="admin-input st-field" />;
@@ -73,7 +67,7 @@ function TextField({ id, value, onChange, defaultText, lang }) {
 
 export default function SiteTextsEditor({
     sections,
-    overrides = { fr: {}, en: {} },
+    overrides = { fr: {} },
     searchable = false,
     collapsible = false,
     defaultOpenFirst = false,
@@ -101,24 +95,21 @@ export default function SiteTextsEditor({
     const allKeys = useMemo(() => sections.flatMap((s) => s.keys), [sections]);
 
     const changedKeys = useMemo(
-        () => allKeys.filter((key) => LANGS.some(({ code }) => values[code][key] !== saved[code][key])),
+        () => allKeys.filter((key) => (values[key] ?? '') !== (saved[key] ?? '')),
         [allKeys, values, saved],
     );
     const dirty = changedKeys.length > 0;
 
-    const isCustom = (key) => LANGS.some(({ code }) => values[code][key] !== defaultOf(code, key));
+    const isCustom = (key) => (values[key] ?? '') !== defaultOf(key);
 
-    const setValue = (lang, key, text) => {
+    const setValue = (key, text) => {
         setFeedback(null);
-        setValues((prev) => ({ ...prev, [lang]: { ...prev[lang], [key]: text } }));
+        setValues((prev) => ({ ...prev, [key]: text }));
     };
 
     const resetKey = (key) => {
         setFeedback(null);
-        setValues((prev) => ({
-            fr: { ...prev.fr, [key]: defaultOf('fr', key) },
-            en: { ...prev.en, [key]: defaultOf('en', key) },
-        }));
+        setValues((prev) => ({ ...prev, [key]: defaultOf(key) }));
     };
 
     const discardChanges = () => {
@@ -129,22 +120,21 @@ export default function SiteTextsEditor({
     const handleSave = () => {
         // Vérifie qu'on n'a pas supprimé un repère du type {phone}
         for (const key of changedKeys) {
-            for (const { code } of LANGS) {
-                const missing = placeholdersOf(defaultOf(code, key)).filter((p) => !values[code][key].includes(p));
-                if (missing.length && values[code][key].trim() !== '') {
-                    setFeedback({ type: 'error', text: `« ${getTextLabel(key)} » (${code.toUpperCase()}) doit conserver ${missing.join(', ')} : il est remplacé automatiquement sur le site.` });
-                    return;
-                }
+            const missing = placeholdersOf(defaultOf(key)).filter((p) => !(values[key] || '').includes(p));
+            if (missing.length && (values[key] || '').trim() !== '') {
+                setFeedback({
+                    type: 'error',
+                    text: `« ${getTextLabel(key)} » doit conserver ${missing.join(', ')} : ce paramètre est remplacé automatiquement.`,
+                });
+                return;
             }
         }
 
-        const updates = { fr: {}, en: {} };
+        const updates = { fr: {} };
         changedKeys.forEach((key) => {
-            LANGS.forEach(({ code }) => {
-                const val = values[code][key].trim();
-                // Identique au texte d'origine (ou vide) = on retire la personnalisation
-                updates[code][key] = val === '' || val === defaultOf(code, key) ? null : values[code][key];
-            });
+            const val = (values[key] || '').trim();
+            // Identique au texte d'origine (ou vide) = on retire la personnalisation
+            updates.fr[key] = val === '' || val === defaultOf(key) ? null : values[key];
         });
 
         startTransition(async () => {
@@ -154,20 +144,17 @@ export default function SiteTextsEditor({
                     setFeedback({ type: 'error', text: res.error });
                     return;
                 }
-                // Un champ laissé vide retrouve son texte d'origine
-                const next = { fr: { ...values.fr }, en: { ...values.en } };
+                const next = { ...values };
                 changedKeys.forEach((key) => {
-                    LANGS.forEach(({ code }) => {
-                        if (next[code][key].trim() === '') next[code][key] = defaultOf(code, key);
-                    });
+                    if ((next[key] || '').trim() === '') next[key] = defaultOf(key);
                 });
                 setValues(next);
                 setSaved(next);
-                setFeedback({ type: 'ok', text: 'Textes enregistrés - le site est mis à jour en français et en anglais.' });
-                setTimeout(() => setFeedback((f) => (f?.type === 'ok' ? null : f)), 5000);
+                setFeedback({ type: 'ok', text: 'Textes enregistrés avec succès. Le site est mis à jour.' });
+                setTimeout(() => setFeedback((f) => (f?.type === 'ok' ? null : f)), 4500);
             } catch (err) {
                 console.error(err);
-                setFeedback({ type: 'error', text: "L'enregistrement a échoué. Vérifie ta connexion et réessaie." });
+                setFeedback({ type: 'error', text: "L'enregistrement a échoué. Veuillez vérifier votre connexion." });
             }
         });
     };
@@ -179,7 +166,7 @@ export default function SiteTextsEditor({
             ...section,
             visibleKeys: q
                 ? section.keys.filter((key) =>
-                    normalize([getTextLabel(key), key, values.fr[key], values.en[key], defaultOf('fr', key), defaultOf('en', key)].join(' ')).includes(q))
+                    normalize([getTextLabel(key), key, values[key], defaultOf(key)].join(' ')).includes(q))
                 : section.keys,
         }))
         .filter((s) => s.visibleKeys.length > 0);
@@ -197,7 +184,7 @@ export default function SiteTextsEditor({
                                 type="search"
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
-                                placeholder="Rechercher un texte (ex : prestations, devis, téléphone…)"
+                                placeholder="Rechercher un texte..."
                                 aria-label="Rechercher un texte"
                             />
                         </label>
@@ -231,7 +218,11 @@ export default function SiteTextsEditor({
                                     <strong>{section.title}</strong>
                                     {section.description && <em>{section.description}</em>}
                                 </span>
-                                {customInSection > 0 && <span className="st-pill">{customInSection} modifié{customInSection > 1 ? 's' : ''}</span>}
+                                {customInSection > 0 && (
+                                    <span className="st-pill">
+                                        {customInSection} modifié{customInSection > 1 ? 's' : ''}
+                                    </span>
+                                )}
                                 {collapsible && <ChevronDown size={18} className="st-chevron" />}
                             </button>
                             {section.href && (
@@ -250,33 +241,34 @@ export default function SiteTextsEditor({
                             <div className="st-items">
                                 {section.visibleKeys.map((key) => {
                                     const custom = isCustom(key);
-                                    const tokens = placeholdersOf(defaultOf('fr', key));
+                                    const tokens = placeholdersOf(defaultOf(key));
                                     return (
                                         <div key={key} className={`st-item ${custom ? 'is-custom' : ''}`}>
                                             <div className="st-item-head">
-                                                <label htmlFor={`st-${key}-fr`}>{getTextLabel(key)}</label>
+                                                <label htmlFor={`st-${key}`}>{getTextLabel(key)}</label>
                                                 {custom && (
-                                                    <button type="button" className="st-reset" onClick={() => resetKey(key)} title="Revenir aux textes d'origine (FR et EN)">
+                                                    <button
+                                                        type="button"
+                                                        className="st-reset"
+                                                        onClick={() => resetKey(key)}
+                                                        title="Revenir au texte d'origine"
+                                                    >
                                                         <RotateCcw size={12} /> Rétablir l&apos;original
                                                     </button>
                                                 )}
                                             </div>
-                                            <div className="st-cols">
-                                                {LANGS.map(({ code, label, flag }) => (
-                                                    <div key={code} className="st-col">
-                                                        <span className="st-lang"><span aria-hidden="true">{flag}</span> {label}</span>
-                                                        <TextField
-                                                            id={`st-${key}-${code}`}
-                                                            lang={code}
-                                                            value={values[code][key]}
-                                                            defaultText={defaultOf(code, key)}
-                                                            onChange={(text) => setValue(code, key, text)}
-                                                        />
-                                                    </div>
-                                                ))}
+                                            <div className="st-field-wrap">
+                                                <TextField
+                                                    id={`st-${key}`}
+                                                    value={values[key]}
+                                                    defaultText={defaultOf(key)}
+                                                    onChange={(text) => setValue(key, text)}
+                                                />
                                             </div>
                                             {tokens.length > 0 && (
-                                                <p className="st-note">Conservez {tokens.join(', ')} : ce repère est remplacé automatiquement sur le site.</p>
+                                                <p className="st-note">
+                                                    Conservez {tokens.join(', ')} : ce paramètre est complété automatiquement par le site.
+                                                </p>
                                             )}
                                         </div>
                                     );
@@ -301,13 +293,23 @@ export default function SiteTextsEditor({
                 )}
                 <div className="st-save-actions">
                     {dirty && (
-                        <button type="button" className="admin-btn admin-btn-secondary st-btn" onClick={discardChanges} disabled={isPending}>
+                        <button
+                            type="button"
+                            className="admin-btn admin-btn-secondary st-btn"
+                            onClick={discardChanges}
+                            disabled={isPending}
+                        >
                             <Undo2 size={15} /> Annuler
                         </button>
                     )}
-                    <button type="button" className="admin-btn admin-btn-primary st-btn" onClick={handleSave} disabled={isPending || !dirty}>
+                    <button
+                        type="button"
+                        className="admin-btn admin-btn-primary st-btn"
+                        onClick={handleSave}
+                        disabled={isPending || !dirty}
+                    >
                         {isPending ? <Loader2 size={15} className="st-spin" /> : <Save size={15} />}
-                        Enregistrer les textes
+                        Enregistrer les modifications
                     </button>
                 </div>
             </div>

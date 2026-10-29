@@ -463,15 +463,15 @@
     border-radius: 50% !important;
     max-width: min(50vh, 460px);
     max-height: min(50vh, 460px);
-    background: linear-gradient(135deg, #3A669A 0%, #315B8C 50%, #244872 100%) !important;
-    border: 3px solid #EAA620 !important;
-    box-shadow: 0 16px 40px rgba(36, 72, 114, 0.35) !important;
+    background: linear-gradient(135deg, #FAF7F2 0%, #F4EDE2 55%, #E8DFD1 100%) !important;
+    border: 3px solid #C5A880 !important;
+    box-shadow: 0 16px 40px rgba(42, 35, 29, 0.22) !important;
 }
 
 .ic-frame.is-logo {
-    background: linear-gradient(135deg, #3A669A 0%, #315B8C 50%, #244872 100%) !important;
-    border: 2.5px solid #EAA620 !important;
-    box-shadow: 0 12px 34px rgba(36, 72, 114, 0.28) !important;
+    background-color: #FAF7F2 !important;
+    border: 2.5px solid #C5A880 !important;
+    box-shadow: 0 12px 34px rgba(42, 35, 29, 0.18) !important;
 }
 
 .ic-frame.is-dragging {

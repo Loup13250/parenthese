@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export default function PrestationsRedirect() {
-    redirect('/carte-des-soins');
+    permanentRedirect('/carte-des-soins');
 }

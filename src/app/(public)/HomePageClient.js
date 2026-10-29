@@ -1,39 +1,58 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import VideoHero from '@/components/VideoHero';
-import { 
-    Calendar, Sparkles, Star, MapPin, Clock, Phone, Heart, 
-    Gift, ArrowRight, ShieldCheck, Check, Info, X, ChevronRight,
-    User
+import { useLanguage } from '@/context/LanguageContext';
+import {
+    Calendar, Star, MapPin, Clock, Phone,
+    Gift, ArrowRight, ShieldCheck, X, ChevronRight,
+    Sparkles
 } from 'lucide-react';
 import './home.css';
 
+const isDynamicImg = (src) => typeof src === 'string' && (src.startsWith('/api/media/') || src.startsWith('http'));
+
 export default function HomePageClient({ siteInfo, services = [], testimonials = [] }) {
     const [selectedService, setSelectedService] = useState(null);
+    const { t, trans } = useLanguage();
 
     const phone = siteInfo?.phone || '06 51 65 21 42';
     const phoneTel = phone.replace(/\s+/g, '');
     const planityUrl = siteInfo?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
     const reviewsUrl = siteInfo?.google_reviews || 'https://g.page/r/CQUzqKQ2SgYrEAE/review';
+    const portraitSrc = siteInfo?.about_image || '/images/harmonie-portrait.jpg';
+    const addressLine = trans(siteInfo, 'address') || '418 Avenue Georges Guynemer, 13300 Salon-de-Provence';
+    const fullAddress = addressLine.includes('Salon-de-Provence')
+        ? addressLine
+        : `${addressLine}, ${siteInfo?.postal_code || '13300'} ${siteInfo?.city || 'Salon-de-Provence'}`;
+    const parkingText = siteInfo?.parking_info || "Parking gratuit et places réservées devant l'entrée";
 
-    // Sélection signature des 3 soins coup de cœur (sans redondance avec la carte des soins)
-    const signatureServices = (
-        services.filter(s => s.is_featured).length >= 3
-            ? services.filter(s => s.is_featured)
-            : services
-    ).slice(0, 3);
+    const featuredList = services.filter((s) => s.is_featured);
+    const signatureServices = featuredList.length > 0 ? featuredList.slice(0, 6) : services.slice(0, 3);
 
-    // Avis limités aux 3 meilleurs témoignages pour une lecture fluide et rapide sur mobile
     const limitedTestimonials = testimonials.slice(0, 3);
 
+    useEffect(() => {
+        if (!selectedService) return;
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') setSelectedService(null);
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.body.style.overflow = prevOverflow;
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [selectedService]);
+
     return (
-        <div className="home-page">
+        <main id="main-content" className="home-page">
             {/* 1. HERO VIDEO */}
             <VideoHero siteInfo={siteInfo} />
 
-            {/* 2. LE COCON BIEN-ÊTRE (Affiché directement en premier sous la vidéo) */}
+            {/* 2. LE COCON BIEN-ÊTRE */}
             <section className="section-bienvenue" id="bienvenue-section">
                 <div className="container">
                     <div className="bienvenue-grid">
@@ -41,71 +60,64 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                         <div className="bienvenue-media">
                             <div className="portrait-frame-bespoke">
                                 <Image
-                                    src={siteInfo?.about_image || '/images/harmonie-portrait.jpg'}
-                                    alt="Harmonie - Fondatrice de La Parenthèse Harmonieuse"
+                                    src={portraitSrc}
+                                    alt="Harmonie, fondatrice et praticienne certifiée de La Parenthèse Harmonieuse"
                                     width={480}
                                     height={580}
                                     className="portrait-img-bespoke"
-                                    priority
+                                    unoptimized={isDynamicImg(portraitSrc)}
                                 />
                                 <div className="portrait-matting" />
                                 <div className="portrait-caption-box">
                                     <span className="caption-name">Harmonie</span>
-                                    <span className="caption-sub">Fondatrice &amp; Praticienne Bien-Être Certifiée</span>
+                                    <span className="caption-sub">{t('home.portraitRole')}</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Récit & Philosophie */}
                         <div className="bienvenue-content">
-                            <span className="editorial-kicker">LE COCON BIEN-ÊTRE</span>
+                            <span className="editorial-kicker">{t('home.welcomeKicker')}</span>
                             <h2 className="bienvenue-title">
-                                Une écoute sincère, <br />
-                                <span className="title-serif">un toucher d&apos;exception</span>
+                                {t('home.welcomeTitle')} <br />
+                                <span className="title-serif">{t('home.welcomeTitleItalic')}</span>
                             </h2>
                             <div className="editorial-gold-line left-aligned" />
 
-                            <p className="bienvenue-lead">
-                                Je vous accueille dans un petit cocon chaleureux, exclusivement dédié aux femmes, au Pôle Santé Guynemer à Salon-de-Provence.
-                            </p>
-                            <p className="bienvenue-p">
-                                Après plus de 10 ans d&apos;exercice passionné au sein d&apos;instituts reconnus et de spas d&apos;hôtels étoilés, j&apos;ai souhaité créer un lieu à taille humaine, où l&apos;on ne se presse jamais.
-                            </p>
-                            <p className="bienvenue-p">
-                                Chaque soin est pensé sur mesure, adapté à vos besoins physiques et émotionnels du moment. L&apos;écoute attentive, la douceur et la bienveillance sont au cœur de chaque rendez-vous, pour faire de ce moment une véritable bulle hors du temps.
-                            </p>
+                            <p className="bienvenue-lead">{t('home.welcomeLead')}</p>
+                            <p className="bienvenue-p">{t('home.welcomeP1')}</p>
+                            <p className="bienvenue-p">{t('home.welcomeP2')}</p>
 
-                            {/* Piliers d'Excellence Épurés (Zéro numéro 01 02 03) */}
                             <div className="editorial-pillars-list">
                                 <div className="pillar-row">
                                     <div className="pillar-bullet" aria-hidden="true" />
                                     <div>
-                                        <h4 className="pillar-heading">Gestuelle Sur-Mesure</h4>
-                                        <p className="pillar-desc">Bilan attentif préalable pour cibler vos zones de tension et adapter le rythme ainsi que la pression.</p>
+                                        <h3 className="pillar-heading">{t('home.pillar1Title')}</h3>
+                                        <p className="pillar-desc">{t('home.pillar1Desc')}</p>
                                     </div>
                                 </div>
                                 <div className="pillar-row">
                                     <div className="pillar-bullet" aria-hidden="true" />
                                     <div>
-                                        <h4 className="pillar-heading">Cocon Privatif Exclusif</h4>
-                                        <p className="pillar-desc">Un espace intime et sécurisant dédié à une seule cliente à la fois pour un lâcher-prise total sans précipitation.</p>
+                                        <h3 className="pillar-heading">{t('home.pillar2Title')}</h3>
+                                        <p className="pillar-desc">{t('home.pillar2Desc')}</p>
                                     </div>
                                 </div>
                                 <div className="pillar-row">
                                     <div className="pillar-bullet" aria-hidden="true" />
                                     <div>
-                                        <h4 className="pillar-heading">Cosmétiques Biologiques</h4>
-                                        <p className="pillar-desc">Partenariats d&apos;excellence avec Nohèm (certifié BIO Ecocert) et Green Spa pour respecter votre peau et la planète.</p>
+                                        <h3 className="pillar-heading">{t('home.pillar3Title')}</h3>
+                                        <p className="pillar-desc">{t('home.pillar3Desc')}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="bienvenue-actions">
-                                <Link href="/mon-approche" className="btn-auberge-reserve">
-                                    DÉCOUVRIR MON APPROCHE
+                                <Link href="/mon-approche" className="btn-auberge-reserve" aria-label="Découvrir l'approche bien-être et le parcours d'Harmonie">
+                                    {t('home.discoverApproachBtn')}
                                 </Link>
-                                <a href={planityUrl} target="_blank" rel="noopener noreferrer" className="btn-auberge-gift">
-                                    PRENDRE RENDEZ-VOUS
+                                <a href={planityUrl} target="_blank" rel="noopener noreferrer" className="btn-auberge-gift" aria-label="Prendre rendez-vous en ligne sur Planity (ouvre un nouvel onglet)">
+                                    {t('nav.bookBtn')}
                                 </a>
                             </div>
                         </div>
@@ -113,233 +125,226 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                 </div>
             </section>
 
-            {/* 3. BANDEROLE TRIPTYQUE PHOTOGRAPHIQUE (Atmosphère & Liens d'Excellence) */}
+            {/* 3. BANDEROLE TRIPTYQUE PHOTOGRAPHIQUE */}
             <section className="section-auberge-triptych">
                 <div className="triptych-row">
                     <Link href="/mon-approche" className="triptych-tile">
                         <Image
                             src="/images/spa-huiles.jpg"
-                            alt="Mon Histoire & Approche"
+                            alt={t('home.trip1Title')}
                             fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 33vw"
+                            sizes="(max-width: 860px) 100vw, 33vw"
                             className="triptych-img"
                         />
                         <div className="triptych-overlay">
-                            <span className="triptych-kicker">PHILOSOPHIE DU COCON</span>
-                            <h3 className="triptych-title">MON HISTOIRE &amp; MON APPROCHE</h3>
-                            <span className="triptych-cta">Découvrir le parcours →</span>
+                            <span className="triptych-kicker">{t('home.trip1Kicker')}</span>
+                            <h3 className="triptych-title">{t('home.trip1Title')}</h3>
+                            <span className="triptych-cta">{t('home.trip1Cta')}</span>
                         </div>
                     </Link>
 
                     <Link href="/carte-des-soins" className="triptych-tile">
                         <Image
                             src="/images/massage-detente.jpg"
-                            alt="La Carte des Soins et Tarifs"
+                            alt={t('home.trip2Title')}
                             fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 33vw"
+                            sizes="(max-width: 860px) 100vw, 33vw"
                             className="triptych-img"
                         />
                         <div className="triptych-overlay">
-                            <span className="triptych-kicker">RITUELS &amp; MASSAGES</span>
-                            <h3 className="triptych-title">CARTE DES SOINS &amp; TARIFS</h3>
-                            <span className="triptych-cta">Explorer tous les protocoles →</span>
+                            <span className="triptych-kicker">{t('home.trip2Kicker')}</span>
+                            <h3 className="triptych-title">{t('home.trip2Title')}</h3>
+                            <span className="triptych-cta">{t('home.trip2Cta')}</span>
                         </div>
                     </Link>
 
                     <Link href="/carte-cadeau" className="triptych-tile">
                         <Image
                             src="/images/maternite-douceur.jpg"
-                            alt="Offrir une Carte Cadeau"
+                            alt={t('home.trip3Title')}
                             fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 33vw"
+                            sizes="(max-width: 860px) 100vw, 33vw"
                             className="triptych-img"
                         />
                         <div className="triptych-overlay">
-                            <span className="triptych-kicker">ATTENTION DÉLICATE</span>
-                            <h3 className="triptych-title">OFFRIR UNE PARENTHÈSE</h3>
-                            <span className="triptych-cta">Pochettes &amp; bons en ligne →</span>
+                            <span className="triptych-kicker">{t('home.trip3Kicker')}</span>
+                            <h3 className="triptych-title">{t('home.trip3Title')}</h3>
+                            <span className="triptych-cta">{t('home.trip3Cta')}</span>
                         </div>
                     </Link>
                 </div>
             </section>
 
-            {/* 4. PRENDRE RENDEZ-VOUS (Formules Solo & Carte Cadeau - Pas d'option Duo) */}
+            {/* 4. PRENDRE RENDEZ-VOUS */}
             <section className="section-auberge-rdv">
                 <div className="container">
                     <div className="section-header-editorial">
-                        <span className="editorial-kicker">DISPONIBILITÉS &amp; FORMULES</span>
+                        <span className="editorial-kicker">{t('home.rdvKicker')}</span>
                         <h2 className="editorial-title">
-                            Prendre <span className="title-serif">Rendez-Vous</span>
+                            {t('home.rdvTitle')} <span className="title-serif">{t('home.rdvTitleItalic')}</span>
                         </h2>
                         <div className="editorial-gold-line" />
                     </div>
 
                     <div className="rdv-twins-grid">
-                        {/* 1. Solo */}
                         <div className="rdv-card">
                             <div className="rdv-circle-icon">
-                                <User size={26} strokeWidth={1.5} />
+                                <Sparkles size={26} strokeWidth={1.5} />
                             </div>
-                            <h3 className="rdv-card-title">En Solo</h3>
-                            <p className="rdv-card-text">
-                                Un moment d&apos;évasion rien que pour vous. Déconnectez du quotidien le temps d&apos;un massage composé sur-mesure dans un cocon privatif dédié aux femmes.
-                            </p>
+                            <h3 className="rdv-card-title">{t('home.soloTitle')}</h3>
+                            <p className="rdv-card-text">{t('home.soloDesc')}</p>
                             <a
                                 href={planityUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn-rdv-action"
+                                aria-label="Prendre rendez-vous en ligne sur Planity pour votre soin (ouvre un nouvel onglet)"
                             >
-                                RÉSERVER SUR PLANITY
+                                {t('home.soloBtn')}
                             </a>
                         </div>
 
-                        {/* 2. Carte Cadeau */}
                         <div className="rdv-card">
                             <div className="rdv-circle-icon">
                                 <Gift size={26} strokeWidth={1.5} />
                             </div>
-                            <h3 className="rdv-card-title">J&apos;ai une Carte Cadeau</h3>
-                            <p className="rdv-card-text">
-                                Vous avez reçu une jolie pochette ou un bon numérique ? Activez votre séance et choisissez votre moment en prenant contact directement.
-                            </p>
-                            <Link
-                                href="/contact"
-                                className="btn-rdv-action"
-                            >
-                                PRENDRE CONTACT
+                            <h3 className="rdv-card-title">{t('home.hasGiftTitle')}</h3>
+                            <p className="rdv-card-text">{t('home.hasGiftDesc')}</p>
+                            <Link href="/contact" className="btn-rdv-action" aria-label="Contacter l'institut pour réserver avec votre carte cadeau">
+                                {t('home.hasGiftBtn')}
                             </Link>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* 5. VOS COUPS DE CŒUR (Sélection signature épurée renvoyant vers la carte des soins) */}
+            {/* 5. VOS COUPS DE CŒUR */}
             <section className="section-coups-de-coeur" id="coups-de-coeur-section">
                 <div className="container">
                     <div className="section-header-editorial">
-                        <span className="editorial-kicker">SÉLECTION SIGNATURE DU SALON</span>
+                        <span className="editorial-kicker">{t('home.favKicker')}</span>
                         <h2 className="editorial-title">
-                            Vos Coups de <span className="title-serif">Cœur</span>
+                            {t('home.favTitle')} <span className="title-serif">{t('home.favTitleItalic')}</span>
                         </h2>
                         <div className="editorial-gold-line" />
-                        <p className="editorial-lead">
-                            Une sélection de nos rituels et modelages les plus plébiscités pour dénouer les tensions, apaiser l&apos;esprit et retrouver une harmonie profonde.
-                        </p>
+                        <p className="editorial-lead">{t('home.favLead')}</p>
                     </div>
 
-                    {/* Grille des 3 rituels coups de cœur */}
                     <div className="soins-auberge-grid">
-                        {signatureServices.map((service) => (
-                            <article key={service.id} className="soin-auberge-card">
-                                <div className="soin-auberge-media">
-                                    <Image
-                                        src={service.image_url || '/images/massage-dos.jpg'}
-                                        alt={service.title}
-                                        width={420}
-                                        height={360}
-                                        className="soin-auberge-img"
-                                    />
-                                    {service.duration && (
-                                        <span className="soin-auberge-duration">{service.duration}</span>
-                                    )}
-                                    {service.badge && (
-                                        <span className="soin-auberge-badge">{service.badge}</span>
-                                    )}
-                                </div>
-
-                                <div className="soin-auberge-body">
-                                    <span className="soin-auberge-cat">{service.category || 'Massage Sur Mesure'}</span>
-                                    <h3 className="soin-auberge-title">{service.title}</h3>
-                                    
-                                    <div className="soin-auberge-specs">
+                        {signatureServices.map((service) => {
+                            const imgSrc = service.image_url || '/images/massage-dos.jpg';
+                            const serviceTitle = trans(service, 'title');
+                            const serviceCat = trans(service, 'category') || 'Massage Sur Mesure';
+                            const serviceBadge = trans(service, 'badge');
+                            return (
+                                <article key={service.id} className="soin-auberge-card">
+                                    <div className="soin-auberge-media">
+                                        <Image
+                                            src={imgSrc}
+                                            alt={serviceTitle}
+                                            width={420}
+                                            height={420}
+                                            className="soin-auberge-img"
+                                            unoptimized={isDynamicImg(imgSrc)}
+                                        />
                                         {service.duration && (
-                                            <div className="spec-item">
-                                                <span className="spec-label">Durée</span>
-                                                <span className="spec-val">{service.duration}</span>
-                                            </div>
+                                            <span className="soin-auberge-duration">{service.duration}</span>
                                         )}
-                                        <div className="spec-item">
-                                            <span className="spec-label">Tarif</span>
-                                            <span className="spec-val price-val">{service.price}</span>
+                                        {serviceBadge && (
+                                            <span className="soin-auberge-badge">{serviceBadge}</span>
+                                        )}
+                                    </div>
+
+                                    <div className="soin-auberge-body">
+                                        <span className="soin-auberge-cat">{serviceCat}</span>
+                                        <h3 className="soin-auberge-title">{serviceTitle}</h3>
+
+                                        <div className="soin-auberge-specs">
+                                            {service.duration && (
+                                                <div className="spec-item">
+                                                    <span className="spec-label">{t('home.durationLabel')}</span>
+                                                    <span className="spec-val">{service.duration}</span>
+                                                </div>
+                                            )}
+                                            <div className="spec-item">
+                                                <span className="spec-label">{t('home.priceLabel')}</span>
+                                                <span className="spec-val price-val">{service.price}</span>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {/* Boutons Haute Beauté : RÉSERVER et OFFRIR */}
-                                    <div className="soin-auberge-actions">
-                                        <a
-                                            href={service.planity_url || planityUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="btn-auberge-reserve"
-                                        >
-                                            RÉSERVER
-                                        </a>
-                                        <Link
-                                            href="/carte-cadeau"
-                                            className="btn-auberge-gift"
-                                        >
-                                            OFFRIR
-                                        </Link>
-                                    </div>
+                                        <div className="soin-auberge-actions">
+                                            <a
+                                                href={service.planity_url || planityUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="btn-auberge-reserve"
+                                                aria-label={`Réserver le soin ${serviceTitle} sur Planity (ouvre un nouvel onglet)`}
+                                            >
+                                                {t('home.reserveBtn')}
+                                            </a>
+                                            <Link
+                                                href={`/carte-cadeau?soin=${encodeURIComponent(serviceTitle)}`}
+                                                className="btn-auberge-gift"
+                                                aria-label={`Offrir le soin ${serviceTitle} en carte cadeau`}
+                                            >
+                                                {t('home.offerBtn')}
+                                            </Link>
+                                        </div>
 
-                                    <button
-                                        type="button"
-                                        onClick={() => setSelectedService(service)}
-                                        className="btn-auberge-details"
-                                    >
-                                        <span>Détails &amp; bienfaits du soin →</span>
-                                    </button>
-                                </div>
-                            </article>
-                        ))}
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedService(service)}
+                                            className="btn-auberge-details"
+                                            aria-label={`Voir les détails et bienfaits du soin ${serviceTitle}`}
+                                        >
+                                            <span>{t('home.detailsBtn')}</span>
+                                        </button>
+                                    </div>
+                                </article>
+                            );
+                        })}
                     </div>
 
                     <div className="soins-view-all-wrap">
                         <Link href="/carte-des-soins" className="btn-auberge-view-all">
-                            <span>Consulter toute la carte des soins (tarifs &amp; protocoles)</span>
+                            <span>{t('home.viewAllSoins')}</span>
                             <ChevronRight size={16} />
                         </Link>
                     </div>
                 </div>
             </section>
 
-            {/* 6. AVIS & RETOURS CLIENTES (Limité à 3 témoignages pour un scroll agréable sur mobile) */}
+            {/* 6. AVIS & RETOURS CLIENTES */}
             <section className="section-avis">
                 <div className="container">
                     <div className="section-header-editorial">
-                        <div className="stars-badge-clean">
+                        <div className="stars-badge-clean" aria-label="5/5">
                             {[...Array(5)].map((_, i) => (
                                 <Star key={i} size={16} className="star-filled" fill="#A68052" stroke="#A68052" />
                             ))}
                         </div>
-                        <span className="editorial-kicker">LIVRE D&apos;OR &amp; TÉMOIGNAGES</span>
+                        <span className="editorial-kicker">{t('reviews.badge')}</span>
                         <h2 className="editorial-title">
-                            Ce que disent <span className="title-serif">nos clientes</span>
+                            {t('reviews.title')} <span className="title-serif">{t('reviews.titleItalic')}</span>
                         </h2>
                         <div className="editorial-gold-line" />
-                        <p className="editorial-lead">
-                            Note d&apos;excellence de <strong>5,0 / 5</strong> basée sur les avis vérifiés de nos clientes sur Planity et Google.
-                        </p>
+                        <p className="editorial-lead">{t('reviews.subtitle')}</p>
                     </div>
 
                     <div className="testimonials-grid-bespoke">
                         {limitedTestimonials.map((testi) => (
                             <div key={testi.id} className="testimonial-card-bespoke">
-                                <div className="testi-stars-row">
+                                <div className="testi-stars-row" aria-label={`${testi.rating || 5}/5`}>
                                     {[...Array(testi.rating || 5)].map((_, i) => (
                                         <Star key={i} size={14} className="star-filled" fill="#A68052" stroke="#A68052" />
                                     ))}
                                 </div>
-                                <p className="testi-comment-bespoke">&ldquo;{testi.comment}&rdquo;</p>
+                                <p className="testi-comment-bespoke">&ldquo;{trans(testi, 'comment')}&rdquo;</p>
                                 <div className="testi-author-footer">
                                     <div>
                                         <span className="testi-author-name">{testi.author}</span>
-                                        {testi.treatment_name && (
-                                            <span className="testi-treatment-sub">{testi.treatment_name}</span>
+                                        {trans(testi, 'treatment_name') && (
+                                            <span className="testi-treatment-sub">{trans(testi, 'treatment_name')}</span>
                                         )}
                                     </div>
                                     <span className="testi-verified-tag">{testi.source || 'Avis vérifié'}</span>
@@ -349,52 +354,48 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                     </div>
 
                     <div className="avis-cta-wrap">
-                        <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" className="btn-auberge-view-all">
-                            <span>Lire tous les avis ou déposer votre témoignage</span>
+                        <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" className="btn-auberge-view-all" aria-label="Consulter tous les avis vérifiés de clientes sur Google (ouvre un nouvel onglet)">
+                            <span>{t('reviews.viewAll')}</span>
                             <ArrowRight size={16} />
                         </a>
                     </div>
                 </div>
             </section>
 
-            {/* 7. L'ÉCRIN DU SALON (Avec la plaque officielle du cabinet au Pôle Santé Guynemer) */}
+            {/* 7. L'ÉCRIN DU SALON */}
             <section className="section-institut">
                 <div className="container">
                     <div className="institut-grid">
                         <div className="institut-content">
-                            <span className="editorial-kicker">LE LIEU</span>
+                            <span className="editorial-kicker">{t('home.placeKicker')}</span>
                             <h2 className="institut-title">
-                                Un Écrin de Calme <br />
-                                <span className="title-serif">au Pôle Santé Guynemer</span>
+                                {t('home.placeTitle')} <br />
+                                <span className="title-serif">{t('home.placeTitleItalic')}</span>
                             </h2>
                             <div className="editorial-gold-line left-aligned" />
 
-                            <p className="institut-lead">
-                                Situé à Salon-de-Provence, l&apos;institut est facilement accessible avec un parking gratuit réservé devant le bâtiment.
-                            </p>
-                            <p className="institut-p">
-                                La cabine de soin a été minutieusement pensée pour stimuler vos sens tout en apaisant le système nerveux : table de massage chauffée et grand confort, éclairage ambré tamisé, musique douce et arômes subtils d&apos;huiles essentielles bio.
-                            </p>
+                            <p className="institut-lead">{t('home.placeLead')}</p>
+                            <p className="institut-p">{t('home.placeP')}</p>
 
                             <div className="institut-highlights-bespoke">
                                 <div className="highlight-row">
                                     <MapPin size={16} className="highlight-icon" />
-                                    <span>418 Avenue Georges Guynemer, 13300 Salon-de-Provence</span>
+                                    <span>{fullAddress}</span>
                                 </div>
                                 <div className="highlight-row">
                                     <ShieldCheck size={16} className="highlight-icon" />
-                                    <span>Parking gratuit et places réservées devant l&apos;entrée</span>
+                                    <span>{parkingText}</span>
                                 </div>
                                 <div className="highlight-row">
                                     <Clock size={16} className="highlight-icon" />
-                                    <span>Sur rendez-vous du Mardi au Samedi</span>
+                                    <span>{t('home.placeHours')}</span>
                                 </div>
                             </div>
 
                             <div className="institut-action">
-                                <a href={`tel:${phoneTel}`} className="btn-auberge-reserve">
+                                <a href={`tel:${phoneTel}`} className="btn-auberge-reserve" aria-label={`Appeler l'institut La Parenthèse Harmonieuse au ${phone}`}>
                                     <Phone size={15} style={{ marginRight: '6px' }} />
-                                    APPELER AU {phone}
+                                    {t('home.callBtn', { phone })}
                                 </a>
                             </div>
                         </div>
@@ -403,13 +404,13 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                             <div className="gallery-main-img-bespoke">
                                 <Image
                                     src="/images/plaque-institut.png"
-                                    alt="Plaque officielle La Parenthèse Harmonieuse - Pôle Santé Georges Guynemer"
+                                    alt="Plaque murale de l'institut La Parenthèse Harmonieuse au Pôle Santé Georges Guynemer"
                                     width={640}
                                     height={460}
                                     className="inst-img-bespoke"
                                 />
                                 <div className="gallery-caption-overlay">
-                                    <span>Plaque officielle · Pôle Santé Georges Guynemer, Salon-de-Provence</span>
+                                    <span>{t('home.plaqueCaption')}</span>
                                 </div>
                             </div>
                         </div>
@@ -419,22 +420,31 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
 
             {/* MODAL DÉTAILS SOIN */}
             {selectedService && (
-                <div className="service-modal-backdrop" onClick={() => setSelectedService(null)}>
-                    <div className="service-modal-box" onClick={(e) => e.stopPropagation()}>
+                <div
+                    className="service-modal-backdrop"
+                    onClick={() => setSelectedService(null)}
+                >
+                    <div
+                        className="service-modal-box"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="home-service-modal-title"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <button
                             type="button"
                             className="modal-close-btn"
                             onClick={() => setSelectedService(null)}
-                            aria-label="Fermer"
+                            aria-label="Fermer la fenêtre de détail du soin"
                         >
                             <X size={20} />
                         </button>
 
                         <div className="modal-header">
-                            <span className="modal-category">{selectedService.category}</span>
-                            <h3 className="modal-title">{selectedService.title}</h3>
-                            {selectedService.subtitle && (
-                                <p className="modal-subtitle">{selectedService.subtitle}</p>
+                            <span className="modal-category">{trans(selectedService, 'category')}</span>
+                            <h3 id="home-service-modal-title" className="modal-title">{trans(selectedService, 'title')}</h3>
+                            {trans(selectedService, 'subtitle') && (
+                                <p className="modal-subtitle">{trans(selectedService, 'subtitle')}</p>
                             )}
                         </div>
 
@@ -442,29 +452,29 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                             {selectedService.duration && (
                                 <span className="meta-pill">
                                     <Clock size={14} />
-                                    <span>Durée : {selectedService.duration}</span>
+                                    <span>{t('home.durationLabel')} : {selectedService.duration}</span>
                                 </span>
                             )}
                             <span className="meta-pill price-pill">
-                                <span>Tarif : {selectedService.price}</span>
+                                <span>{t('home.priceLabel')} : {selectedService.price}</span>
                             </span>
                         </div>
 
                         <div className="modal-content">
-                            <h4>Description du soin</h4>
-                            <p>{selectedService.description}</p>
+                            <h4>{t('modal.descTitle')}</h4>
+                            <p>{trans(selectedService, 'description')}</p>
 
-                            {selectedService.benefits && (
+                            {trans(selectedService, 'benefits') && (
                                 <>
-                                    <h4>Bienfaits &amp; Spécificités</h4>
-                                    <p>{selectedService.benefits}</p>
+                                    <h4>{t('modal.benefitsTitle')}</h4>
+                                    <p>{trans(selectedService, 'benefits')}</p>
                                 </>
                             )}
 
-                            {selectedService.contraindications && (
+                            {trans(selectedService, 'contraindications') && (
                                 <div className="modal-contraindications">
-                                    <h4>⚠️ Contre-indications à noter</h4>
-                                    <p>{selectedService.contraindications}</p>
+                                    <h4>{t('modal.contraTitle')}</h4>
+                                    <p>{trans(selectedService, 'contraindications')}</p>
                                 </div>
                             )}
                         </div>
@@ -475,17 +485,23 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="modal-btn-planity"
+                                aria-label={`Réserver le soin ${trans(selectedService, 'title')} sur Planity (ouvre un nouvel onglet)`}
                             >
                                 <Calendar size={16} />
-                                <span>Réserver ce soin sur Planity</span>
+                                <span>{t('modal.bookPlanity')}</span>
                             </a>
-                            <Link href="/contact" className="modal-btn-contact" onClick={() => setSelectedService(null)}>
-                                Poser une question
+                            <Link
+                                href={`/contact?soin=${encodeURIComponent(trans(selectedService, 'title'))}`}
+                                className="modal-btn-contact"
+                                onClick={() => setSelectedService(null)}
+                                aria-label={`Poser une question à propos du soin ${trans(selectedService, 'title')}`}
+                            >
+                                {t('modal.askQuestion')}
                             </Link>
                         </div>
                     </div>
                 </div>
             )}
-        </div>
+        </main>
     );
 }

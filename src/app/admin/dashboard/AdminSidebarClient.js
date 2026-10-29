@@ -4,21 +4,21 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { adminLogout } from '@/app/actions';
-import { 
-    LayoutDashboard, 
-    CalendarDays, 
-    Image as ImageIcon, 
-    Settings, 
-    LogOut, 
-    Mail, 
-    Camera, 
-    Menu as MenuIcon, 
-    X,
-    ExternalLink,
+import {
+    LayoutDashboard,
+    Home,
     Heart,
     Receipt,
-    Languages,
-    History
+    Gift,
+    Mail,
+    Settings,
+    LogOut,
+    Menu as MenuIcon,
+    X,
+    ExternalLink,
+    History,
+    Star,
+    MessageSquare,
 } from 'lucide-react';
 
 export default function AdminSidebarClient({ children, unreadCount = 0 }) {
@@ -30,16 +30,24 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
         setMobileOpen(false);
     }
 
-    // Helpers d'état actif
-    const isAccueilActive = pathname === '/admin/dashboard';
-    const isMenuSemaineActive = pathname === '/admin/dashboard/menu-semaine';
-    const isCarouselActive = pathname === '/admin/dashboard/carousel';
-    const isTarifsActive = pathname === '/admin/dashboard/tarifs' || pathname === '/admin/dashboard/prestations';
-    const isGalerieActive = pathname === '/admin/dashboard/galerie';
+    useEffect(() => {
+        if (!mobileOpen) return;
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') setMobileOpen(false);
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [mobileOpen]);
+
+    const isDashboardActive = pathname === '/admin/dashboard';
+    const isAccueilActive = pathname === '/admin/dashboard/accueil';
     const isAProposActive = pathname === '/admin/dashboard/a-propos';
+    const isTarifsActive = pathname === '/admin/dashboard/prestations' || pathname === '/admin/dashboard/tarifs';
+    const isGiftActive = pathname === '/admin/dashboard/carte-cadeau';
+    const isContactActive = pathname === '/admin/dashboard/contact';
+    const isAvisActive = pathname === '/admin/dashboard/avis';
     const isMessagesActive = pathname === '/admin/dashboard/messages';
     const isSettingsActive = pathname === '/admin/dashboard/settings';
-    const isTextesActive = pathname === '/admin/dashboard/textes';
     const isLogsActive = pathname === '/admin/dashboard/logs';
 
     return (
@@ -50,9 +58,10 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
                     <span>La Parenthèse Harmonieuse</span>
                 </a>
                 <button
+                    type="button"
                     className="admin-mobile-toggle"
                     onClick={() => setMobileOpen(!mobileOpen)}
-                    aria-label="Menu"
+                    aria-label={mobileOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
                 >
                     {mobileOpen ? <X size={22} /> : <MenuIcon size={22} />}
                 </button>
@@ -66,7 +75,6 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
 
             {/* Barre latérale principale */}
             <aside className={`admin-sidebar ${mobileOpen ? 'open' : ''}`}>
-                {/* En-tête de marque */}
                 <div className="admin-brand-header">
                     <a href="/" target="_blank" rel="noopener noreferrer" className="admin-brand-link" title="Voir le site public">
                         <span className="admin-brand-title">La Parenthèse</span>
@@ -74,52 +82,39 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
                     </a>
                 </div>
 
-                {/* Navigation principale, dans le même ordre que le site */}
-                <nav className="admin-nav-container">
-                    {/* SECTION: PAGES DU SITE */}
-                    <div className="admin-nav-section-title">
-                        <span>GESTION INSTITUT</span>
-                    </div>
-
-                    {/* 1. TABLEAU DE BORD */}
+                <nav className="admin-nav-container" aria-label="Menu d'administration">
+                    {/* TABLEAU DE BORD */}
                     <div className="admin-nav-group">
                         <Link
                             href="/admin/dashboard"
-                            className={`admin-nav-item nav-theme-amber ${isAccueilActive ? 'active' : ''}`}
+                            className={`admin-nav-item nav-theme-amber ${isDashboardActive ? 'active' : ''}`}
                         >
                             <div className="admin-nav-item-icon">
                                 <LayoutDashboard size={18} />
                             </div>
                             <span className="admin-nav-item-text">Tableau de bord</span>
-                            {isAccueilActive && <span className="admin-nav-active-pill" />}
+                            {isDashboardActive && <span className="admin-nav-active-pill" />}
                         </Link>
                     </div>
 
-                    {/* 2. CARTE DES SOINS */}
+                    {/* SECTION 1 : PAGES DU SITE */}
+                    <div className="admin-nav-section-title">
+                        <span>PAGES DU SITE</span>
+                    </div>
+
+                    {/* Page Accueil */}
                     <Link
-                        href="/admin/dashboard/prestations"
-                        className={`admin-nav-item nav-theme-terracotta ${isTarifsActive ? 'active' : ''}`}
+                        href="/admin/dashboard/accueil"
+                        className={`admin-nav-item nav-theme-amber ${isAccueilActive ? 'active' : ''}`}
                     >
                         <div className="admin-nav-item-icon">
-                            <Receipt size={18} />
+                            <Home size={18} />
                         </div>
-                        <span className="admin-nav-item-text">Carte des soins</span>
-                        {isTarifsActive && <span className="admin-nav-active-pill" />}
+                        <span className="admin-nav-item-text">Page Accueil</span>
+                        {isAccueilActive && <span className="admin-nav-active-pill" />}
                     </Link>
 
-                    {/* 3. GALERIE */}
-                    <Link
-                        href="/admin/dashboard/galerie"
-                        className={`admin-nav-item nav-theme-rose ${isGalerieActive ? 'active' : ''}`}
-                    >
-                        <div className="admin-nav-item-icon">
-                            <Camera size={18} />
-                        </div>
-                        <span className="admin-nav-item-text">Galerie Cabine</span>
-                        {isGalerieActive && <span className="admin-nav-active-pill" />}
-                    </Link>
-
-                    {/* 4. MON APPROCHE / À PROPOS */}
+                    {/* Page Mon Approche */}
                     <Link
                         href="/admin/dashboard/a-propos"
                         className={`admin-nav-item nav-theme-pink ${isAProposActive ? 'active' : ''}`}
@@ -127,19 +122,72 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
                         <div className="admin-nav-item-icon">
                             <Heart size={18} />
                         </div>
-                        <span className="admin-nav-item-text">Mon Approche</span>
+                        <span className="admin-nav-item-text">Page Mon Approche</span>
                         {isAProposActive && <span className="admin-nav-active-pill" />}
                     </Link>
 
-                    {/* 5. CONTACT & DEMANDES */}
+                    {/* Page Carte des Soins */}
+                    <Link
+                        href="/admin/dashboard/prestations"
+                        className={`admin-nav-item nav-theme-terracotta ${isTarifsActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Receipt size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Page Carte des Soins</span>
+                        {isTarifsActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* Page Carte Cadeau */}
+                    <Link
+                        href="/admin/dashboard/carte-cadeau"
+                        className={`admin-nav-item nav-theme-rose ${isGiftActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Gift size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Page Carte Cadeau</span>
+                        {isGiftActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* Page Contact */}
+                    <Link
+                        href="/admin/dashboard/contact"
+                        className={`admin-nav-item nav-theme-blue ${isContactActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Mail size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Page Contact</span>
+                        {isContactActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* SECTION 2 : GESTION & CLIENTÈLE */}
+                    <div className="admin-nav-section-title" style={{ marginTop: '0.6rem' }}>
+                        <span>GESTION &amp; CLIENTS</span>
+                    </div>
+
+                    {/* Avis Clientes */}
+                    <Link
+                        href="/admin/dashboard/avis"
+                        className={`admin-nav-item nav-theme-amber ${isAvisActive ? 'active' : ''}`}
+                    >
+                        <div className="admin-nav-item-icon">
+                            <Star size={18} />
+                        </div>
+                        <span className="admin-nav-item-text">Avis Clientes</span>
+                        {isAvisActive && <span className="admin-nav-active-pill" />}
+                    </Link>
+
+                    {/* Demandes & Messages */}
                     <Link
                         href="/admin/dashboard/messages"
                         className={`admin-nav-item nav-theme-blue ${isMessagesActive ? 'active' : ''}`}
                     >
                         <div className="admin-nav-item-icon">
-                            <Mail size={18} />
+                            <MessageSquare size={18} />
                         </div>
-                        <span className="admin-nav-item-text">Demandes &amp; Contact</span>
+                        <span className="admin-nav-item-text">Demandes &amp; Messages</span>
                         {unreadCount > 0 ? (
                             <span className="admin-nav-badge-unread">{unreadCount}</span>
                         ) : (
@@ -147,12 +195,12 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
                         )}
                     </Link>
 
-                    {/* SECTION: SYSTÈME */}
+                    {/* SECTION 3 : CONFIGURATION */}
                     <div className="admin-nav-section-title" style={{ marginTop: '0.6rem' }}>
-                        <span>PARAMÈTRES</span>
+                        <span>CONFIGURATION</span>
                     </div>
 
-                    {/* 6. INFORMATIONS SITE */}
+                    {/* Paramètres Généraux */}
                     <Link
                         href="/admin/dashboard/settings"
                         className={`admin-nav-item nav-theme-amber ${isSettingsActive ? 'active' : ''}`}
@@ -160,26 +208,14 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
                         <div className="admin-nav-item-icon">
                             <Settings size={18} />
                         </div>
-                        <span className="admin-nav-item-text">Informations Site</span>
+                        <span className="admin-nav-item-text">Paramètres Généraux</span>
                         {isSettingsActive && <span className="admin-nav-active-pill" />}
                     </Link>
 
-                    {/* 7. TEXTES DU SITE (FR / EN) */}
-                    <Link
-                        href="/admin/dashboard/textes"
-                        className={`admin-nav-item nav-theme-indigo ${isTextesActive ? 'active' : ''}`}
-                    >
-                        <div className="admin-nav-item-icon">
-                            <Languages size={18} />
-                        </div>
-                        <span className="admin-nav-item-text">Textes du site</span>
-                        {isTextesActive && <span className="admin-nav-active-pill" />}
-                    </Link>
-
-                    {/* 8. JOURNAL D'ACTIVITÉ / LOGS */}
+                    {/* Journal d'Activité */}
                     <Link
                         href="/admin/dashboard/logs"
-                        className={`admin-nav-item nav-theme-emerald ${isLogsActive ? 'active' : ''}`}
+                        className={`admin-nav-item nav-theme-indigo ${isLogsActive ? 'active' : ''}`}
                     >
                         <div className="admin-nav-item-icon">
                             <History size={18} />
@@ -189,26 +225,25 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
                     </Link>
                 </nav>
 
-                {/* Footer Sidebar : Lien site public + Déconnexion */}
-                <div className="admin-sidebar-footer-custom">
+                {/* Footer Sidebar */}
+                <div className="admin-sidebar-footer">
                     <a
                         href="/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="admin-sidebar-public-btn"
-                        title="Ouvrir le site public dans un nouvel onglet"
+                        className="admin-footer-btn"
+                        title="Voir le site en ligne"
                     >
                         <ExternalLink size={15} />
-                        <span>Voir le site public</span>
+                        <span>Voir le site</span>
                     </a>
-
-                    <form action={adminLogout}>
+                    <form action={adminLogout} style={{ display: 'inline', width: '100%' }}>
                         <button
                             type="submit"
-                            className="admin-sidebar-logout-btn"
-                            title="Se déconnecter de l'administration"
+                            className="admin-footer-btn admin-logout-btn"
+                            title="Se déconnecter"
                         >
-                            <LogOut size={16} />
+                            <LogOut size={15} />
                             <span>Déconnexion</span>
                         </button>
                     </form>
@@ -216,8 +251,10 @@ export default function AdminSidebarClient({ children, unreadCount = 0 }) {
             </aside>
 
             {/* Contenu principal */}
-            <main className="admin-content">
-                {children}
+            <main className="admin-main-content">
+                <div className="admin-content-wrapper">
+                    {children}
+                </div>
             </main>
         </div>
     );

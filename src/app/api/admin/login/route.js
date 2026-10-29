@@ -58,13 +58,14 @@ export async function POST(request) {
 
         const ip = clientIp(request.headers);
         const browser = describeBrowser(request.headers.get('user-agent') || '');
+        const ipLimitKey = `login_ip:${ip}`;
         const limitKey = `login:${ip}:${username.toLowerCase()}`;
-        if (await isRateLimited(limitKey, MAX_ATTEMPTS, WINDOW_MS)) {
+        if ((await isRateLimited(ipLimitKey, 15, WINDOW_MS)) || (await isRateLimited(limitKey, MAX_ATTEMPTS, WINDOW_MS))) {
             await logActivity({
                 action: 'security',
                 category: 'Connexions',
                 summary: `Connexion bloquée : trop de tentatives pour « ${username.slice(0, 40)} »`,
-                details: { identifiant: username.slice(0, 40), navigateur: browser, raison: 'Limite de 5 tentatives sur 15 minutes atteinte' },
+                details: { identifiant: username.slice(0, 40), navigateur: browser, raison: 'Limite anti-force brute atteinte sur 15 minutes' },
                 username: username.slice(0, 40),
                 ip,
             });
@@ -76,6 +77,7 @@ export async function POST(request) {
         const check = user ? await verifyPassword(password, user.password) : { ok: false };
 
         if (!user || !check.ok) {
+            await registerHit(ipLimitKey, WINDOW_MS);
             await registerHit(limitKey, WINDOW_MS);
             await logActivity({
                 action: 'login_failed',

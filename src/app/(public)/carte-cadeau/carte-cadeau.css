@@ -6,7 +6,29 @@
 
 .cadeau-page {
     background-color: #FAF7F2;
-    padding-top: 68px; /* Dégagement net sous le header fixe */
+    padding-top: 1.25rem;
+}
+
+.selected-gift-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: 960px;
+    margin: 0 auto 1.5rem;
+    padding: 0.95rem 1.5rem;
+    background: #FFFFFF;
+    border: 1px solid #C5A880;
+    border-left: 3px solid #8E662F;
+    border-radius: 2px;
+    color: #231E1B;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 20px rgba(142, 102, 47, 0.08);
+}
+
+.selected-gift-icon {
+    color: #8E662F;
+    flex-shrink: 0;
 }
 
 /* Details Section */
@@ -67,7 +89,7 @@
 
 @media (max-width: 900px) {
     .cadeau-page {
-        padding-top: 64px;
+        padding-top: 0.75rem;
     }
 
     .cadeau-details-section {
@@ -412,7 +434,7 @@
 
 @media (max-width: 900px) {
     .cadeau-page {
-        padding-top: 90px;
+        padding-top: 0.75rem;
     }
     .formats-grid {
         grid-template-columns: 1fr;

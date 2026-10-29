@@ -2,60 +2,67 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Clock, Calendar, Gift, Info, Check, AlertCircle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { Clock, Calendar, Gift, Info, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 import './carte-soins.css';
+
+const isDynamicImg = (src) => typeof src === 'string' && (src.startsWith('/api/media/') || src.startsWith('http'));
 
 export default function CarteSoinsClient({ services = [], siteInfo }) {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [expandedCardId, setExpandedCardId] = useState(null);
+    const { t, trans } = useLanguage();
 
     const planityUrl = siteInfo?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
+    const phone = siteInfo?.phone || '06 51 65 21 42';
 
     const categories = [
-        { id: 'all', label: 'Tous les rituels' },
-        { id: 'massages', label: 'Massages sur mesure' },
-        { id: 'drainage', label: 'Drainage & Madéro' },
-        { id: 'kobido', label: 'Massage Kobido' },
-        { id: 'visage', label: 'Soins visage Nohèm' },
-        { id: 'maternite', label: 'Spécial Maternité' },
-        { id: 'packs', label: 'Packs & Forfaits' },
+        { id: 'all', label: t('tarifs.catAll') },
+        { id: 'massages', label: t('tarifs.catMassages') },
+        { id: 'drainage', label: t('tarifs.catDrainage') },
+        { id: 'kobido', label: t('tarifs.catKobido') },
+        { id: 'visage', label: t('tarifs.catVisage') },
+        { id: 'maternite', label: t('tarifs.catMaternite') },
+        { id: 'packs', label: t('tarifs.catPacks') },
     ];
 
     const filteredServices = selectedCategory === 'all'
         ? services
-        : services.filter(s => s.category_slug === selectedCategory);
+        : services.filter((s) => s.category_slug === selectedCategory);
 
     const toggleExpand = (id) => {
         setExpandedCardId(expandedCardId === id ? null : id);
     };
 
     return (
-        <div className="carte-soins-page">
-            {/* Content & Filters démarrant directement en haut */}
+        <main id="main-content" className="carte-soins-page">
             <section className="carte-content-section">
                 <div className="container">
-                    {/* Header compact intégré (Zéro espace vide en haut) */}
+                    {/* Header compact intégré */}
                     <div className="carte-compact-header-wrap">
                         <div>
-                            <span className="carte-kicker">RITUELS &amp; EXPERTISE SUR MESURE</span>
+                            <span className="carte-kicker">{t('tarifs.badge')}</span>
                             <h1 className="carte-compact-title">
-                                Carte des Soins <span className="title-serif">&amp; Massages d&apos;Excellence</span>
+                                {t('tarifs.title')} <span className="title-serif">{t('tarifs.titleItalic')}</span>
                             </h1>
                         </div>
                         <div className="carte-badges-strip">
-                            <span className="badge-chip">Institut exclusivement féminin</span>
-                            <span className="badge-chip-dot">•</span>
-                            <span className="badge-chip">Cosmétiques BIO Nohèm &amp; Green Spa</span>
-                            <span className="badge-chip-dot">•</span>
-                            <span className="badge-chip">Parking gratuit sur place</span>
+                            <span className="badge-chip">{t('tarifs.chip1')}</span>
+                            <span className="badge-chip-dot" aria-hidden="true">•</span>
+                            <span className="badge-chip">{t('tarifs.chip2')}</span>
+                            <span className="badge-chip-dot" aria-hidden="true">•</span>
+                            <span className="badge-chip">{t('tarifs.chip3')}</span>
                         </div>
                     </div>
+
                     {/* Category Buttons */}
-                    <div className="category-filter-bar">
+                    <div className="category-filter-bar" role="tablist" aria-label={t('tarifs.title')}>
                         {categories.map((cat) => (
                             <button
                                 key={cat.id}
                                 type="button"
+                                role="tab"
+                                aria-selected={selectedCategory === cat.id}
                                 className={`filter-btn ${selectedCategory === cat.id ? 'active' : ''}`}
                                 onClick={() => setSelectedCategory(cat.id)}
                             >
@@ -68,7 +75,7 @@ export default function CarteSoinsClient({ services = [], siteInfo }) {
                     <div className="booking-info-alert">
                         <Info size={20} className="alert-icon" />
                         <div>
-                            <strong>Réservation en ligne 24h/24 & 7j/7 :</strong> Choisissez votre créneau en toute liberté sur Planity. Si vous hésitez entre deux soins, un temps d&apos;échange préalable est systématiquement prévu en début de séance pour adapter le protocole à vos envies et vos tensions.
+                            <strong>{t('tarifs.bookingNoticeTitle')}</strong> {t('tarifs.bookingNoticeText')}
                         </div>
                     </div>
 
@@ -77,20 +84,27 @@ export default function CarteSoinsClient({ services = [], siteInfo }) {
                         {filteredServices.map((service) => {
                             const isExpanded = expandedCardId === service.id;
                             const imageSrc = service.image_url || '/images/massage-dos.jpg';
+                            const serviceTitle = trans(service, 'title');
+                            const serviceSub = trans(service, 'subtitle');
+                            const serviceDesc = trans(service, 'description');
+                            const serviceBenefits = trans(service, 'benefits');
+                            const serviceContra = trans(service, 'contraindications');
+                            const serviceBadge = trans(service, 'badge');
+                            const serviceCat = trans(service, 'category');
 
                             return (
                                 <article key={service.id} className="catalogue-item-card">
-                                    {/* Image with zoom effect */}
                                     <div className="catalogue-media">
                                         <Image
                                             src={imageSrc}
-                                            alt={service.title}
+                                            alt={`Photographie illustrant le soin ${serviceTitle}`}
                                             width={500}
                                             height={280}
                                             className="catalogue-img"
+                                            unoptimized={isDynamicImg(imageSrc)}
                                         />
-                                        {service.badge && (
-                                            <span className="catalogue-badge">{service.badge}</span>
+                                        {serviceBadge && (
+                                            <span className="catalogue-badge">{serviceBadge}</span>
                                         )}
                                         {service.duration && (
                                             <span className="catalogue-duration">
@@ -100,62 +114,62 @@ export default function CarteSoinsClient({ services = [], siteInfo }) {
                                         )}
                                     </div>
 
-                                    {/* Body */}
                                     <div className="catalogue-body">
                                         <div className="card-top-row">
-                                            <span className="cat-chip">{service.category}</span>
+                                            <span className="cat-chip">{serviceCat}</span>
                                             <span className="price-tag">{service.price}</span>
                                         </div>
 
-                                        <h2 className="item-title">{service.title}</h2>
-                                        {service.subtitle && (
-                                            <p className="item-sub">{service.subtitle}</p>
+                                        <h2 className="item-title">{serviceTitle}</h2>
+                                        {serviceSub && (
+                                            <p className="item-sub">{serviceSub}</p>
                                         )}
 
                                         <div className="item-description">
-                                            <p>{service.description}</p>
+                                            <p>{serviceDesc}</p>
                                         </div>
 
-                                        {/* Collapsible details (benefits & contraindications) */}
                                         {isExpanded && (
                                             <div className="expanded-details">
-                                                {service.benefits && (
+                                                {serviceBenefits && (
                                                     <div className="details-block">
-                                                        <h4>✨ Les bienfaits du soin :</h4>
-                                                        <p>{service.benefits}</p>
+                                                        <h4>{t('tarifs.benefitsLabel')}</h4>
+                                                        <p>{serviceBenefits}</p>
                                                     </div>
                                                 )}
 
-                                                {service.contraindications && (
+                                                {serviceContra && (
                                                     <div className="details-block warning-block">
-                                                        <h4><AlertCircle size={15} /> Contre-indications :</h4>
-                                                        <p>{service.contraindications}</p>
+                                                        <h4><AlertCircle size={15} /> {t('tarifs.contraLabel')}</h4>
+                                                        <p>{serviceContra}</p>
                                                     </div>
                                                 )}
                                             </div>
                                         )}
 
-                                        {/* Actions */}
                                         <div className="card-actions-row">
-                                            {(service.benefits || service.contraindications) && (
+                                            {(serviceBenefits || serviceContra) && (
                                                 <button
                                                     type="button"
                                                     className="btn-toggle-expand"
+                                                    aria-expanded={isExpanded}
+                                                    aria-label={`${isExpanded ? 'Masquer les détails de' : 'Afficher les bienfaits et contre-indications de'} ${serviceTitle}`}
                                                     onClick={() => toggleExpand(service.id)}
                                                 >
-                                                    <span>{isExpanded ? 'Moins de détails' : 'Protocole & bienfaits'}</span>
+                                                    <span>{isExpanded ? t('tarifs.lessDetails') : t('tarifs.moreDetails')}</span>
                                                     {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                                                 </button>
                                             )}
 
                                             <div className="actions-buttons-group">
                                                 <Link
-                                                    href={`/carte-cadeau?soin=${encodeURIComponent(service.title)}`}
+                                                    href={`/carte-cadeau?soin=${encodeURIComponent(serviceTitle)}`}
                                                     className="btn-offrir-card"
-                                                    title="Offrir ce soin en bon cadeau"
+                                                    title={t('tarifs.offerBtn')}
+                                                    aria-label={`Offrir le soin ${serviceTitle} sous forme de carte cadeau`}
                                                 >
                                                     <Gift size={14} />
-                                                    <span>Offrir</span>
+                                                    <span>{t('tarifs.offerBtn')}</span>
                                                 </Link>
 
                                                 <a
@@ -163,9 +177,10 @@ export default function CarteSoinsClient({ services = [], siteInfo }) {
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="btn-reserver-direct"
+                                                    aria-label={`Réserver le soin ${serviceTitle} en ligne sur Planity (ouvre un nouvel onglet)`}
                                                 >
                                                     <Calendar size={14} />
-                                                    <span>Réserver sur Planity</span>
+                                                    <span>{t('tarifs.bookBtn')}</span>
                                                 </a>
                                             </div>
                                         </div>
@@ -178,24 +193,22 @@ export default function CarteSoinsClient({ services = [], siteInfo }) {
                     {/* Bottom reassurance card */}
                     <div className="carte-bottom-reassurance">
                         <div className="reassurance-card">
-                            <span className="section-tag">ACCOMPAGNEMENT DÉDIÉ</span>
-                            <h3>Vous hésitez sur le soin idéal ?</h3>
-                            <p>
-                                Harmonie vous guide volontiers. Vous pouvez réserver un créneau gratuit de <strong>Bilan Personnalisé</strong> (30 min) à l&apos;institut, ou la joindre par téléphone au <strong>{siteInfo?.phone || '06 51 65 21 42'}</strong>.
-                            </p>
+                            <span className="section-tag">{t('tarifs.helpTag')}</span>
+                            <h3>{t('tarifs.ctaTitle')}</h3>
+                            <p>{t('tarifs.ctaDesc', { phone })}</p>
                             <div className="reassurance-actions">
                                 <a href={planityUrl} target="_blank" rel="noopener noreferrer" className="btn-book-gold">
                                     <Calendar size={16} />
-                                    <span>Prendre RDV Bilan sur Planity</span>
+                                    <span>{t('tarifs.bilanBtn')}</span>
                                 </a>
                                 <Link href="/contact" className="btn-contact-simple">
-                                    Poser une question par message
+                                    {t('tarifs.askBtn')}
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
     );
 }

@@ -6,7 +6,7 @@
 
 .carte-soins-page {
     background-color: #FAF7F2;
-    padding-top: 68px; /* Dégagement net sous le header fixe */
+    padding-top: 1.25rem;
 }
 
 /* Content */
@@ -67,7 +67,7 @@
 
 @media (max-width: 900px) {
     .carte-soins-page {
-        padding-top: 64px;
+        padding-top: 0.75rem;
     }
 
     .carte-content-section {
@@ -451,7 +451,8 @@
     flex-wrap: wrap;
 }
 
-.btn-contact-help {
+.btn-contact-help,
+.btn-contact-simple {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -468,13 +469,15 @@
     transition: all 0.25s ease;
 }
 
-.btn-contact-help:hover {
+.btn-contact-help:hover,
+.btn-contact-simple:hover {
     border-color: #8E662F;
     color: #8E662F;
     background: #FAF7F2;
 }
 
-.btn-rdv-planity-large {
+.btn-rdv-planity-large,
+.btn-book-gold {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
@@ -492,7 +495,8 @@
     transition: all 0.25s ease;
 }
 
-.btn-rdv-planity-large:hover {
+.btn-rdv-planity-large:hover,
+.btn-book-gold:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(142, 102, 47, 0.5);
     background: #A07335;
@@ -500,7 +504,7 @@
 
 @media (max-width: 768px) {
     .carte-soins-page {
-        padding-top: 90px;
+        padding-top: 0.75rem;
     }
     .soins-catalogue-grid {
         grid-template-columns: 1fr;

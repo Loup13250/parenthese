@@ -131,8 +131,12 @@ export async function isAdminRequest() {
 /* Limitation de débit */
 
 export function clientIp(headers) {
+    const vercelIp = headers.get('x-vercel-forwarded-for');
+    if (vercelIp) return vercelIp.split(',')[0].trim();
+    const realIp = headers.get('x-real-ip');
+    if (realIp) return realIp.trim();
     const forwarded = headers.get('x-forwarded-for');
-    return (forwarded ? forwarded.split(',')[0] : headers.get('x-real-ip') || 'unknown').trim();
+    return (forwarded ? forwarded.split(',')[0] : 'unknown').trim();
 }
 
 export async function isRateLimited(key, max, windowMs) {

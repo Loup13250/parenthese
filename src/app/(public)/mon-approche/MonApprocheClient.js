@@ -1,4 +1,5 @@
 'use client';
+import { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, ArrowRight, Feather } from 'lucide-react';
@@ -54,6 +55,135 @@ export default function MonApprocheClient({ siteInfo }) {
         : '';
 
     const brands = parseBrands(siteInfo?.brands);
+    const canvasRef = useRef(null);
+
+    // Effet féerique & élégant de confettis dorés et scintillements au survol de la souris
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let width = (canvas.width = canvas.offsetWidth);
+        let height = (canvas.height = canvas.offsetHeight);
+
+        const handleResize = () => {
+            if (!canvas) return;
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
+        };
+        window.addEventListener('resize', handleResize);
+
+        const colors = ['#C5A880', '#D8B685', '#EAD8C0', '#B88B46', '#F3E5D0', '#A07335', '#E2BA7D'];
+        const shapes = ['rect', 'star', 'circle', 'diamond'];
+        const particles = [];
+        let animId = null;
+
+        const render = () => {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.07;
+                p.vx *= 0.985;
+                p.rotation += p.rotSpeed;
+                p.alpha -= p.fadeRate;
+
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, p.alpha);
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation);
+                ctx.fillStyle = p.color;
+
+                if (p.shape === 'rect') {
+                    ctx.fillRect(-p.size / 2, -p.size * 0.7, p.size, p.size * 1.4);
+                } else if (p.shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size * 0.45, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (p.shape === 'diamond') {
+                    ctx.beginPath();
+                    ctx.moveTo(0, -p.size);
+                    ctx.lineTo(p.size * 0.65, 0);
+                    ctx.lineTo(0, p.size);
+                    ctx.lineTo(-p.size * 0.65, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (p.shape === 'star') {
+                    const s = p.size;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -s);
+                    ctx.quadraticCurveTo(0, 0, s, 0);
+                    ctx.quadraticCurveTo(0, 0, 0, s);
+                    ctx.quadraticCurveTo(0, 0, -s, 0);
+                    ctx.quadraticCurveTo(0, 0, 0, -s);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                ctx.restore();
+            }
+
+            if (particles.length > 0) {
+                animId = requestAnimationFrame(render);
+            } else {
+                animId = null;
+            }
+        };
+
+        const section = canvas.parentElement;
+        if (!section) return () => window.removeEventListener('resize', handleResize);
+
+        let lastSpawn = 0;
+        const handleMouseMove = (e) => {
+            const now = performance.now();
+            if (now - lastSpawn < 35) return;
+            lastSpawn = now;
+
+            const rect = section.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const count = Math.floor(Math.random() * 2) + 2;
+            for (let k = 0; k < count; k++) {
+                if (particles.length > 70) break;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 2.2 + 0.6;
+                particles.push({
+                    x: x + (Math.random() - 0.5) * 14,
+                    y: y + (Math.random() - 0.5) * 14,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 1.2,
+                    size: Math.random() * 3.5 + 3.5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    shape: shapes[Math.floor(Math.random() * shapes.length)],
+                    rotation: Math.random() * Math.PI,
+                    rotSpeed: (Math.random() - 0.5) * 0.15,
+                    alpha: 1,
+                    fadeRate: Math.random() * 0.018 + 0.015,
+                });
+            }
+
+            if (!animId) {
+                animId = requestAnimationFrame(render);
+            }
+        };
+
+        section.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            section.removeEventListener('mousemove', handleMouseMove);
+            if (animId) cancelAnimationFrame(animId);
+        };
+    }, []);
 
     return (
         <main id="main-content" className="approche-page">
@@ -131,6 +261,7 @@ export default function MonApprocheClient({ siteInfo }) {
 
             {/* Ce que je vous offre */}
             <section className="approche-values-section">
+                <canvas ref={canvasRef} className="values-sparkle-canvas" aria-hidden="true" />
                 <div className="container">
                     <div className="section-header-center">
                         <span className="section-tag">{t('about.valuesBadge')}</span>

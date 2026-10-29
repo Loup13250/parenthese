@@ -57,14 +57,16 @@
 
 .story-badge {
     position: absolute;
-    bottom: -15px;
-    right: -15px;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
     background: #FFFFFF;
     border: 1px solid rgba(197, 168, 128, 0.45);
     padding: 0.75rem 1.4rem;
-    border-radius: 2px;
+    border-radius: 4px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
     font-family: var(--font-dm-sans), sans-serif;
     font-size: 0.78rem;
@@ -72,7 +74,10 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #2C2623;
-    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.08);
+    box-shadow: 0 12px 30px rgba(44, 38, 35, 0.10);
+    white-space: nowrap;
+    max-width: 95%;
+    z-index: 3;
 }
 
 .badge-icon {
@@ -127,12 +132,25 @@
     background: #FAF8F5;
     border-top: 1px solid rgba(197, 168, 128, 0.25);
     border-bottom: 1px solid rgba(197, 168, 128, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.values-sparkle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
 }
 
 .section-header-center {
     text-align: center;
     max-width: 720px;
     margin: 0 auto 3.5rem;
+    position: relative;
+    z-index: 2;
 }
 
 .section-tag {
@@ -169,6 +187,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 2rem;
+    position: relative;
+    z-index: 2;
 }
 
 .value-card {
@@ -178,13 +198,15 @@
     border: 1px solid rgba(197, 168, 128, 0.3);
     box-shadow: 0 8px 24px rgba(44, 38, 35, 0.03);
     position: relative;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    cursor: default;
+    user-select: text;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .value-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 42px rgba(44, 38, 35, 0.08);
-    border-color: rgba(197, 168, 128, 0.6);
+    transform: none;
+    border-color: rgba(197, 168, 128, 0.55);
+    box-shadow: 0 10px 28px rgba(197, 168, 128, 0.08);
 }
 
 .value-gold-bullet {
@@ -383,6 +405,14 @@
     .story-portrait-frame {
         max-width: 320px;
         margin: 0 auto;
+    }
+
+    .story-badge {
+        bottom: -14px;
+        padding: 0.6rem 1rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.09em;
+        gap: 0.5rem;
     }
 
     .brands-box {

@@ -134,7 +134,7 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                 await reorderTestimonial(current.id, direction);
                 router.refresh();
             } catch {
-                notify('error', "Erreur lors du réordonnancement.");
+                notify('error', 'Erreur lors du réordonnancement.');
             }
         });
     };
@@ -142,23 +142,32 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
     const featuredCount = items.filter((i) => i.is_featured).length;
 
     return (
-        <div className="animate-fade" style={{ maxWidth: '1040px' }}>
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.75rem' }}>
-                <div>
-                    <h1 className="admin-page-title">Avis &amp; Témoignages Clientes</h1>
-                    <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.92rem', margin: 0 }}>
-                        Gérez les avis vérifiés affichés sur la page d&apos;accueil (les 3 premiers témoignages actifs sont mis en avant).
-                    </p>
+        <div className="anim-fade" style={{ width: '100%' }}>
+            {/* EN-TÊTE UNIFIÉ */}
+            <div className="admin-page-header">
+                <div className="admin-page-header-left">
+                    <div className="admin-page-icon" aria-hidden="true">
+                        <Star size={24} />
+                    </div>
+                    <div>
+                        <span className="admin-eyebrow">Confiance &amp; Réassurance</span>
+                        <h1 className="admin-title">Avis &amp; Témoignages Clientes</h1>
+                        <p className="admin-subtitle">
+                            Gérez les avis vérifiés affichés sur la page d&apos;accueil ({items.length} témoignage{items.length > 1 ? 's' : ''} enregistré{items.length > 1 ? 's' : ''}, {featuredCount} actif{featuredCount > 1 ? 's' : ''} sur l&apos;accueil).
+                        </p>
+                    </div>
                 </div>
-                <button
-                    type="button"
-                    className="admin-btn admin-btn-primary"
-                    onClick={() => { setShowAdd((v) => !v); setEditingItem(null); }}
-                >
-                    {showAdd ? <X size={16} /> : <Plus size={16} />}
-                    <span>{showAdd ? 'Fermer' : 'Ajouter un avis'}</span>
-                </button>
-            </header>
+                <div className="admin-page-actions">
+                    <button
+                        type="button"
+                        className="admin-btn admin-btn-primary"
+                        onClick={() => { setShowAdd((v) => !v); setEditingItem(null); }}
+                    >
+                        {showAdd ? <X size={16} /> : <Plus size={16} />}
+                        <span>{showAdd ? 'Fermer' : 'Ajouter un avis'}</span>
+                    </button>
+                </div>
+            </div>
 
             {feedback && (
                 <div className={`admin-alert ${feedback.type === 'error' ? 'admin-alert-error' : 'admin-alert-success'}`} role="status">
@@ -173,7 +182,7 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                     <div className="admin-card-header">
                         <h2 className="admin-card-title">Nouveau témoignage cliente</h2>
                     </div>
-                    <form onSubmit={handleAdd} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <form onSubmit={handleAdd} style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
                         <div className="admin-grid-2col">
                             <div>
                                 <label className="admin-label">Prénom / Nom de la cliente *</label>
@@ -204,16 +213,16 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                                     <option value="Cliente fidèle">Cliente fidèle</option>
                                 </select>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'flex-end', paddingBottom: '8px' }}>
-                                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.88rem', fontWeight: 550 }}>
-                                    <input type="checkbox" name="is_featured" defaultChecked style={{ width: '16px', height: '16px', accentColor: 'var(--admin-gold)' }} />
+                            <div style={{ display: 'flex', alignItems: 'flex-end', paddingBottom: '10px' }}>
+                                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.88rem', fontWeight: 600 }}>
+                                    <input type="checkbox" name="is_featured" defaultChecked style={{ width: '17px', height: '17px', accentColor: 'var(--admin-gold)' }} />
                                     <span>Afficher sur la page d&apos;accueil</span>
                                 </label>
                             </div>
                         </div>
 
                         <div>
-                            <label className="admin-label">Témoignage (Français) *</label>
+                            <label className="admin-label">Témoignage *</label>
                             <textarea
                                 name="comment"
                                 required
@@ -223,7 +232,7 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                             />
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.25rem' }}>
                             <button type="button" className="admin-btn admin-btn-secondary" onClick={() => setShowAdd(false)}>
                                 Annuler
                             </button>
@@ -245,7 +254,7 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                             <X size={16} />
                         </button>
                     </div>
-                    <form onSubmit={handleEdit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <form onSubmit={handleEdit} style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
                         <div className="admin-grid-2col">
                             <div>
                                 <label className="admin-label">Prénom / Nom de la cliente *</label>
@@ -272,13 +281,13 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                                 <label className="admin-label">Source</label>
                                 <input name="source" defaultValue={editingItem.source || 'Avis vérifié Planity'} className="admin-input" />
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'flex-end', paddingBottom: '8px' }}>
-                                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.88rem', fontWeight: 550 }}>
+                            <div style={{ display: 'flex', alignItems: 'flex-end', paddingBottom: '10px' }}>
+                                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.88rem', fontWeight: 600 }}>
                                     <input
                                         type="checkbox"
                                         name="is_featured"
                                         defaultChecked={Boolean(editingItem.is_featured)}
-                                        style={{ width: '16px', height: '16px', accentColor: 'var(--admin-gold)' }}
+                                        style={{ width: '17px', height: '17px', accentColor: 'var(--admin-gold)' }}
                                     />
                                     <span>Afficher sur l&apos;accueil</span>
                                 </label>
@@ -286,7 +295,7 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                         </div>
 
                         <div>
-                            <label className="admin-label">Témoignage (Français) *</label>
+                            <label className="admin-label">Témoignage *</label>
                             <textarea name="comment" required rows={4} defaultValue={editingItem.comment} className="admin-textarea" />
                         </div>
 
@@ -303,12 +312,6 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                 </section>
             )}
 
-            {/* Liste des témoignages */}
-            <div style={{ marginBottom: '0.9rem', fontSize: '0.84rem', color: 'var(--admin-text-muted)' }}>
-                <strong>{items.length}</strong> témoignage{items.length > 1 ? 's' : ''} enregistré{items.length > 1 ? 's' : ''} •{' '}
-                <strong>{featuredCount}</strong> actif{featuredCount > 1 ? 's' : ''} sur l&apos;accueil
-            </div>
-
             {items.length === 0 ? (
                 <div className="admin-card" style={{ textAlign: 'center', padding: '3rem 1.5rem' }}>
                     <Star size={32} style={{ color: 'var(--admin-gold)', marginBottom: '0.75rem' }} />
@@ -324,15 +327,15 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                             className="admin-card"
                             style={{
                                 marginBottom: 0,
-                                padding: '1.25rem 1.5rem',
+                                padding: '1.35rem 1.6rem',
                                 opacity: item.is_featured ? 1 : 0.68,
-                                borderLeft: item.is_featured ? '3px solid var(--admin-gold)' : '1px solid var(--admin-border)',
+                                borderLeft: item.is_featured ? '4px solid var(--admin-gold)' : '1px solid var(--admin-border)',
                             }}
                         >
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
                                 <div style={{ flex: 1, minWidth: '240px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '0.45rem' }}>
-                                        <strong style={{ fontSize: '1rem', color: 'var(--admin-text)' }}>{item.author}</strong>
+                                        <strong style={{ fontSize: '1.02rem', color: 'var(--admin-text)' }}>{item.author}</strong>
                                         <span style={{ display: 'inline-flex', gap: '2px', color: '#D97706' }}>
                                             {[...Array(item.rating || 5)].map((_, i) => (
                                                 <Star key={i} size={13} fill="#D97706" stroke="#D97706" />
@@ -341,20 +344,20 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                                         {item.treatment_name && (
                                             <span style={{
                                                 fontSize: '0.76rem',
-                                                padding: '2px 8px',
+                                                padding: '2px 9px',
                                                 borderRadius: '999px',
-                                                background: 'var(--admin-surface)',
-                                                border: '1px solid var(--admin-border-soft)',
+                                                background: 'var(--admin-gold-soft)',
+                                                border: '1px solid var(--admin-gold-border)',
                                                 color: 'var(--admin-gold-dark)',
-                                                fontWeight: 550,
+                                                fontWeight: 600,
                                             }}>
                                                 {item.treatment_name}
                                             </span>
                                         )}
-                                        <span style={{ fontSize: '0.75rem', color: 'var(--admin-text-subtle)' }}>
+                                        <span style={{ fontSize: '0.76rem', color: 'var(--admin-text-subtle)' }}>
                                             • {item.source || 'Avis vérifié'}
                                         </span>
-                                        {idx < 3 && Boolean(item.is_featured) && (
+                                        {Boolean(item.is_featured) && (
                                             <span style={{
                                                 fontSize: '0.7rem',
                                                 padding: '2px 8px',
@@ -364,11 +367,11 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
                                                 border: '1px solid #A7F3D0',
                                                 fontWeight: 600,
                                             }}>
-                                                Affiché en position #{idx + 1}
+                                                Actif sur l&apos;accueil (#{idx + 1})
                                             </span>
                                         )}
                                     </div>
-                                    <p style={{ margin: 0, fontSize: '0.92rem', lineHeight: 1.55, color: 'var(--admin-text-muted)' }}>
+                                    <p style={{ margin: 0, fontSize: '0.92rem', lineHeight: 1.6, color: 'var(--admin-text-muted)' }}>
                                         &ldquo;{item.comment}&rdquo;
                                     </p>
                                 </div>
@@ -436,4 +439,3 @@ export default function TestimonialsClient({ initialTestimonials = [] }) {
         </div>
     );
 }
-

@@ -7,7 +7,6 @@ import {
     getSiteInfo,
 } from '@/lib/data';
 import {
-    Sparkles,
     Star,
     MessageSquare,
     ExternalLink,
@@ -19,6 +18,9 @@ import {
     Mail,
     Settings,
     Receipt,
+    CalendarCheck,
+    Sparkles,
+    CheckCircle2,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -62,188 +64,209 @@ export default async function DashboardOverview() {
     ]);
 
     const planityUrl = siteInfo?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
-    const recentMessages = messages.slice(0, 4);
+    const recentMessages = messages.slice(0, 5);
+    const featuredServicesCount = services.filter((s) => s.is_featured).length;
     const { greeting, date } = frenchToday();
 
     const pageTiles = [
         {
+            step: 'Page 1',
             href: '/admin/dashboard/accueil',
+            publicHref: '/',
             icon: Home,
-            badge: 'Accueil',
-            badgeColor: '#D97706',
-            badgeBg: 'rgba(217, 119, 6, 0.12)',
+            accentColor: '#9E7339',
+            accentBg: 'rgba(158, 115, 57, 0.12)',
             title: "Page d'Accueil",
-            text: 'Bannière vidéo, accroches, triptyque, coups de cœur et présentation du lieu.',
-            action: "Gérer l'accueil",
+            text: "Bannière vidéo, photos du triptyque, plaque de l'institut, nombre de soins/avis affichés et textes d'accueil.",
+            action: "Modifier l'accueil",
         },
         {
+            step: 'Page 2',
             href: '/admin/dashboard/a-propos',
+            publicHref: '/mon-approche',
             icon: Heart,
-            badge: 'Mon Approche',
-            badgeColor: '#EC4899',
-            badgeBg: 'rgba(236, 72, 153, 0.12)',
+            accentColor: '#BE185D',
+            accentBg: 'rgba(190, 24, 93, 0.10)',
             title: 'Page Mon Approche',
-            text: "Portrait d'Harmonie, biographie, 4 engagements et cosmétiques BIO Nohèm.",
-            action: 'Gérer la présentation',
+            text: "Portrait officiel d'Harmonie (partagé avec l'accueil), biographie, 4 engagements et marques BIO partenaires.",
+            action: 'Modifier Mon Approche',
         },
         {
+            step: 'Page 3',
             href: '/admin/dashboard/prestations',
+            publicHref: '/carte-des-soins',
             icon: Receipt,
-            badge: `${services.length} soins`,
-            badgeColor: '#059669',
-            badgeBg: 'rgba(5, 150, 105, 0.12)',
+            accentColor: '#047857',
+            accentBg: 'rgba(4, 120, 87, 0.10)',
             title: 'Page Carte des Soins',
-            text: 'Massages, soins visage, drainage, Kobido, tarifs, durées et photos de soins.',
-            action: 'Gérer les soins',
+            text: `${services.length} soins enregistrés (${featuredServicesCount} en Coup de Cœur). Gérez les tarifs, durées, photos et catégories.`,
+            action: 'Gérer la carte des soins',
         },
         {
+            step: 'Page 4',
             href: '/admin/dashboard/carte-cadeau',
+            publicHref: '/carte-cadeau',
             icon: Gift,
-            badge: 'Carte Cadeau',
-            badgeColor: '#8B5CF6',
-            badgeBg: 'rgba(139, 92, 246, 0.12)',
+            accentColor: '#6D28D9',
+            accentBg: 'rgba(109, 40, 217, 0.10)',
             title: 'Page Carte Cadeau',
-            text: 'Pochette cadeau physique, bon digital instantané Planity et suggestions.',
-            action: 'Gérer la carte cadeau',
+            text: 'Textes et explications de la Pochette Cadeau Physique et du Bon Digital Instantané Planity.',
+            action: 'Modifier la Carte Cadeau',
         },
         {
+            step: 'Page 5',
             href: '/admin/dashboard/contact',
+            publicHref: '/contact',
             icon: Mail,
-            badge: 'Contact',
-            badgeColor: '#0284C7',
-            badgeBg: 'rgba(2, 132, 199, 0.12)',
+            accentColor: '#0369A1',
+            accentBg: 'rgba(3, 105, 161, 0.10)',
             title: 'Page Contact & Accès',
-            text: 'Formulaire de contact, parking gratuit du Pôle Santé Guynemer et horaires.',
-            action: 'Gérer le contact',
+            text: 'Textes du formulaire, indications de parking gratuit au Pôle Santé Georges Guynemer et coordonnées.',
+            action: 'Modifier la page Contact',
         },
     ];
 
-    const shortcuts = [
-        { href: '/admin/dashboard/accueil', icon: Home, title: 'Page Accueil', text: 'Bannière vidéo & accroches', color: '#B45309', bg: 'rgba(180, 83, 9, 0.1)', border: 'rgba(180, 83, 9, 0.25)' },
-        { href: '/admin/dashboard/a-propos', icon: Heart, title: 'Page Mon Approche', text: 'Portrait, histoire & marques', color: '#C2572D', bg: 'rgba(194, 87, 45, 0.1)', border: 'rgba(194, 87, 45, 0.25)' },
-        { href: '/admin/dashboard/prestations', icon: Receipt, title: 'Page Carte des Soins', text: `${services.length} rituels & tarifs`, color: '#059669', bg: 'rgba(5, 150, 105, 0.12)', border: 'rgba(5, 150, 105, 0.25)' },
-        { href: '/admin/dashboard/carte-cadeau', icon: Gift, title: 'Page Carte Cadeau', text: 'Formats physique & digital', color: '#8B5CF6', bg: 'rgba(139, 92, 246, 0.1)', border: 'rgba(139, 92, 246, 0.25)' },
-        { href: '/admin/dashboard/contact', icon: Mail, title: 'Page Contact', text: 'Accès, parking & formulaire', color: '#0284C7', bg: 'rgba(2, 132, 199, 0.1)', border: 'rgba(2, 132, 199, 0.25)' },
-        { href: '/admin/dashboard/avis', icon: Star, title: 'Avis Clientes', text: `${testimonials.length} témoignages vérifiés`, color: '#9E7153', bg: 'rgba(158, 113, 83, 0.12)', border: 'rgba(158, 113, 83, 0.25)' },
-        { href: '/admin/dashboard/messages', icon: MessageSquare, title: 'Demandes & Messages', text: `${unreadCount} message${unreadCount > 1 ? 's' : ''} non lu${unreadCount > 1 ? 's' : ''}`, color: '#0284C7', bg: 'rgba(2, 132, 199, 0.1)', border: 'rgba(2, 132, 199, 0.25)' },
-        { href: '/admin/dashboard/settings', icon: Settings, title: 'Paramètres Généraux', text: 'Logo, coordonnées, mot de passe', color: '#8D5B4C', bg: 'rgba(141, 91, 76, 0.1)', border: 'rgba(141, 91, 76, 0.25)' },
-        { href: '/admin/dashboard/logs', icon: History, title: 'Journal d’activité', text: 'Audit trail des modifications', color: '#475569', bg: 'rgba(71, 85, 105, 0.1)', border: 'rgba(71, 85, 105, 0.25)' },
+    const tools = [
+        {
+            href: '/admin/dashboard/messages',
+            icon: MessageSquare,
+            title: 'Boîte de Réception Clients',
+            text: unreadCount > 0
+                ? `${unreadCount} nouvelle${unreadCount > 1 ? 's' : ''} demande${unreadCount > 1 ? 's' : ''} à consulter`
+                : `${messages.length} demande${messages.length > 1 ? 's' : ''} reçue${messages.length > 1 ? 's' : ''} (toutes lues)`,
+            color: unreadCount > 0 ? '#D97706' : '#0369A1',
+            bg: unreadCount > 0 ? 'rgba(217, 119, 6, 0.14)' : 'rgba(3, 105, 161, 0.10)',
+            border: unreadCount > 0 ? 'rgba(217, 119, 6, 0.35)' : 'rgba(3, 105, 161, 0.25)',
+        },
+        {
+            href: '/admin/dashboard/avis',
+            icon: Star,
+            title: 'Avis & Témoignages Clientes',
+            text: `${testimonials.length} avis vérifiés (Planity & Google) affichés sur le site`,
+            color: '#9E7339',
+            bg: 'rgba(158, 115, 57, 0.12)',
+            border: 'rgba(158, 115, 57, 0.28)',
+        },
+        {
+            href: '/admin/dashboard/settings',
+            icon: Settings,
+            title: 'Paramètres Généraux & Sécurité',
+            text: 'Logo, téléphone, horaires, liens Planity/Instagram, sauvegardes & mot de passe',
+            color: '#334155',
+            bg: 'rgba(51, 65, 85, 0.10)',
+            border: 'rgba(51, 65, 85, 0.24)',
+        },
+        {
+            href: '/admin/dashboard/logs',
+            icon: History,
+            title: "Journal d'Activité & Sécurité",
+            text: 'Historique horodaté des modifications et connexions à votre espace',
+            color: '#475569',
+            bg: 'rgba(71, 85, 105, 0.10)',
+            border: 'rgba(71, 85, 105, 0.22)',
+        },
     ];
 
     return (
         <div className="anim-fade" style={{ width: '100%' }}>
-            {/* En-tête */}
-            <header style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-end',
-                flexWrap: 'wrap',
-                gap: '1rem',
+            {/* BANNIÈRE DE BIENVENUE */}
+            <div className="admin-page-header" style={{
+                background: 'linear-gradient(135deg, #FFFFFF 0%, #FAF6EE 100%)',
+                borderColor: 'var(--admin-gold-border)',
+                padding: '1.85rem 2.15rem',
                 marginBottom: '2.25rem',
-                paddingBottom: '1.5rem',
-                borderBottom: '1px solid var(--admin-border)',
             }}>
                 <div>
                     <div style={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '7px',
-                        marginBottom: '0.6rem',
+                        marginBottom: '0.55rem',
                         padding: '4px 12px',
                         borderRadius: '999px',
-                        background: 'linear-gradient(135deg, rgba(158, 113, 83, 0.12) 0%, rgba(217, 119, 6, 0.08) 100%)',
-                        border: '1px solid rgba(158, 113, 83, 0.25)',
-                        fontSize: '0.74rem',
+                        background: 'var(--admin-gold-soft)',
+                        border: '1px solid var(--admin-gold-border)',
+                        fontSize: '0.73rem',
                         fontWeight: 700,
-                        color: '#9E7153',
-                        letterSpacing: '0.04em'
+                        color: 'var(--admin-gold-dark)',
                     }}>
-                        <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#9E7153' }} />
+                        <Sparkles size={13} />
                         {date}
                     </div>
-                    <h1 style={{ fontSize: '2.6rem', lineHeight: 1.05, color: 'var(--admin-text)', margin: 0 }}>
-                        {greeting}, <span style={{ color: '#9E7153' }}>Harmonie</span>
+                    <h1 className="admin-title" style={{ fontSize: 'clamp(1.85rem, 2.6vw, 2.45rem)', marginBottom: '0.35rem' }}>
+                        {greeting}, <span style={{ color: 'var(--admin-gold)' }}>Harmonie</span>
                     </h1>
-                    <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.95rem', margin: '0.6rem 0 0' }}>
-                        Espace de gestion • La Parenthèse Harmonieuse (Salon-de-Provence)
+                    <p className="admin-subtitle">
+                        Bienvenue dans votre espace de gestion sur mesure. Choisissez une page ci-dessous pour modifier ses photos, ses soins ou ses textes en quelques clics.
                     </p>
                 </div>
-                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+
+                <div className="admin-page-actions">
                     <a
                         href={planityUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="admin-btn"
-                        style={{
-                            background: '#FFFFFF',
-                            color: '#9E7153',
-                            border: '1px solid rgba(158, 113, 83, 0.35)',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '7px',
-                            fontWeight: 600,
-                            padding: '9px 16px',
-                        }}
+                        className="admin-btn admin-btn-secondary"
                     >
-                        <ExternalLink size={15} /> Planning Planity
+                        <CalendarCheck size={15} style={{ color: 'var(--admin-gold)' }} />
+                        Ouvrir mon Planning Planity
                     </a>
                     <a
                         href="/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="admin-btn admin-btn-primary"
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '7px',
-                            padding: '9px 18px',
-                        }}
                     >
-                        <ExternalLink size={15} /> Voir le site en ligne
+                        <ExternalLink size={15} />
+                        Voir le site public
                     </a>
                 </div>
-            </header>
+            </div>
 
-            {/* GESTION PAR PAGE */}
-            <section style={{ marginBottom: '3rem' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem', marginBottom: '1.25rem' }}>
-                    <h2 style={{ fontSize: '1.6rem', margin: 0, color: 'var(--admin-text)', whiteSpace: 'nowrap' }}>
-                        Gestion des Pages du Site
-                    </h2>
-                    <span style={{ flex: 1, height: '1px', background: 'var(--admin-border)' }} />
+            {/* SECTION 1 : LES 5 PAGES DU SITE */}
+            <section style={{ marginBottom: '2.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.15rem' }}>
+                    <div>
+                        <span className="admin-eyebrow">Édition par page</span>
+                        <h2 style={{ fontSize: '1.45rem', marginTop: '0.15rem' }}>
+                            Quelle page du site souhaitez-vous modifier ?
+                        </h2>
+                    </div>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--admin-text-muted)' }}>
+                        Chaque page regroupe ses propres images, réglages et textes
+                    </span>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.2rem' }}>
-                    {pageTiles.map(({ href, icon: Icon, badge, badgeColor, badgeBg, title, text, action }) => (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(310px, 1fr))', gap: '1.15rem' }}>
+                    {pageTiles.map(({ step, href, icon: Icon, accentColor, accentBg, title, text, action }) => (
                         <Link
                             key={href}
                             href={href}
                             className="admin-tile"
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                padding: '1.4rem',
-                            }}
                         >
                             <div>
-                                <div className="admin-tile-top" style={{ marginBottom: '0.85rem' }}>
-                                    <span className="admin-tile-eyebrow" style={{ color: badgeColor }}>
+                                <div className="admin-tile-top">
+                                    <span className="admin-tile-eyebrow" style={{ color: accentColor }}>
                                         <span style={{
-                                            width: '28px', height: '28px', borderRadius: '50%',
-                                            background: badgeBg,
-                                            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                            color: badgeColor, flexShrink: 0
+                                            width: '32px',
+                                            height: '32px',
+                                            borderRadius: '9px',
+                                            background: accentBg,
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            color: accentColor,
+                                            flexShrink: 0,
                                         }}>
-                                            <Icon size={15} />
+                                            <Icon size={16} />
                                         </span>
-                                        {badge}
+                                        {step}
                                     </span>
                                 </div>
-                                <h3 className="admin-tile-title" style={{ fontSize: '1.15rem', marginBottom: '0.45rem' }}>{title}</h3>
-                                <p className="admin-tile-text" style={{ fontSize: '0.86rem', lineHeight: 1.5 }}>{text}</p>
+                                <h3 className="admin-tile-title">{title}</h3>
+                                <p className="admin-tile-text">{text}</p>
                             </div>
-                            <span className="admin-tile-go" style={{ marginTop: '1.25rem' }}>
+                            <span className="admin-tile-go">
                                 {action} <ArrowRight size={15} />
                             </span>
                         </Link>
@@ -251,16 +274,87 @@ export default async function DashboardOverview() {
                 </div>
             </section>
 
-            {/* Raccourcis de gestion */}
-            <section style={{ marginBottom: '3rem' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem', marginBottom: '1.1rem' }}>
-                    <h2 style={{ fontSize: '1.6rem', margin: 0, color: 'var(--admin-text)', whiteSpace: 'nowrap' }}>
-                        Tous les modules de gestion
-                    </h2>
-                    <span style={{ flex: 1, height: '1px', background: 'var(--admin-border)' }} />
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '0.9rem' }}>
-                    {shortcuts.map(({ href, icon: Icon, title, text, color, bg, border }) => (
+            {/* SECTION 2 : COLONNE GAUCHE (MESSAGES) & COLONNE DROITE (OUTILS & CONFIGURATION) */}
+            <div className="admin-grid-2col" style={{ alignItems: 'start' }}>
+                {/* Colonne Gauche : Demandes & Messages */}
+                <section className="admin-card" style={{ marginBottom: 0, padding: '1.5rem 1.65rem' }}>
+                    <div className="admin-card-header" style={{ marginBottom: '1rem', paddingBottom: '0.85rem' }}>
+                        <div>
+                            <span className="admin-eyebrow">Formulaire de contact</span>
+                            <h2 className="admin-card-title" style={{ marginTop: '0.2rem' }}>
+                                Dernières demandes reçues
+                                {unreadCount > 0 && (
+                                    <span style={{
+                                        fontSize: '0.72rem',
+                                        fontFamily: 'var(--font-body), sans-serif',
+                                        padding: '2px 9px',
+                                        borderRadius: '999px',
+                                        background: '#FEF3C7',
+                                        color: '#B45309',
+                                        border: '1px solid #FDE68A',
+                                        fontWeight: 700,
+                                    }}>
+                                        {unreadCount} non lu{unreadCount > 1 ? 's' : ''}
+                                    </span>
+                                )}
+                            </h2>
+                        </div>
+                        <Link href="/admin/dashboard/messages" className="admin-link-btn">
+                            Tout voir <ArrowRight size={14} />
+                        </Link>
+                    </div>
+
+                    {recentMessages.length === 0 ? (
+                        <div style={{
+                            textAlign: 'center',
+                            padding: '2.25rem 1rem',
+                            background: 'var(--admin-surface-subtle)',
+                            borderRadius: 'var(--admin-radius-md)',
+                            border: '1px dashed var(--admin-border)',
+                        }}>
+                            <CheckCircle2 size={28} style={{ color: 'var(--admin-sage)', margin: '0 auto 0.5rem' }} />
+                            <p style={{ margin: 0, fontWeight: 600, fontSize: '0.9rem', color: 'var(--admin-text)' }}>
+                                Aucune demande en attente
+                            </p>
+                            <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: 'var(--admin-text-muted)' }}>
+                                Les messages envoyés depuis la page Contact s&apos;afficheront ici.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="admin-log-list">
+                            {recentMessages.map((msg) => {
+                                const dt = parseDbDate(msg.created_at);
+                                return (
+                                    <Link key={msg.id} href="/admin/dashboard/messages" className="admin-msg-row">
+                                        <span className="admin-msg-dot" data-unread={!msg.is_read} aria-hidden="true" />
+                                        <span style={{ minWidth: 0, flex: 1 }}>
+                                            <span style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                                <strong style={{ fontSize: '0.92rem', fontWeight: msg.is_read ? 600 : 700, color: 'var(--admin-text)' }}>
+                                                    {msg.name}
+                                                </strong>
+                                                {msg.service_interest && (
+                                                    <span style={{ fontSize: '0.74rem', color: 'var(--admin-gold-dark)', fontWeight: 600 }}>
+                                                        • {msg.service_interest}
+                                                    </span>
+                                                )}
+                                            </span>
+                                            <span style={{ display: 'block', fontSize: '0.83rem', color: 'var(--admin-text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                {msg.message}
+                                            </span>
+                                        </span>
+                                        <span style={{ fontSize: '0.75rem', color: 'var(--admin-text-subtle)', whiteSpace: 'nowrap' }}>
+                                            {dt ? dt.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', timeZone: 'Europe/Paris' }) : ''}
+                                        </span>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    )}
+                </section>
+
+                {/* Colonne Droite : Avis, Paramètres & Journal */}
+                <section style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                    {tools.map(({ href, icon: Icon, title, text, color, bg, border }) => (
                         <Link
                             key={href}
                             href={href}
@@ -272,64 +366,17 @@ export default async function DashboardOverview() {
                             }}
                         >
                             <span className="admin-tile-icon">
-                                <Icon size={19} strokeWidth={1.8} />
+                                <Icon size={20} strokeWidth={1.8} />
                             </span>
-                            <span style={{ minWidth: 0 }}>
+                            <span style={{ minWidth: 0, flex: 1 }}>
                                 <strong className="admin-tile-title" style={{ display: 'block' }}>{title}</strong>
                                 <span className="admin-tile-text" style={{ display: 'block' }}>{text}</span>
                             </span>
                             <ArrowRight size={16} className="admin-tile-arrow" />
                         </Link>
                     ))}
-                </div>
-            </section>
-
-            {/* Derniers messages */}
-            <section>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem', marginBottom: '1.1rem' }}>
-                    <h2 style={{ fontSize: '1.6rem', margin: 0, color: 'var(--admin-text)', whiteSpace: 'nowrap' }}>
-                        Dernières demandes reçues
-                    </h2>
-                    <span style={{ flex: 1, height: '1px', background: 'var(--admin-border)' }} />
-                    <Link href="/admin/dashboard/messages" className="admin-link-btn" style={{ textDecoration: 'none' }}>
-                        Toutes les demandes →
-                    </Link>
-                </div>
-
-                {recentMessages.length === 0 ? (
-                    <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.92rem' }}>
-                        Aucun message reçu pour le moment.
-                    </p>
-                ) : (
-                    <div className="admin-log-list">
-                        {recentMessages.map((msg) => {
-                            const dt = parseDbDate(msg.created_at);
-                            return (
-                                <Link key={msg.id} href="/admin/dashboard/messages" className="admin-msg-row">
-                                    <span className="admin-msg-dot" data-unread={!msg.is_read} aria-hidden="true" />
-                                    <span style={{ minWidth: 0, flex: 1 }}>
-                                        <span style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem', flexWrap: 'wrap' }}>
-                                            <strong style={{ fontSize: '0.95rem', fontWeight: msg.is_read ? 550 : 700, color: 'var(--admin-text)' }}>{msg.name}</strong>
-                                            {msg.service_interest && (
-                                                <span style={{ fontSize: '0.74rem', color: '#9E7153', fontStyle: 'italic' }}>{msg.service_interest}</span>
-                                            )}
-                                            {msg.phone && (
-                                                <span style={{ fontSize: '0.74rem', color: 'var(--admin-text-muted)' }}>• {msg.phone}</span>
-                                            )}
-                                        </span>
-                                        <span style={{ display: 'block', fontSize: '0.86rem', color: 'var(--admin-text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                            {msg.message}
-                                        </span>
-                                    </span>
-                                    <span style={{ fontSize: '0.76rem', color: 'var(--admin-text-subtle)', whiteSpace: 'nowrap' }}>
-                                        {dt ? dt.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', timeZone: 'Europe/Paris' }) : ''}
-                                    </span>
-                                </Link>
-                            );
-                        })}
-                    </div>
-                )}
-            </section>
+                </section>
+            </div>
         </div>
     );
 }

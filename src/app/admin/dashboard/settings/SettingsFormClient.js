@@ -534,7 +534,7 @@ export default function SettingsFormClient({ info = {} }) {
                                     <span style={{ color: '#9E7D52' }}>Accueil</span>
                                     <span>Mon Approche</span>
                                     <span>Carte des Soins</span>
-                                    <span>Galerie</span>
+                                    <span>Carte Cadeau</span>
                                     <span>Contact</span>
                                 </div>
                             </div>

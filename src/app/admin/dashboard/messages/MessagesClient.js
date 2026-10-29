@@ -12,6 +12,7 @@ import {
     StickyNote,
     Check,
     Loader2,
+    MessageSquare,
 } from 'lucide-react';
 
 function parseDbDate(dateStr) {
@@ -108,6 +109,7 @@ function MessageCard({ msg }) {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.25rem',
+                marginBottom: 0,
             }}
         >
             {/* Barre du haut : nom, date, statut, actions */}
@@ -126,7 +128,7 @@ function MessageCard({ msg }) {
                             letterSpacing: '0.08em',
                             textTransform: 'uppercase',
                             padding: '3px 10px',
-                            borderRadius: '4px',
+                            borderRadius: '999px',
                         }}>
                             {cfg.label}
                         </span>
@@ -212,10 +214,10 @@ function MessageCard({ msg }) {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(195px, 1fr))',
                 gap: '1.15rem',
-                background: 'var(--admin-bg)',
+                background: 'var(--admin-surface-subtle)',
                 padding: '1.15rem',
-                borderRadius: '8px',
-                border: '1px solid var(--admin-border-soft)',
+                borderRadius: 'var(--admin-radius-md)',
+                border: '1px solid var(--admin-border)',
             }}>
                 <div>
                     <span style={{ fontSize: '0.7rem', color: 'var(--admin-gold-dark)', textTransform: 'uppercase', fontWeight: '700', letterSpacing: '0.08em', display: 'block', marginBottom: '0.25rem' }}>
@@ -286,17 +288,17 @@ function MessageCard({ msg }) {
                     lineHeight: '1.7',
                     fontSize: '0.95rem',
                     whiteSpace: 'pre-wrap',
-                    background: 'var(--admin-bg)',
+                    background: 'var(--admin-surface-subtle)',
                     padding: '1.15rem 1.25rem',
-                    borderRadius: '8px',
-                    border: '1px solid var(--admin-border-soft)',
+                    borderRadius: 'var(--admin-radius-md)',
+                    border: '1px solid var(--admin-border)',
                 }}>
                     {msg.message}
                 </div>
             </div>
 
             {/* Note interne privée */}
-            <form onSubmit={handleSaveNotes} style={{ background: 'rgba(184, 139, 70, 0.05)', border: '1px solid var(--admin-border)', borderRadius: '8px', padding: '1.15rem' }}>
+            <form onSubmit={handleSaveNotes} style={{ background: 'var(--admin-gold-soft)', border: '1px solid var(--admin-gold-border)', borderRadius: 'var(--admin-radius-md)', padding: '1.15rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.65rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                     <label style={{ fontSize: '0.76rem', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--admin-gold-dark)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                         <StickyNote size={14} /> Note privée interne (suivi cliente, carte cadeau, rappel…)
@@ -336,20 +338,25 @@ export default function MessagesClient({ messages = [] }) {
     const countOf = (key) => messages.filter((m) => normalizeStatus(m) === key).length;
 
     return (
-        <div className="anim-fade" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            {/* En-tête */}
-            <div style={{ width: '100%', maxWidth: '900px', marginBottom: '1.75rem' }}>
-                <span className="label" style={{ display: 'block', marginBottom: '0.35rem' }}>Messagerie Clientèle</span>
-                <h1 style={{ fontSize: '1.85rem', fontWeight: 700, color: 'var(--admin-text)', margin: '0 0 0.35rem' }}>
-                    Demandes &amp; Messages Reçus
-                </h1>
-                <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.92rem', margin: 0, lineHeight: 1.55 }}>
-                    Retrouvez ici toutes les demandes envoyées depuis le formulaire de contact (renseignements soins, cartes cadeaux, créneaux particuliers) et consignez vos notes de suivi.
-                </p>
+        <div className="anim-fade" style={{ width: '100%' }}>
+            {/* EN-TÊTE UNIFIÉ */}
+            <div className="admin-page-header">
+                <div className="admin-page-header-left">
+                    <div className="admin-page-icon" aria-hidden="true">
+                        <MessageSquare size={24} />
+                    </div>
+                    <div>
+                        <span className="admin-eyebrow">Messagerie Clientèle</span>
+                        <h1 className="admin-title">Demandes &amp; Messages Reçus</h1>
+                        <p className="admin-subtitle">
+                            Retrouvez toutes les demandes envoyées depuis le formulaire de contact (renseignements soins, cartes cadeaux, créneaux) et consignez vos notes privées de suivi.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             {/* Onglets de filtre */}
-            <div style={{ width: '100%', maxWidth: '900px', marginBottom: '1.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <div className="admin-quicknav" role="tablist" aria-label="Filtrer les demandes par statut">
                 {[
                     { id: 'tous', label: `Tous (${messages.length})` },
                     { id: 'nouveau', label: `Nouveaux (${countOf('nouveau')})` },
@@ -362,8 +369,7 @@ export default function MessagesClient({ messages = [] }) {
                         key={t.id}
                         type="button"
                         onClick={() => setFilter(t.id)}
-                        className={`admin-btn ${filter === t.id ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
-                        style={{ fontSize: '0.82rem', padding: '8px 16px' }}
+                        className={`admin-quicknav-btn ${filter === t.id ? 'active' : ''}`}
                     >
                         {t.label}
                     </button>
@@ -371,7 +377,7 @@ export default function MessagesClient({ messages = [] }) {
             </div>
 
             {/* Liste des messages */}
-            <div style={{ width: '100%', maxWidth: '900px' }}>
+            <div style={{ width: '100%' }}>
                 {filteredMessages.length === 0 ? (
                     <div className="admin-card" style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--admin-text-muted)' }}>
                         <Mail size={42} style={{ opacity: 0.45, margin: '0 auto 1rem', color: 'var(--admin-gold)' }} />
@@ -380,7 +386,7 @@ export default function MessagesClient({ messages = [] }) {
                         </p>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
                         {filteredMessages.map((msg) => (
                             <MessageCard key={msg.id} msg={msg} />
                         ))}

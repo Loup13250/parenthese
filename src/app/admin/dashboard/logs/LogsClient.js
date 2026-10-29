@@ -228,25 +228,22 @@ export default function LogsClient({ initialLogs = [] }) {
     };
 
     return (
-        <div className="anim-fade" style={{ width: '100%', maxWidth: '1120px' }}>
-            {/* En-tête */}
-            <header style={{
-                display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-                flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem',
-                paddingBottom: '1.5rem', borderBottom: '1px solid var(--admin-border)',
-            }}>
-                <div>
-                    <span style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--admin-gold-dark)' }}>
-                        Traçabilité
-                    </span>
-                    <h1 style={{ fontSize: '2.4rem', lineHeight: 1.05, margin: 0, color: 'var(--admin-text)' }}>
-                        Journal d&apos;activité
-                    </h1>
-                    <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.93rem', margin: '0.6rem 0 0', maxWidth: '620px', lineHeight: 1.55 }}>
-                        Chaque modification du site et chaque connexion à l&apos;administration, avec la date, l&apos;heure exacte (heure de Paris) et son auteur.
-                    </p>
+        <div className="anim-fade" style={{ width: '100%' }}>
+            {/* En-tête unifié */}
+            <div className="admin-page-header">
+                <div className="admin-page-header-left">
+                    <div className="admin-page-icon" aria-hidden="true">
+                        <Clock size={24} />
+                    </div>
+                    <div>
+                        <span className="admin-eyebrow">Traçabilité &amp; Sécurité</span>
+                        <h1 className="admin-title">Journal d&apos;Activité</h1>
+                        <p className="admin-subtitle">
+                            Chaque modification du site et chaque connexion à l&apos;administration, avec la date, l&apos;heure exacte (heure de Paris) et son auteur.
+                        </p>
+                    </div>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <div className="admin-page-actions">
                     <button type="button" className="admin-btn admin-btn-secondary" onClick={refresh} disabled={refreshing}>
                         <RefreshCw size={14} style={{ animation: refreshing ? 'spin 0.8s linear infinite' : 'none' }} /> Actualiser
                     </button>
@@ -257,7 +254,7 @@ export default function LogsClient({ initialLogs = [] }) {
                         <Trash2 size={14} /> {clearing ? 'Nettoyage…' : 'Vider'}
                     </button>
                 </div>
-            </header>
+            </div>
 
             {/* Sélecteur de période pour les chiffres clés */}
             <div style={{

@@ -21,6 +21,7 @@ import {
     ExternalLink,
     Undo2,
     Sparkles,
+    ChevronsUpDown,
 } from 'lucide-react';
 import { DICTIONARY } from '@/context/dictionary';
 import { getTextLabel } from '@/lib/siteTexts';
@@ -90,7 +91,7 @@ export default function SiteTextsEditor({
     });
     const [query, setQuery] = useState('');
     const [isPending, startTransition] = useTransition();
-    const [feedback, setFeedback] = useState(null); // { type: 'ok' | 'error', text }
+    const [feedback, setFeedback] = useState(null);
 
     const allKeys = useMemo(() => sections.flatMap((s) => s.keys), [sections]);
 
@@ -117,8 +118,19 @@ export default function SiteTextsEditor({
         setValues(saved);
     };
 
+    const allExpanded = useMemo(
+        () => sections.every((s) => open[s.id]),
+        [sections, open]
+    );
+
+    const toggleAll = () => {
+        const nextVal = !allExpanded;
+        const next = {};
+        sections.forEach((s) => { next[s.id] = nextVal; });
+        setOpen(next);
+    };
+
     const handleSave = () => {
-        // Vérifie qu'on n'a pas supprimé un repère du type {phone}
         for (const key of changedKeys) {
             const missing = placeholdersOf(defaultOf(key)).filter((p) => !(values[key] || '').includes(p));
             if (missing.length && (values[key] || '').trim() !== '') {
@@ -133,7 +145,6 @@ export default function SiteTextsEditor({
         const updates = { fr: {} };
         changedKeys.forEach((key) => {
             const val = (values[key] || '').trim();
-            // Identique au texte d'origine (ou vide) = on retire la personnalisation
             updates.fr[key] = val === '' || val === defaultOf(key) ? null : values[key];
         });
 
@@ -159,7 +170,6 @@ export default function SiteTextsEditor({
         });
     };
 
-    // Filtrage par recherche
     const q = normalize(query.trim());
     const visibleSections = sections
         .map((section) => ({
@@ -175,7 +185,7 @@ export default function SiteTextsEditor({
 
     return (
         <div className="st-root">
-            {(searchable || customCount > 0) && (
+            {(searchable || collapsible || customCount > 0) && (
                 <div className="st-toolbar">
                     {searchable && (
                         <label className="st-search">
@@ -184,16 +194,29 @@ export default function SiteTextsEditor({
                                 type="search"
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
-                                placeholder="Rechercher un texte..."
+                                placeholder="Rechercher un texte, un titre ou un mot-clé…"
                                 aria-label="Rechercher un texte"
                             />
                         </label>
                     )}
-                    {customCount > 0 && (
-                        <span className="st-count" title="Textes différents de ceux d'origine">
-                            <Sparkles size={13} /> {customCount} texte{customCount > 1 ? 's' : ''} personnalisé{customCount > 1 ? 's' : ''}
-                        </span>
-                    )}
+                    <div className="st-toolbar-actions">
+                        {customCount > 0 && (
+                            <span className="st-count" title="Textes différents de ceux d'origine">
+                                <Sparkles size={13} /> {customCount} texte{customCount > 1 ? 's' : ''} personnalisé{customCount > 1 ? 's' : ''}
+                            </span>
+                        )}
+                        {collapsible && sections.length > 1 && (
+                            <button
+                                type="button"
+                                onClick={toggleAll}
+                                className="admin-btn admin-btn-secondary"
+                                style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+                            >
+                                <ChevronsUpDown size={14} />
+                                {allExpanded ? 'Tout replier' : 'Tout déplier'}
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
 
@@ -201,7 +224,7 @@ export default function SiteTextsEditor({
                 <p className="st-empty">Aucun texte ne correspond à « {query} ».</p>
             )}
 
-            {visibleSections.map((section) => {
+            {visibleSections.map((section, idx) => {
                 const isOpen = q ? true : open[section.id];
                 const customInSection = section.keys.filter(isCustom).length;
                 return (
@@ -214,13 +237,14 @@ export default function SiteTextsEditor({
                                 aria-expanded={isOpen}
                                 style={{ cursor: collapsible ? 'pointer' : 'default' }}
                             >
+                                <span className="st-section-num" aria-hidden="true">{idx + 1}</span>
                                 <span className="st-section-text">
                                     <strong>{section.title}</strong>
                                     {section.description && <em>{section.description}</em>}
                                 </span>
                                 {customInSection > 0 && (
                                     <span className="st-pill">
-                                        {customInSection} modifié{customInSection > 1 ? 's' : ''}
+                                        {customInSection} personnalisé{customInSection > 1 ? 's' : ''}
                                     </span>
                                 )}
                                 {collapsible && <ChevronDown size={18} className="st-chevron" />}
@@ -286,9 +310,13 @@ export default function SiteTextsEditor({
                         {feedback.type === 'ok' ? <CheckCircle2 size={17} /> : <AlertCircle size={17} />}
                         {feedback.text}
                     </span>
-                ) : (
+                ) : dirty ? (
                     <span className="st-dirty">
-                        <span className="st-dot" /> {changedKeys.length} texte{changedKeys.length > 1 ? 's' : ''} modifié{changedKeys.length > 1 ? 's' : ''} - non enregistré{changedKeys.length > 1 ? 's' : ''}
+                        <span className="st-dot" /> {changedKeys.length} texte{changedKeys.length > 1 ? 's' : ''} modifié{changedKeys.length > 1 ? 's' : ''} — pensez à enregistrer
+                    </span>
+                ) : (
+                    <span className="st-dirty" style={{ fontWeight: 500 }}>
+                        Tous les textes sont à jour sur le site public.
                     </span>
                 )}
                 <div className="st-save-actions">
@@ -309,7 +337,7 @@ export default function SiteTextsEditor({
                         disabled={isPending || !dirty}
                     >
                         {isPending ? <Loader2 size={15} className="st-spin" /> : <Save size={15} />}
-                        Enregistrer les modifications
+                        Enregistrer les textes
                     </button>
                 </div>
             </div>

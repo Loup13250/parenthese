@@ -1,5 +1,6 @@
 import { getAdminSiteInfo } from '@/lib/data';
 import SettingsFormClient from './SettingsFormClient';
+import { Settings } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,20 +17,23 @@ export default async function SettingsPage() {
     }
 
     return (
-        <div className="animate-fade" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            <div style={{ textAlign: 'center', marginBottom: '2.25rem', maxWidth: '720px' }}>
-                <span className="label" style={{ display: 'block', marginBottom: '0.4rem' }}>
-                    Configuration Globale
-                </span>
-                <h1 style={{ fontSize: '1.85rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--admin-text)' }}>
-                    Informations, Visuels &amp; Sécurité
-                </h1>
-                <p style={{ color: 'var(--admin-text-muted)', lineHeight: '1.6', fontSize: '0.94rem' }}>
-                    Gérez en un seul endroit votre logo, l&apos;icône du navigateur, la vidéo et l&apos;image d&apos;accueil, vos coordonnées, horaires, liens Planity / réseaux, mentions légales, sauvegardes et mot de passe administrateur.
-                </p>
+        <div className="anim-fade" style={{ width: '100%' }}>
+            <div className="admin-page-header">
+                <div className="admin-page-header-left">
+                    <div className="admin-page-icon" aria-hidden="true">
+                        <Settings size={24} />
+                    </div>
+                    <div>
+                        <span className="admin-eyebrow">Configuration Globale</span>
+                        <h1 className="admin-title">Paramètres Généraux, Identité &amp; Sécurité</h1>
+                        <p className="admin-subtitle">
+                            Gérez en un seul endroit votre logo, l&apos;icône du navigateur, vos coordonnées, horaires d&apos;ouverture, liens Planity / Instagram, mentions légales, sauvegardes et votre mot de passe administrateur.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div className="admin-card" style={{ width: '100%', maxWidth: '820px' }}>
+            <div className="admin-card" style={{ width: '100%' }}>
                 <SettingsFormClient info={info} />
             </div>
         </div>

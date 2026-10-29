@@ -25,9 +25,9 @@ import {
     Crop,
     RotateCcw,
     Receipt,
-    ChevronDown,
-    ChevronRight,
     ExternalLink,
+    Layers,
+    Type,
 } from 'lucide-react';
 import SiteTextsEditor from '@/components/admin/SiteTextsEditor';
 import { TARIFS_PAGE_TEXT_SECTIONS } from '@/lib/siteTexts';
@@ -64,11 +64,12 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
         };
     }, []);
 
+    const [activeSection, setActiveSection] = useState('all');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [deleteModal, setDeleteModal] = useState(null); // { id, title }
+    const [deleteModal, setDeleteModal] = useState(null);
 
     // --- État Ajout / Édition ---
     const [isAddingService, setIsAddingService] = useState(false);
@@ -78,7 +79,7 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
     const [servicePhotoFile, setServicePhotoFile] = useState(null);
     const [servicePhotoPreview, setServicePhotoPreview] = useState(null);
     const [resetExistingImage, setResetExistingImage] = useState(false);
-    const [cropper, setCropper] = useState(null); // { items }
+    const [cropper, setCropper] = useState(null);
 
     const serviceFormRef = useRef(null);
     const photoInputRef = useRef(null);
@@ -246,6 +247,7 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
     const openEditForm = (service) => {
         setEditingService(service);
         setIsAddingService(false);
+        setActiveSection('catalog');
         resetPhotoState();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -254,49 +256,40 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
         ? '/images/massage-dos.jpg'
         : (servicePhotoPreview || editingService?.image_url || '/images/massage-dos.jpg');
 
+    const showBlock = (id) => activeSection === 'all' || activeSection === id;
+
     return (
-        <div className="anim-fade" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
-            {/* Notifications */}
-            {success && (
-                <div className="admin-alert admin-alert-success" style={{ width: '100%', maxWidth: '900px', marginBottom: '1.25rem' }}>
-                    <CheckCircle2 size={18} />
-                    <span>{success}</span>
-                </div>
-            )}
-            {error && (
-                <div className="admin-alert admin-alert-error" style={{ width: '100%', maxWidth: '900px', marginBottom: '1.25rem' }}>
-                    <AlertCircle size={18} />
-                    <span>{error}</span>
-                </div>
-            )}
-
-            {/* En-tête */}
-            <div style={{ width: '100%', maxWidth: '900px', marginBottom: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                <div>
-                    <span className="label" style={{ display: 'block', marginBottom: '0.35rem' }}>Catalogue des Rituels</span>
-                    <h1 style={{ fontSize: '1.85rem', fontWeight: 700, color: 'var(--admin-text)', margin: '0 0 0.4rem' }}>
-                        Carte des Soins &amp; Prestations
-                    </h1>
-                    <p style={{ color: 'var(--admin-text-muted)', margin: 0, fontSize: '0.92rem', lineHeight: '1.6', maxWidth: '640px' }}>
-                        Ajoutez, modifiez ou réordonnez les soins affichés sur <strong>/carte-des-soins</strong> et cliquez sur l&apos;étoile pour choisir ceux mis en avant dans <strong>Vos Coups de Cœur</strong> sur l&apos;accueil.
-                    </p>
+        <div className="anim-fade" style={{ width: '100%' }}>
+            {/* EN-TÊTE UNIFIÉ */}
+            <div className="admin-page-header">
+                <div className="admin-page-header-left">
+                    <div className="admin-page-icon" aria-hidden="true">
+                        <Receipt size={24} />
+                    </div>
+                    <div>
+                        <span className="admin-eyebrow">Page 3 du site public</span>
+                        <h1 className="admin-title">Carte des Soins &amp; Prestations</h1>
+                        <p className="admin-subtitle">
+                            Ajoutez, modifiez ou réordonnez les soins affichés sur <strong>/carte-des-soins</strong>. Cliquez sur l&apos;étoile ★ d&apos;un soin pour l&apos;afficher dans « Vos Coups de Cœur » sur la page d&apos;accueil.
+                        </p>
+                    </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                <div className="admin-page-actions">
                     <a
                         href="/carte-des-soins"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="admin-btn admin-btn-secondary"
-                        style={{ fontSize: '0.84rem' }}
                     >
-                        <ExternalLink size={15} /> Voir la carte publique
+                        <ExternalLink size={15} /> Voir /carte-des-soins
                     </a>
                     {!isAddingService && !editingService && (
                         <button
                             type="button"
                             onClick={() => {
                                 setIsAddingService(true);
+                                setActiveSection('catalog');
                                 resetPhotoState();
                             }}
                             className="admin-btn admin-btn-primary"
@@ -307,307 +300,89 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
                 </div>
             </div>
 
-            <div style={{ width: '100%', maxWidth: '900px' }}>
-                {/* Filtres par catégorie */}
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-                    <button
-                        type="button"
-                        onClick={() => setCategoryFilter('all')}
-                        style={{
-                            padding: '0.4rem 0.85rem',
-                            borderRadius: '999px',
-                            fontSize: '0.82rem',
-                            border: '1px solid var(--admin-border)',
-                            background: categoryFilter === 'all' ? 'var(--admin-gold)' : 'var(--admin-surface)',
-                            color: categoryFilter === 'all' ? '#FFFFFF' : 'var(--admin-text)',
-                            fontWeight: categoryFilter === 'all' ? '600' : '500',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        Tous ({servicesList.length})
-                    </button>
-                    {CATEGORY_OPTIONS.map((cat) => {
-                        const count = servicesList.filter((s) => s.category_slug === cat.slug).length;
-                        const active = categoryFilter === cat.slug;
-                        return (
-                            <button
-                                key={cat.slug}
-                                type="button"
-                                onClick={() => setCategoryFilter(cat.slug)}
-                                style={{
-                                    padding: '0.4rem 0.85rem',
-                                    borderRadius: '999px',
-                                    fontSize: '0.82rem',
-                                    border: '1px solid var(--admin-border)',
-                                    background: active ? 'var(--admin-gold)' : 'var(--admin-surface)',
-                                    color: active ? '#FFFFFF' : 'var(--admin-text)',
-                                    fontWeight: active ? '600' : '500',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                {cat.name} ({count})
-                            </button>
-                        );
-                    })}
+            {/* BARRE D'ONGLETS ERGONOMIQUE */}
+            <div className="admin-quicknav" role="tablist" aria-label="Sections de la carte des soins">
+                <button
+                    type="button"
+                    onClick={() => setActiveSection('all')}
+                    className={`admin-quicknav-btn ${activeSection === 'all' ? 'active' : ''}`}
+                >
+                    <Layers size={15} /> Tout afficher
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setActiveSection('catalog')}
+                    className={`admin-quicknav-btn ${activeSection === 'catalog' ? 'active' : ''}`}
+                >
+                    <span className="admin-quicknav-step">1</span>
+                    <Receipt size={14} /> Catalogue des Soins ({servicesList.length})
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setActiveSection('texts')}
+                    className={`admin-quicknav-btn ${activeSection === 'texts' ? 'active' : ''}`}
+                >
+                    <span className="admin-quicknav-step">2</span>
+                    <Type size={14} /> Titres &amp; Textes de la page
+                </button>
+            </div>
+
+            {/* Notifications */}
+            {success && (
+                <div className="admin-alert admin-alert-success">
+                    <CheckCircle2 size={18} />
+                    <span>{success}</span>
                 </div>
+            )}
+            {error && (
+                <div className="admin-alert admin-alert-error">
+                    <AlertCircle size={18} />
+                    <span>{error}</span>
+                </div>
+            )}
 
-                {/* =========================================
-                   FORMULAIRE AJOUT / ÉDITION SOIN
-                   ========================================= */}
-                {(isAddingService || editingService) && (
-                    <div className="admin-card" style={{ marginBottom: '2.25rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid var(--admin-border-soft)' }}>
-                            <h2 style={{ fontSize: '1.15rem', color: 'var(--admin-text)', margin: 0, fontWeight: 700 }}>
-                                {editingService ? `Modifier le soin « ${editingService.title} »` : 'Nouveau Soin / Rituel'}
-                            </h2>
+            {/* SECTION 1 : CATALOGUE DES SOINS */}
+            {showBlock('catalog') && (
+                <div style={{ width: '100%', marginBottom: '2rem' }}>
+                    {/* Filtres par catégorie */}
+                    <div className="admin-card" style={{ padding: '1rem 1.25rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+                        <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
                             <button
                                 type="button"
-                                onClick={() => {
-                                    setIsAddingService(false);
-                                    setEditingService(null);
-                                    resetPhotoState();
-                                }}
-                                style={{ background: 'none', border: 'none', color: 'var(--admin-text-subtle)', cursor: 'pointer' }}
-                                aria-label="Fermer"
+                                onClick={() => setCategoryFilter('all')}
+                                className={`admin-quicknav-btn ${categoryFilter === 'all' ? 'active' : ''}`}
+                                style={{ padding: '0.42rem 0.9rem', fontSize: '0.8rem', border: '1px solid var(--admin-border)' }}
                             >
-                                <X size={20} />
+                                Tous ({servicesList.length})
                             </button>
-                        </div>
-
-                        <form
-                            key={editingService ? `edit-${editingService.id}` : 'add-new'}
-                            ref={serviceFormRef}
-                            onSubmit={editingService ? handleEditService : handleAddService}
-                            style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
-                        >
-                            {editingService && (
-                                <>
-                                    <input type="hidden" name="id" value={editingService.id} />
-                                    <input type="hidden" name="image_url" value={editingService.image_url || ''} />
-                                </>
-                            )}
-
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem' }}>
-                                <div>
-                                    <label className="admin-label">Titre du soin *</label>
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        required
-                                        defaultValue={editingService?.title || ''}
-                                        placeholder="Ex : Massage La Parenthèse (60 min)"
-                                        className="admin-input"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="admin-label">Catégorie *</label>
-                                    <select
-                                        name="category_slug"
-                                        required
-                                        defaultValue={editingService?.category_slug || 'massages'}
-                                        className="admin-input"
+                            {CATEGORY_OPTIONS.map((cat) => {
+                                const count = servicesList.filter((s) => s.category_slug === cat.slug).length;
+                                const active = categoryFilter === cat.slug;
+                                return (
+                                    <button
+                                        key={cat.slug}
+                                        type="button"
+                                        onClick={() => setCategoryFilter(cat.slug)}
+                                        className={`admin-quicknav-btn ${active ? 'active' : ''}`}
+                                        style={{ padding: '0.42rem 0.9rem', fontSize: '0.8rem', border: '1px solid var(--admin-border)' }}
                                     >
-                                        {CATEGORY_OPTIONS.map((c) => (
-                                            <option key={c.slug} value={c.slug}>{c.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
+                                        {cat.name} ({count})
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+                    {/* FORMULAIRE AJOUT / ÉDITION SOIN */}
+                    {(isAddingService || editingService) && (
+                        <div className="admin-card" style={{ marginBottom: '1.75rem', borderColor: 'var(--admin-gold)' }}>
+                            <div className="admin-card-header">
                                 <div>
-                                    <label className="admin-label">Tarif TTC *</label>
-                                    <input
-                                        type="text"
-                                        name="price"
-                                        required
-                                        defaultValue={editingService?.price || ''}
-                                        placeholder="Ex : 70 €"
-                                        className="admin-input"
-                                    />
+                                    <span className="admin-eyebrow">Édition du catalogue</span>
+                                    <h2 className="admin-card-title" style={{ marginTop: '0.2rem' }}>
+                                        {editingService ? `Modifier le soin « ${editingService.title} »` : 'Ajouter un nouveau Soin / Rituel'}
+                                    </h2>
                                 </div>
-                                <div>
-                                    <label className="admin-label">Durée du soin</label>
-                                    <input
-                                        type="text"
-                                        name="duration"
-                                        defaultValue={editingService?.duration || ''}
-                                        placeholder="Ex : 60 min (rendez-vous 1h30)"
-                                        className="admin-input"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="admin-label">Badge d&apos;accroche (Optionnel)</label>
-                                    <input
-                                        type="text"
-                                        name="badge"
-                                        defaultValue={editingService?.badge || ''}
-                                        placeholder="Ex : Coup de Cœur, Signature, BIO..."
-                                        className="admin-input"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="admin-label">Sous-titre / Accroche courte (Optionnel)</label>
-                                <input
-                                    type="text"
-                                    name="subtitle"
-                                    defaultValue={editingService?.subtitle || ''}
-                                    placeholder="Ex : Votre moment sur mesure d'excellence"
-                                    className="admin-input"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="admin-label">Description détaillée du soin *</label>
-                                <textarea
-                                    name="description"
-                                    required
-                                    rows={3}
-                                    defaultValue={editingService?.description || ''}
-                                    placeholder="Décrivez le déroulé du soin, le ressenti, l'accompagnement personnalisé..."
-                                    className="admin-textarea"
-                                />
-                            </div>
-
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem' }}>
-                                <div>
-                                    <label className="admin-label">Bienfaits &amp; Cosmétiques utilisés (Optionnel)</label>
-                                    <textarea
-                                        name="benefits"
-                                        rows={2}
-                                        defaultValue={editingService?.benefits || ''}
-                                        placeholder="Ex : Huiles Green Spa BIO certifiées Cosmos, détente neuromusculaire..."
-                                        className="admin-textarea"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="admin-label">Contre-indications / Précautions (Optionnel)</label>
-                                    <textarea
-                                        name="contraindications"
-                                        rows={2}
-                                        defaultValue={editingService?.contraindications || ''}
-                                        placeholder="Ex : Déconseillé au 1er trimestre de grossesse, fièvre, phlébite..."
-                                        className="admin-textarea"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="admin-label">Lien direct Planity (Optionnel)</label>
-                                <input
-                                    type="url"
-                                    name="planity_url"
-                                    defaultValue={editingService?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence'}
-                                    placeholder="https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence"
-                                    className="admin-input"
-                                />
-                            </div>
-
-                            {/* Photo illustrative + Outil de recadrage */}
-                            <div style={{ background: 'var(--admin-bg)', padding: '1rem 1.15rem', borderRadius: '8px', border: '1px solid var(--admin-border)' }}>
-                                <label className="admin-label" style={{ fontWeight: 600, marginBottom: '0.65rem' }}>
-                                    Photo illustrative du soin
-                                </label>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                                    <div style={{
-                                        width: '120px',
-                                        height: '90px',
-                                        borderRadius: '8px',
-                                        overflow: 'hidden',
-                                        border: '1px solid var(--admin-border)',
-                                        background: '#EAE5DC',
-                                        flexShrink: 0,
-                                    }}>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={currentPreviewUrl}
-                                            alt="Aperçu du soin"
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                                        />
-                                    </div>
-
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                                            <button
-                                                type="button"
-                                                onClick={() => photoInputRef.current?.click()}
-                                                className="admin-btn admin-btn-secondary"
-                                                style={{ fontSize: '0.82rem', padding: '7px 14px' }}
-                                            >
-                                                <UploadCloud size={15} /> Choisir &amp; Recadrer une photo
-                                            </button>
-
-                                            <button
-                                                type="button"
-                                                onClick={() => setCropper({
-                                                    items: [{
-                                                        id: uid(),
-                                                        file: servicePhotoFile || undefined,
-                                                        url: servicePhotoFile ? undefined : currentPreviewUrl,
-                                                        name: editingService?.title || 'Photo soin',
-                                                    }],
-                                                })}
-                                                className="admin-btn admin-btn-secondary"
-                                                style={{ fontSize: '0.82rem', padding: '7px 14px' }}
-                                            >
-                                                <Crop size={14} /> Ajuster le cadrage
-                                            </button>
-
-                                            {(servicePhotoFile || (editingService?.image_url && editingService.image_url !== '/images/massage-dos.jpg')) && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setServicePhotoFile(null);
-                                                        setServicePhotoPreview(null);
-                                                        setResetExistingImage(true);
-                                                    }}
-                                                    className="admin-btn admin-btn-secondary"
-                                                    style={{ fontSize: '0.8rem', padding: '7px 12px' }}
-                                                >
-                                                    <RotateCcw size={13} /> Photo par défaut
-                                                </button>
-                                            )}
-                                        </div>
-                                        <span style={{ fontSize: '0.78rem', color: 'var(--admin-text-muted)' }}>
-                                            {servicePhotoPreview
-                                                ? 'Nouvelle photo recadrée prête à enregistrer.'
-                                                : resetExistingImage
-                                                    ? 'La photo par défaut sera rétablie lors de la sauvegarde.'
-                                                    : 'Recadrage libre (4:3, 16:9, 1:1 ou 4:5) et compression WebP automatique.'}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <input
-                                    ref={photoInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    style={{ display: 'none' }}
-                                    onChange={(e) => {
-                                        handleSelectPhoto(e.target.files?.[0]);
-                                        e.target.value = '';
-                                    }}
-                                />
-                            </div>
-
-                            {/* Option Coup de Cœur Accueil */}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', padding: '0.85rem 1rem', background: 'rgba(184, 139, 70, 0.09)', borderRadius: '8px', border: '1px solid rgba(184, 139, 70, 0.28)' }}>
-                                <input
-                                    type="checkbox"
-                                    id="service_is_featured"
-                                    name="is_featured"
-                                    value="1"
-                                    defaultChecked={editingService ? Boolean(editingService.is_featured) : false}
-                                    style={{ width: '18px', height: '18px', accentColor: 'var(--admin-gold)', cursor: 'pointer' }}
-                                />
-                                <label htmlFor="service_is_featured" style={{ fontSize: '0.9rem', color: 'var(--admin-text)', cursor: 'pointer', margin: 0, fontWeight: 500 }}>
-                                    Afficher ce soin dans la sélection « Vos Coups de Cœur » sur la page d&apos;accueil
-                                </label>
-                            </div>
-
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -615,170 +390,431 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
                                         setEditingService(null);
                                         resetPhotoState();
                                     }}
-                                    className="admin-btn admin-btn-secondary"
-                                    disabled={isPending}
+                                    className="admin-btn-icon"
+                                    aria-label="Fermer"
                                 >
-                                    Annuler
-                                </button>
-                                <button type="submit" className="admin-btn admin-btn-primary" disabled={isPending}>
-                                    {isPending ? <Loader2 size={16} className="spin" /> : null}
-                                    {editingService ? 'Enregistrer les modifications' : 'Ajouter à la carte des soins'}
+                                    <X size={18} />
                                 </button>
                             </div>
-                        </form>
-                    </div>
-                )}
 
-                {/* Liste des Soins */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {filteredServices.length === 0 ? (
-                        <div className="admin-card" style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--admin-text-muted)' }}>
-                            <Sparkles size={36} style={{ margin: '0 auto 1rem', color: 'var(--admin-gold)', opacity: 0.7 }} />
-                            <p style={{ margin: 0 }}>Aucun soin enregistré dans cette catégorie pour le moment.</p>
-                        </div>
-                    ) : (
-                        filteredServices.map((s, idx) => (
-                            <div key={s.id} className="admin-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1.15rem', flex: '1 1 360px' }}>
-                                    {/* Vignette Photo */}
-                                    <div style={{
-                                        width: '72px',
-                                        height: '72px',
-                                        borderRadius: '8px',
-                                        overflow: 'hidden',
-                                        flexShrink: 0,
-                                        background: '#EAE5DC',
-                                        border: '1px solid var(--admin-border)',
-                                    }}>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={s.image_url || '/images/massage-dos.jpg'}
-                                            alt={s.title}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                            <form
+                                key={editingService ? `edit-${editingService.id}` : 'add-new'}
+                                ref={serviceFormRef}
+                                onSubmit={editingService ? handleEditService : handleAddService}
+                                style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
+                            >
+                                {editingService && (
+                                    <>
+                                        <input type="hidden" name="id" value={editingService.id} />
+                                        <input type="hidden" name="image_url" value={editingService.image_url || ''} />
+                                    </>
+                                )}
+
+                                <div className="admin-grid-2col">
+                                    <div>
+                                        <label className="admin-label">Titre du soin *</label>
+                                        <input
+                                            type="text"
+                                            name="title"
+                                            required
+                                            defaultValue={editingService?.title || ''}
+                                            placeholder="Ex : Massage La Parenthèse (60 min)"
+                                            className="admin-input"
                                         />
                                     </div>
-
-                                    <div style={{ flex: 1, minWidth: 0 }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.3rem', flexWrap: 'wrap' }}>
-                                            <h3 style={{ fontSize: '1.05rem', color: 'var(--admin-text)', margin: 0, fontWeight: '600' }}>
-                                                {s.title}
-                                            </h3>
-                                            <span style={{
-                                                fontSize: '0.84rem',
-                                                fontWeight: '700',
-                                                color: 'var(--admin-gold-dark)',
-                                                background: 'rgba(184, 139, 70, 0.14)',
-                                                padding: '2px 8px',
-                                                borderRadius: '4px',
-                                            }}>
-                                                {s.price}
-                                            </span>
-                                            {s.is_featured ? (
-                                                <span style={{
-                                                    fontSize: '0.7rem',
-                                                    fontWeight: '700',
-                                                    display: 'inline-flex',
-                                                    alignItems: 'center',
-                                                    gap: '3px',
-                                                    color: '#92400E',
-                                                    background: 'rgba(245, 158, 11, 0.16)',
-                                                    padding: '2px 8px',
-                                                    borderRadius: '9999px',
-                                                }}>
-                                                    <Star size={11} fill="currentColor" /> Coup de Cœur Accueil
-                                                </span>
-                                            ) : null}
-                                        </div>
-
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', fontSize: '0.8rem', color: 'var(--admin-text-muted)', flexWrap: 'wrap' }}>
-                                            {s.category && <span>{s.category}</span>}
-                                            {s.duration && <span>• {s.duration}</span>}
-                                            {s.badge && <span style={{ color: 'var(--admin-gold-dark)', fontWeight: 600 }}>• {s.badge}</span>}
-                                        </div>
-
-                                        <p style={{ fontSize: '0.82rem', color: 'var(--admin-text-muted)', margin: '4px 0 0', lineHeight: '1.45', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                            {s.description}
-                                        </p>
+                                    <div>
+                                        <label className="admin-label">Catégorie *</label>
+                                        <select
+                                            name="category_slug"
+                                            required
+                                            defaultValue={editingService?.category_slug || 'massages'}
+                                            className="admin-select"
+                                        >
+                                            {CATEGORY_OPTIONS.map((c) => (
+                                                <option key={c.slug} value={c.slug}>{c.name}</option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
 
-                                {/* Actions */}
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleToggleFeatured(s.id)}
-                                        className="admin-btn-icon"
-                                        style={{
-                                            color: s.is_featured ? '#D97706' : 'var(--admin-text-subtle)',
-                                            background: s.is_featured ? 'rgba(245, 158, 11, 0.15)' : undefined,
-                                        }}
-                                        title={s.is_featured ? "Retirer de la section Coups de Cœur de l'accueil" : "Mettre en avant sur la page d'accueil"}
-                                        aria-label={s.is_featured ? `Retirer ${s.title} des Coups de Cœur de l'accueil` : `Mettre en avant ${s.title} sur l'accueil`}
-                                    >
-                                        <Star size={15} fill={s.is_featured ? 'currentColor' : 'none'} />
-                                    </button>
+                                <div className="admin-grid-3col">
+                                    <div>
+                                        <label className="admin-label">Tarif TTC *</label>
+                                        <input
+                                            type="text"
+                                            name="price"
+                                            required
+                                            defaultValue={editingService?.price || ''}
+                                            placeholder="Ex : 70 €"
+                                            className="admin-input"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="admin-label">Durée du soin</label>
+                                        <input
+                                            type="text"
+                                            name="duration"
+                                            defaultValue={editingService?.duration || ''}
+                                            placeholder="Ex : 60 min (rendez-vous 1h30)"
+                                            className="admin-input"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="admin-label">Badge d&apos;accroche (Optionnel)</label>
+                                        <input
+                                            type="text"
+                                            name="badge"
+                                            defaultValue={editingService?.badge || ''}
+                                            placeholder="Ex : Coup de Cœur, Signature, BIO..."
+                                            className="admin-input"
+                                        />
+                                    </div>
+                                </div>
 
+                                <div>
+                                    <label className="admin-label">Sous-titre / Accroche courte (Optionnel)</label>
+                                    <input
+                                        type="text"
+                                        name="subtitle"
+                                        defaultValue={editingService?.subtitle || ''}
+                                        placeholder="Ex : Votre moment sur mesure d'excellence"
+                                        className="admin-input"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="admin-label">Description détaillée du soin *</label>
+                                    <textarea
+                                        name="description"
+                                        required
+                                        rows={3}
+                                        defaultValue={editingService?.description || ''}
+                                        placeholder="Décrivez le déroulé du soin, le ressenti, l'accompagnement personnalisé..."
+                                        className="admin-textarea"
+                                    />
+                                </div>
+
+                                <div className="admin-grid-2col">
+                                    <div>
+                                        <label className="admin-label">Bienfaits &amp; Cosmétiques utilisés (Optionnel)</label>
+                                        <textarea
+                                            name="benefits"
+                                            rows={2}
+                                            defaultValue={editingService?.benefits || ''}
+                                            placeholder="Ex : Huiles Green Spa BIO certifiées Cosmos, détente neuromusculaire..."
+                                            className="admin-textarea"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="admin-label">Contre-indications / Précautions (Optionnel)</label>
+                                        <textarea
+                                            name="contraindications"
+                                            rows={2}
+                                            defaultValue={editingService?.contraindications || ''}
+                                            placeholder="Ex : Déconseillé au 1er trimestre de grossesse, fièvre, phlébite..."
+                                            className="admin-textarea"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="admin-label">Lien direct Planity (Optionnel)</label>
+                                    <input
+                                        type="url"
+                                        name="planity_url"
+                                        defaultValue={editingService?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence'}
+                                        placeholder="https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence"
+                                        className="admin-input"
+                                    />
+                                </div>
+
+                                {/* Photo illustrative + Outil de recadrage */}
+                                <div style={{ background: 'var(--admin-surface-subtle)', padding: '1.15rem', borderRadius: 'var(--admin-radius-md)', border: '1px solid var(--admin-border)' }}>
+                                    <label className="admin-label" style={{ marginBottom: '0.65rem' }}>
+                                        Photo illustrative du soin
+                                    </label>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.15rem', flexWrap: 'wrap' }}>
+                                        <div style={{
+                                            width: '124px',
+                                            height: '92px',
+                                            borderRadius: '8px',
+                                            overflow: 'hidden',
+                                            border: '1px solid var(--admin-border)',
+                                            background: '#EAE5DC',
+                                            flexShrink: 0,
+                                        }}>
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={currentPreviewUrl}
+                                                alt="Aperçu du soin"
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                            />
+                                        </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => photoInputRef.current?.click()}
+                                                    className="admin-btn admin-btn-secondary"
+                                                    style={{ fontSize: '0.82rem', padding: '7px 14px' }}
+                                                >
+                                                    <UploadCloud size={15} /> Choisir &amp; Recadrer une photo
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setCropper({
+                                                        items: [{
+                                                            id: uid(),
+                                                            file: servicePhotoFile || undefined,
+                                                            url: servicePhotoFile ? undefined : currentPreviewUrl,
+                                                            name: editingService?.title || 'Photo soin',
+                                                        }],
+                                                    })}
+                                                    className="admin-btn admin-btn-secondary"
+                                                    style={{ fontSize: '0.82rem', padding: '7px 14px' }}
+                                                >
+                                                    <Crop size={14} /> Ajuster le cadrage
+                                                </button>
+
+                                                {(servicePhotoFile || (editingService?.image_url && editingService.image_url !== '/images/massage-dos.jpg')) && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setServicePhotoFile(null);
+                                                            setServicePhotoPreview(null);
+                                                            setResetExistingImage(true);
+                                                        }}
+                                                        className="admin-btn admin-btn-secondary"
+                                                        style={{ fontSize: '0.8rem', padding: '7px 12px' }}
+                                                    >
+                                                        <RotateCcw size={13} /> Photo par défaut
+                                                    </button>
+                                                )}
+                                            </div>
+                                            <span className="admin-hint" style={{ marginTop: 0 }}>
+                                                {servicePhotoPreview
+                                                    ? 'Nouvelle photo recadrée prête à enregistrer.'
+                                                    : resetExistingImage
+                                                        ? 'La photo par défaut sera rétablie lors de la sauvegarde.'
+                                                        : 'Recadrage libre (4:3, 16:9, 1:1 ou 4:5) et compression WebP automatique.'}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <input
+                                        ref={photoInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => {
+                                            handleSelectPhoto(e.target.files?.[0]);
+                                            e.target.value = '';
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Option Coup de Cœur Accueil */}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', padding: '0.9rem 1.1rem', background: 'var(--admin-gold-soft)', borderRadius: 'var(--admin-radius-sm)', border: '1px solid var(--admin-gold-border)' }}>
+                                    <input
+                                        type="checkbox"
+                                        id="service_is_featured"
+                                        name="is_featured"
+                                        value="1"
+                                        defaultChecked={editingService ? Boolean(editingService.is_featured) : false}
+                                        style={{ width: '18px', height: '18px', accentColor: 'var(--admin-gold)', cursor: 'pointer' }}
+                                    />
+                                    <label htmlFor="service_is_featured" style={{ fontSize: '0.9rem', color: 'var(--admin-text)', cursor: 'pointer', margin: 0, fontWeight: 600 }}>
+                                        Afficher ce soin dans la sélection « Vos Coups de Cœur » sur la page d&apos;accueil
+                                    </label>
+                                </div>
+
+                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.25rem', flexWrap: 'wrap' }}>
                                     <button
                                         type="button"
-                                        onClick={() => handleReorderService(s.id, 'up')}
-                                        disabled={idx === 0 || isPending}
-                                        className="admin-btn-icon"
-                                        title="Monter dans la liste"
-                                        aria-label={`Monter le soin ${s.title} dans la liste`}
+                                        onClick={() => {
+                                            setIsAddingService(false);
+                                            setEditingService(null);
+                                            resetPhotoState();
+                                        }}
+                                        className="admin-btn admin-btn-secondary"
+                                        disabled={isPending}
                                     >
-                                        <ArrowUp size={15} />
+                                        Annuler
                                     </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleReorderService(s.id, 'down')}
-                                        disabled={idx === filteredServices.length - 1 || isPending}
-                                        className="admin-btn-icon"
-                                        title="Descendre dans la liste"
-                                        aria-label={`Descendre le soin ${s.title} dans la liste`}
-                                    >
-                                        <ArrowDown size={15} />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => openEditForm(s)}
-                                        className="admin-btn-icon"
-                                        title="Modifier ce soin"
-                                        aria-label={`Modifier le soin ${s.title}`}
-                                    >
-                                        <Edit3 size={15} />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setDeleteModal({ id: s.id, title: s.title })}
-                                        className="admin-btn-icon"
-                                        style={{ color: '#DC2626' }}
-                                        title="Supprimer ce soin"
-                                        aria-label={`Supprimer le soin ${s.title}`}
-                                    >
-                                        <Trash2 size={15} />
+                                    <button type="submit" className="admin-btn admin-btn-primary" disabled={isPending}>
+                                        {isPending ? <Loader2 size={16} className="spin" /> : null}
+                                        {editingService ? 'Enregistrer les modifications' : 'Ajouter à la carte des soins'}
                                     </button>
                                 </div>
-                            </div>
-                        ))
+                            </form>
+                        </div>
                     )}
-                </div>
-            </div>
 
-            {/* Titres & Encarts de la Page Carte des Soins */}
-            <div className="admin-card" style={{ marginTop: '2.5rem', width: '100%', maxWidth: '1080px' }}>
-                <div className="admin-card-header" style={{ marginBottom: '1.25rem' }}>
-                    <div>
-                        <h2 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <Receipt size={20} style={{ color: 'var(--admin-gold)' }} />
-                            Titres &amp; Textes de la Carte des Soins
-                        </h2>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>
-                            Modifiez le titre d&apos;en-tête et les textes d&apos;accompagnement de la page publique /carte-des-soins.
-                        </span>
+                    {/* Liste des Soins */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                        {filteredServices.length === 0 ? (
+                            <div className="admin-card" style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--admin-text-muted)' }}>
+                                <Sparkles size={36} style={{ margin: '0 auto 1rem', color: 'var(--admin-gold)', opacity: 0.7 }} />
+                                <p style={{ margin: 0 }}>Aucun soin enregistré dans cette catégorie pour le moment.</p>
+                            </div>
+                        ) : (
+                            filteredServices.map((s, idx) => (
+                                <div key={s.id} className="admin-card" style={{ marginBottom: 0, padding: '1.25rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.15rem', flex: '1 1 360px' }}>
+                                        {/* Vignette Photo */}
+                                        <div style={{
+                                            width: '76px',
+                                            height: '76px',
+                                            borderRadius: '10px',
+                                            overflow: 'hidden',
+                                            flexShrink: 0,
+                                            background: '#EAE5DC',
+                                            border: '1px solid var(--admin-border)',
+                                        }}>
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={s.image_url || '/images/massage-dos.jpg'}
+                                                alt={s.title}
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                            />
+                                        </div>
+
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.3rem', flexWrap: 'wrap' }}>
+                                                <h3 style={{ fontSize: '1.08rem', color: 'var(--admin-text)', margin: 0, fontWeight: '600' }}>
+                                                    {s.title}
+                                                </h3>
+                                                <span style={{
+                                                    fontSize: '0.84rem',
+                                                    fontWeight: '700',
+                                                    color: 'var(--admin-gold-dark)',
+                                                    background: 'var(--admin-gold-soft)',
+                                                    border: '1px solid var(--admin-gold-border)',
+                                                    padding: '2px 9px',
+                                                    borderRadius: '6px',
+                                                }}>
+                                                    {s.price}
+                                                </span>
+                                                {s.is_featured ? (
+                                                    <span style={{
+                                                        fontSize: '0.7rem',
+                                                        fontWeight: '700',
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        gap: '3px',
+                                                        color: '#92400E',
+                                                        background: '#FEF3C7',
+                                                        border: '1px solid #FDE68A',
+                                                        padding: '2px 8px',
+                                                        borderRadius: '9999px',
+                                                    }}>
+                                                        <Star size={11} fill="currentColor" /> Coup de Cœur Accueil
+                                                    </span>
+                                                ) : null}
+                                            </div>
+
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', fontSize: '0.8rem', color: 'var(--admin-text-muted)', flexWrap: 'wrap' }}>
+                                                {s.category && <span style={{ fontWeight: 600 }}>{s.category}</span>}
+                                                {s.duration && <span>• {s.duration}</span>}
+                                                {s.badge && <span style={{ color: 'var(--admin-gold-dark)', fontWeight: 600 }}>• {s.badge}</span>}
+                                            </div>
+
+                                            <p style={{ fontSize: '0.83rem', color: 'var(--admin-text-muted)', margin: '5px 0 0', lineHeight: '1.45', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                                {s.description}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Actions */}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleToggleFeatured(s.id)}
+                                            className="admin-btn-icon"
+                                            style={{
+                                                color: s.is_featured ? '#D97706' : 'var(--admin-text-subtle)',
+                                                background: s.is_featured ? '#FEF3C7' : undefined,
+                                                borderColor: s.is_featured ? '#FCD34D' : undefined,
+                                            }}
+                                            title={s.is_featured ? "Retirer de la section Coups de Cœur de l'accueil" : "Mettre en avant sur la page d'accueil"}
+                                            aria-label={s.is_featured ? `Retirer ${s.title} des Coups de Cœur de l'accueil` : `Mettre en avant ${s.title} sur l'accueil`}
+                                        >
+                                            <Star size={15} fill={s.is_featured ? 'currentColor' : 'none'} />
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => handleReorderService(s.id, 'up')}
+                                            disabled={idx === 0 || isPending}
+                                            className="admin-btn-icon"
+                                            title="Monter dans la liste"
+                                            aria-label={`Monter le soin ${s.title} dans la liste`}
+                                        >
+                                            <ArrowUp size={15} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleReorderService(s.id, 'down')}
+                                            disabled={idx === filteredServices.length - 1 || isPending}
+                                            className="admin-btn-icon"
+                                            title="Descendre dans la liste"
+                                            aria-label={`Descendre le soin ${s.title} dans la liste`}
+                                        >
+                                            <ArrowDown size={15} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => openEditForm(s)}
+                                            className="admin-btn-icon"
+                                            title="Modifier ce soin"
+                                            aria-label={`Modifier le soin ${s.title}`}
+                                        >
+                                            <Edit3 size={15} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setDeleteModal({ id: s.id, title: s.title })}
+                                            className="admin-btn-icon"
+                                            style={{ color: '#DC2626' }}
+                                            title="Supprimer ce soin"
+                                            aria-label={`Supprimer le soin ${s.title}`}
+                                        >
+                                            <Trash2 size={15} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
-                <SiteTextsEditor sections={TARIFS_PAGE_TEXT_SECTIONS} overrides={customTexts} />
-            </div>
+            )}
+
+            {/* SECTION 2 : TITRES & TEXTES DE LA CARTE DES SOINS */}
+            {showBlock('texts') && (
+                <div className="admin-card">
+                    <div className="admin-card-header">
+                        <div>
+                            <span className="admin-eyebrow">Section 2 • Contenus écrits</span>
+                            <h2 className="admin-card-title" style={{ marginTop: '0.2rem' }}>
+                                <Type size={20} style={{ color: 'var(--admin-gold)' }} />
+                                Titres &amp; Textes de la Carte des Soins
+                            </h2>
+                            <p className="admin-card-subtitle">
+                                Modifiez le titre d&apos;en-tête et les textes d&apos;accompagnement de la page publique /carte-des-soins.
+                            </p>
+                        </div>
+                    </div>
+                    <SiteTextsEditor
+                        sections={TARIFS_PAGE_TEXT_SECTIONS}
+                        overrides={customTexts}
+                        searchable
+                        collapsible
+                        defaultOpenFirst
+                    />
+                </div>
+            )}
 
             {/* Modal de recadrage photo soin */}
             {cropper && (
@@ -814,9 +850,9 @@ export default function ServicesClient({ services = [], customTexts = { fr: {} }
                     <div
                         className="admin-card"
                         onClick={(e) => e.stopPropagation()}
-                        style={{ width: '100%', maxWidth: '440px', padding: '1.75rem' }}
+                        style={{ width: '100%', maxWidth: '440px', padding: '1.75rem', marginBottom: 0 }}
                     >
-                        <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--admin-text)', margin: '0 0 0.65rem' }}>
+                        <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--admin-text)', margin: '0 0 0.65rem' }}>
                             Supprimer ce soin ?
                         </h3>
                         <p style={{ fontSize: '0.9rem', color: 'var(--admin-text-muted)', lineHeight: 1.55, margin: '0 0 1.5rem' }}>

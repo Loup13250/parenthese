@@ -1,94 +1,89 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, MapPin, Phone, Clock, ExternalLink, Settings, MessageSquare, Sparkles } from 'lucide-react';
+import { Mail, ExternalLink, Settings, MessageSquare, Sparkles, Type, ArrowRight } from 'lucide-react';
 import SiteTextsEditor from '@/components/admin/SiteTextsEditor';
 import { CONTACT_PAGE_TEXT_SECTIONS } from '@/lib/siteTexts';
 
 export default function ContactAdminClient({ siteInfo = {}, customTexts = { fr: {} }, unreadCount = 0 }) {
     const phone = siteInfo?.phone || '06 51 65 21 42';
     const email = siteInfo?.contact_email || 'laparentheseharmonieuse@gmail.com';
-    const address = siteInfo?.address || '418 Avenue Georges Guynemer, 13300 Salon-de-Provence';
 
     return (
-        <div className="anim-fade" style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', paddingBottom: '3rem' }}>
-            {/* Header de la page Contact */}
-            <div className="admin-page-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
-                <div>
-                    <h1 className="admin-title" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                        <Mail size={26} style={{ color: 'var(--admin-gold)' }} />
-                        Page Contact &amp; Accès
-                    </h1>
-                    <p className="admin-subtitle">
-                        Gérez les textes d&apos;accueil, les mentions d&apos;accès et le formulaire de la page /contact.
-                    </p>
+        <div className="anim-fade" style={{ width: '100%' }}>
+            {/* EN-TÊTE UNIFIÉ */}
+            <div className="admin-page-header">
+                <div className="admin-page-header-left">
+                    <div className="admin-page-icon" aria-hidden="true">
+                        <Mail size={24} />
+                    </div>
+                    <div>
+                        <span className="admin-eyebrow">Page 5 du site public</span>
+                        <h1 className="admin-title">Page Contact &amp; Accès</h1>
+                        <p className="admin-subtitle">
+                            Gérez les textes d&apos;accueil, les indications d&apos;accès (Pôle Santé Georges Guynemer, parking gratuit) et les intitulés du formulaire de la page /contact.
+                        </p>
+                    </div>
                 </div>
-                <Link
-                    href="/contact"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="admin-btn admin-btn-secondary"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.85rem' }}
-                >
-                    <ExternalLink size={14} /> Voir la page en ligne
-                </Link>
+                <div className="admin-page-actions">
+                    <Link
+                        href="/contact"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="admin-btn admin-btn-secondary"
+                    >
+                        <ExternalLink size={15} /> Voir /contact
+                    </Link>
+                </div>
             </div>
 
             {/* Raccourcis pratiques Coordonnées & Boîte de réception */}
-            <div
-                className="admin-card"
-                style={{
-                    marginBottom: '2rem',
-                    background: 'linear-gradient(135deg, rgba(184, 139, 70, 0.08) 0%, rgba(184, 139, 70, 0.02) 100%)',
-                    border: '1px solid rgba(184, 139, 70, 0.3)',
-                    padding: '1.5rem',
-                }}
-            >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
-                    <Sparkles size={20} style={{ color: 'var(--admin-gold)' }} />
-                    <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--admin-text)', margin: 0 }}>
-                        Informations &amp; Messages reçus
-                    </h2>
+            <div className="admin-info-banner">
+                <div className="admin-info-banner-head">
+                    <Sparkles size={18} style={{ color: 'var(--admin-gold)' }} />
+                    <span>Raccourcis liés à votre page Contact</span>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+                <div className="admin-grid-2col">
                     {/* Bloc Messages */}
-                    <div style={{ background: '#FFFFFF', border: '1px solid var(--admin-border)', borderRadius: '8px', padding: '1rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '0.85rem' }}>
+                    <div style={{ background: '#FFFFFF', border: '1px solid var(--admin-border)', borderRadius: 'var(--admin-radius-md)', padding: '1.15rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '0.85rem' }}>
                         <div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
                                 <MessageSquare size={16} style={{ color: 'var(--admin-gold)' }} />
-                                <strong style={{ fontSize: '0.9rem', color: 'var(--admin-text)' }}>Boîte de Réception des Messages</strong>
+                                <strong style={{ fontSize: '0.92rem', color: 'var(--admin-text)' }}>Boîte de Réception des Demandes</strong>
                             </div>
                             <p style={{ fontSize: '0.82rem', color: 'var(--admin-text-muted)', lineHeight: 1.5, margin: 0 }}>
-                                Les demandes envoyées par les clientes via le formulaire arrivent directement dans votre espace messages.
+                                Les demandes envoyées par vos clientes depuis le formulaire arrivent directement dans votre espace Messages.
                             </p>
                         </div>
                         <Link
                             href="/admin/dashboard/messages"
                             className="admin-btn admin-btn-primary"
-                            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', fontSize: '0.82rem', padding: '8px 12px' }}
+                            style={{ width: '100%', justifyContent: 'space-between', fontSize: '0.82rem' }}
                         >
-                            <MessageSquare size={14} /> Consulter les messages reçus {unreadCount > 0 ? `(${unreadCount} nouveau${unreadCount > 1 ? 'x' : ''})` : ''}
+                            <span>Consulter les messages reçus {unreadCount > 0 ? `(${unreadCount} non lu${unreadCount > 1 ? 's' : ''})` : ''}</span>
+                            <ArrowRight size={14} />
                         </Link>
                     </div>
 
                     {/* Bloc Coordonnées & Horaires */}
-                    <div style={{ background: '#FFFFFF', border: '1px solid var(--admin-border)', borderRadius: '8px', padding: '1rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '0.85rem' }}>
+                    <div style={{ background: '#FFFFFF', border: '1px solid var(--admin-border)', borderRadius: 'var(--admin-radius-md)', padding: '1.15rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '0.85rem' }}>
                         <div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
                                 <Settings size={16} style={{ color: 'var(--admin-gold)' }} />
-                                <strong style={{ fontSize: '0.9rem', color: 'var(--admin-text)' }}>Coordonnées &amp; Horaires</strong>
+                                <strong style={{ fontSize: '0.92rem', color: 'var(--admin-text)' }}>Coordonnées &amp; Horaires d&apos;Ouverture</strong>
                             </div>
                             <p style={{ fontSize: '0.82rem', color: 'var(--admin-text-muted)', lineHeight: 1.5, margin: 0 }}>
-                                Téléphone : <strong>{phone}</strong> • Email : <strong>{email}</strong>. Pour modifier vos horaires ou adresse :
+                                Actuellement : <strong>{phone}</strong> • <strong>{email}</strong>. Modifiez vos horaires par jour ou votre numéro dans les paramètres.
                             </p>
                         </div>
                         <Link
                             href="/admin/dashboard/settings"
                             className="admin-btn admin-btn-secondary"
-                            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', fontSize: '0.82rem', padding: '8px 12px' }}
+                            style={{ width: '100%', justifyContent: 'space-between', fontSize: '0.82rem' }}
                         >
-                            <Settings size={14} /> Modifier dans Paramètres Généraux
+                            <span>Modifier mes horaires &amp; coordonnées</span>
+                            <ArrowRight size={14} />
                         </Link>
                     </div>
                 </div>
@@ -96,14 +91,17 @@ export default function ContactAdminClient({ siteInfo = {}, customTexts = { fr: 
 
             {/* Éditeur des textes de la page Contact */}
             <div className="admin-card">
-                <div className="admin-card-header" style={{ marginBottom: '1.25rem' }}>
-                    <h2 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Mail size={20} style={{ color: 'var(--admin-gold)' }} />
-                        Textes de la Page Contact
-                    </h2>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>
-                        Modifiez les titres d&apos;en-tête, les encarts et les libellés du formulaire.
-                    </span>
+                <div className="admin-card-header">
+                    <div>
+                        <span className="admin-eyebrow">Contenus écrits</span>
+                        <h2 className="admin-card-title" style={{ marginTop: '0.2rem' }}>
+                            <Type size={20} style={{ color: 'var(--admin-gold)' }} />
+                            Textes de la Page Contact
+                        </h2>
+                        <p className="admin-card-subtitle">
+                            Modifiez les titres d&apos;en-tête, les encarts pratiques et les libellés du formulaire.
+                        </p>
+                    </div>
                 </div>
 
                 <SiteTextsEditor
@@ -117,4 +115,3 @@ export default function ContactAdminClient({ siteInfo = {}, customTexts = { fr: 
         </div>
     );
 }
-

@@ -14,16 +14,18 @@ import {
     Loader2,
     UploadCloud,
     ExternalLink,
-    Languages,
     Layers,
     Save,
     Crop,
     RotateCcw,
+    Type,
+    UserCheck,
 } from 'lucide-react';
 
 const DEFAULT_PORTRAIT = '/images/harmonie-portrait.jpg';
 
-export default function AProposAdminClient({ info = {}, customTexts = { fr: {}, en: {} } }) {
+export default function AProposAdminClient({ info = {}, customTexts = { fr: {} } }) {
+    const [activeTab, setActiveTab] = useState('all');
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -164,317 +166,318 @@ export default function AProposAdminClient({ info = {}, customTexts = { fr: {}, 
         });
     };
 
+    const showSection = (id) => activeTab === 'all' || activeTab === id;
+
     return (
-        <div className="anim-fade" style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
-            {/* En-tête */}
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                flexWrap: 'wrap',
-                gap: '1rem',
-                marginBottom: '2rem',
-            }}>
-                <div>
-                    <span className="label" style={{ display: 'block', marginBottom: '0.4rem' }}>
-                        Page Mon Approche
-                    </span>
-                    <h1 className="title-md" style={{ color: 'var(--admin-text)', marginBottom: '0.3rem' }}>
-                        Mon Approche &amp; Philosophie
-                    </h1>
-                    <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.95rem' }}>
-                        Gérez ici l&apos;histoire d&apos;Harmonie, le portrait officiel, vos marques partenaires et la philosophie de La Parenthèse Harmonieuse.
-                    </p>
+        <div className="anim-fade" style={{ width: '100%' }}>
+            {/* EN-TÊTE UNIFIÉ */}
+            <div className="admin-page-header">
+                <div className="admin-page-header-left">
+                    <div className="admin-page-icon" aria-hidden="true">
+                        <Heart size={24} />
+                    </div>
+                    <div>
+                        <span className="admin-eyebrow">Page 2 du site public</span>
+                        <h1 className="admin-title">Page Mon Approche</h1>
+                        <p className="admin-subtitle">
+                            Gérez le portrait officiel d&apos;Harmonie, votre biographie, vos 4 engagements qualité et vos marques cosmétiques partenaires (Nohèm, Green Spa, Oh My Jelly).
+                        </p>
+                    </div>
                 </div>
-                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                <div className="admin-page-actions">
                     <a
                         href="/mon-approche"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="admin-btn admin-btn-secondary"
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}
                     >
-                        <ExternalLink size={15} /> Voir la page /mon-approche
+                        <ExternalLink size={15} /> Voir /mon-approche
                     </a>
                 </div>
             </div>
 
+            {/* BARRE D'ONGLETS ERGONOMIQUE */}
+            <div className="admin-quicknav" role="tablist" aria-label="Sections de Mon Approche">
+                <button
+                    type="button"
+                    onClick={() => setActiveTab('all')}
+                    className={`admin-quicknav-btn ${activeTab === 'all' ? 'active' : ''}`}
+                >
+                    <Layers size={15} /> Tout afficher
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setActiveTab('portrait')}
+                    className={`admin-quicknav-btn ${activeTab === 'portrait' ? 'active' : ''}`}
+                >
+                    <span className="admin-quicknav-step">1</span>
+                    <UserCheck size={14} /> Portrait &amp; Biographie
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setActiveTab('texts')}
+                    className={`admin-quicknav-btn ${activeTab === 'texts' ? 'active' : ''}`}
+                >
+                    <span className="admin-quicknav-step">2</span>
+                    <Type size={14} /> Engagements &amp; Cosmétiques
+                </button>
+            </div>
+
             {error && (
-                <div className="admin-alert admin-alert-error" style={{ marginBottom: '1.5rem' }}>
+                <div className="admin-alert admin-alert-error">
                     <AlertCircle size={18} />
                     <span>{error}</span>
                 </div>
             )}
             {success && (
-                <div className="admin-alert admin-alert-success" style={{ marginBottom: '1.5rem' }}>
+                <div className="admin-alert admin-alert-success">
                     <CheckCircle2 size={18} />
                     <span>{success}</span>
                 </div>
             )}
 
-            {/* Callout de synchronisation avec l'Accueil */}
-            <div
-                style={{
-                    background: 'linear-gradient(135deg, rgba(184, 139, 70, 0.08) 0%, rgba(184, 139, 70, 0.02) 100%)',
-                    border: '1px solid rgba(184, 139, 70, 0.3)',
-                    borderRadius: '10px',
-                    padding: '1rem 1.25rem',
-                    marginBottom: '2rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.85rem',
-                }}
-            >
-                <Sparkles size={20} style={{ color: 'var(--admin-gold)', flexShrink: 0 }} />
-                <p style={{ margin: 0, fontSize: '0.86rem', color: 'var(--admin-text-muted)', lineHeight: 1.5 }}>
-                    <strong>Éléments partagés avec l&apos;Accueil :</strong> Le portrait photographique officiel d&apos;Harmonie et sa biographie ci-dessous alimentent automatiquement la section de bienvenue de la{' '}
-                    <Link href="/admin/dashboard/accueil" style={{ color: 'var(--admin-gold-dark)', textDecoration: 'underline', fontWeight: 600 }}>
-                        Page d&apos;Accueil
-                    </Link>.
-                </p>
-            </div>
-
-            {/* SECTION 1: HISTOIRE, MARQUES & PHOTO OFFICIELLE */}
-            <div className="admin-card" style={{ marginBottom: '2.5rem' }}>
-                <div className="admin-card-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <h2 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Heart size={20} style={{ color: 'var(--admin-gold)' }} />
-                        Histoire d&apos;Harmonie &amp; Portrait Officiel
-                    </h2>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--admin-text-muted)' }}>
-                        Affiché sur l&apos;Accueil et sur /mon-approche
-                    </span>
+            {/* Rappel de synchronisation avec l'Accueil */}
+            <div className="admin-info-banner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <Sparkles size={19} style={{ color: 'var(--admin-gold)', flexShrink: 0 }} />
+                    <p style={{ margin: 0, fontSize: '0.86rem', color: 'var(--admin-text-muted)', lineHeight: 1.5 }}>
+                        <strong style={{ color: 'var(--admin-text)' }}>Synchronisé avec l&apos;Accueil :</strong> Le portrait d&apos;Harmonie et sa biographie ci-dessous mettent automatiquement à jour l&apos;encart de présentation sur la Page d&apos;Accueil.
+                    </p>
                 </div>
-
-                <form ref={storyFormRef} onSubmit={handleSaveAboutStory} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    <div className="admin-story-grid">
-                        {/* Colonne gauche : Textes FR / EN */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                            <div>
-                                <label className="admin-label" htmlFor="about_title_fr">
-                                    Titre d&apos;introduction (FR)
-                                </label>
-                                <input
-                                    id="about_title_fr"
-                                    type="text"
-                                    name="about_title"
-                                    defaultValue={info?.about_title || 'Une esthéticienne et masseuse passionnée, un lieu pensé pour vous'}
-                                    className="admin-input"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="admin-label" htmlFor="about_story_fr">
-                                    Histoire &amp; Philosophie (Français) *
-                                </label>
-                                <textarea
-                                    id="about_story_fr"
-                                    name="about_text"
-                                    rows={7}
-                                    required
-                                    defaultValue={info?.about_text || "Je m'appelle Harmonie, j'ai 29 ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l'esthétique.\n\nAprès avoir exercé dans des spas d'hôtels étoilés et instituts reconnus, j'ai créé La Parenthèse Harmonieuse : un lieu dédié exclusivement aux femmes, pensé comme une bulle hors du temps où chaque détail a été soigné pour vous faire vivre un pur moment de relaxation et de reconnexion à soi."}
-                                    className="admin-textarea"
-                                    placeholder="Racontez votre parcours et votre approche..."
-                                />
-                            </div>
-
-                            <div>
-                                <label className="admin-label" htmlFor="brands_input">
-                                    Marques cosmétiques partenaires
-                                </label>
-                                <input
-                                    id="brands_input"
-                                    type="text"
-                                    name="brands"
-                                    defaultValue={info?.brands || 'Nohèm (BIO certifié Ecocert), Green Spa (BIO Cosmos), Oh My Jelly'}
-                                    className="admin-input"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="admin-label" htmlFor="tagline_fr">
-                                    Accroche courte de l&apos;institut
-                                </label>
-                                <input
-                                    id="tagline_fr"
-                                    type="text"
-                                    name="tagline"
-                                    defaultValue={info?.tagline || 'Offrez-vous une parenthèse de bien-être...'}
-                                    className="admin-input"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Colonne droite : Photo officielle Mon Approche */}
-                        <div>
-                            <label className="admin-label" style={{ display: 'block', marginBottom: '0.5rem' }}>
-                                Portrait officiel / Photo d&apos;illustration
-                            </label>
-                            <p style={{ fontSize: '0.8rem', color: 'var(--admin-text-muted)', marginBottom: '0.75rem', lineHeight: 1.5 }}>
-                                Cette photographie s&apos;affiche dans votre portrait sur l&apos;accueil ainsi que sur la page /mon-approche.
-                            </p>
-
-                            <div style={{
-                                width: '100%',
-                                maxWidth: '320px',
-                                margin: '0 auto 1rem',
-                                aspectRatio: photoAspect,
-                                borderRadius: '10px',
-                                overflow: 'hidden',
-                                border: '1px solid var(--admin-border)',
-                                boxShadow: '0 6px 20px rgba(42, 36, 33, 0.12)',
-                                position: 'relative',
-                                background: 'var(--admin-bg)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                transition: 'aspect-ratio 0.25s ease',
-                            }}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                    src={aboutPhotoPreview}
-                                    alt="Aperçu portrait Mon Approche"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                                    onLoad={(e) => {
-                                        const w = e.target.naturalWidth;
-                                        const h = e.target.naturalHeight;
-                                        if (w && h) {
-                                            setPhotoAspect(`${w} / ${h}`);
-                                            const r = w / h;
-                                            if (Math.abs(r - 1) < 0.08) setPhotoRatioLabel('Format 1:1 (Carré)');
-                                            else if (Math.abs(r - 0.8) < 0.08) setPhotoRatioLabel('Format 4:5 (Portrait)');
-                                            else if (Math.abs(r - 0.75) < 0.08) setPhotoRatioLabel('Format 3:4 (Standard)');
-                                            else if (Math.abs(r - 16 / 9) < 0.1) setPhotoRatioLabel('Format 16:9 (Paysage)');
-                                            else setPhotoRatioLabel(`${w} × ${h} px`);
-                                        }
-                                    }}
-                                />
-                                <div style={{ position: 'absolute', bottom: '10px', right: '10px', display: 'flex', gap: '6px' }}>
-                                    <button
-                                        type="button"
-                                        onClick={handleRecrop}
-                                        className="admin-btn"
-                                        style={{
-                                            background: 'rgba(28, 24, 21, 0.86)',
-                                            backdropFilter: 'blur(6px)',
-                                            color: '#E5CFA8',
-                                            border: '1px solid rgba(197, 168, 128, 0.6)',
-                                            padding: '6px 12px',
-                                            fontSize: '0.78rem',
-                                            fontWeight: '600',
-                                            borderRadius: '6px',
-                                        }}
-                                    >
-                                        <Crop size={14} /> Recadrer
-                                    </button>
-                                </div>
-                                <div style={{
-                                    position: 'absolute',
-                                    top: '10px',
-                                    left: '10px',
-                                    background: 'rgba(28, 24, 21, 0.82)',
-                                    backdropFilter: 'blur(4px)',
-                                    color: '#FAF7F2',
-                                    fontSize: '0.7rem',
-                                    fontWeight: '600',
-                                    padding: '3px 8px',
-                                    borderRadius: '4px',
-                                }}>
-                                    {photoRatioLabel}
-                                </div>
-                            </div>
-
-                            <label className="admin-dropzone" style={{ cursor: 'pointer', display: 'block', textAlign: 'center', padding: '1rem', border: '2px dashed var(--admin-border)', borderRadius: '8px', background: 'var(--admin-bg)' }}>
-                                <UploadCloud size={24} style={{ color: 'var(--admin-gold)', margin: '0 auto 0.25rem' }} />
-                                <span style={{ fontSize: '0.85rem', color: 'var(--admin-text)', fontWeight: '600', display: 'block' }}>
-                                    {selectedPhotoFile ? selectedPhotoFile.name : 'Choisir une nouvelle photo'}
-                                </span>
-                                <span style={{ fontSize: '0.75rem', color: 'var(--admin-text-muted)' }}>JPG, PNG ou WebP (recadrage &amp; publication immédiate)</span>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    style={{ display: 'none' }}
-                                    onChange={handlePhotoChange}
-                                />
-                            </label>
-
-                            {aboutPhotoPreview !== DEFAULT_PORTRAIT && (
-                                <button
-                                    type="button"
-                                    onClick={handleResetPortrait}
-                                    disabled={isPending}
-                                    className="admin-btn admin-btn-secondary"
-                                    style={{ width: '100%', marginTop: '0.65rem', fontSize: '0.8rem', padding: '7px 12px' }}
-                                >
-                                    <RotateCcw size={14} /> Rétablir le portrait d&apos;origine
-                                </button>
-                            )}
-                        </div>
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '1rem', borderTop: '1px solid var(--admin-border)' }}>
-                        <button
-                            type="submit"
-                            disabled={isPending}
-                            className="admin-btn admin-btn-primary"
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '12px 26px' }}
-                        >
-                            {isPending ? <Loader2 size={16} className="spin" /> : <Save size={16} />}
-                            Enregistrer l&apos;Histoire &amp; les Marques
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            {/* SECTION 2: TITRES & INTITULÉS DE LA PAGE MON APPROCHE */}
-            <div className="admin-card" style={{ marginBottom: '2.5rem' }}>
-                <div className="admin-card-header" style={{ marginBottom: '1.25rem' }}>
-                    <div>
-                        <h2 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <Heart size={20} style={{ color: 'var(--admin-gold)' }} />
-                            Titres, engagements &amp; cosmétiques de Mon Approche
-                        </h2>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>
-                            Modifiez chaque intitulé, les 4 engagements et les cosmétiques de la page publique /mon-approche.
-                        </span>
-                    </div>
-                </div>
-                <SiteTextsEditor sections={ABOUT_PAGE_TEXT_SECTIONS} overrides={customTexts} />
-            </div>
-
-            {/* SECTION 3: LIEN VERS LA CARTE DES SOINS */}
-            <div className="admin-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.25rem', padding: '1.5rem 1.75rem', background: 'linear-gradient(135deg, rgba(184, 139, 70, 0.08) 0%, rgba(184, 139, 70, 0.02) 100%)', border: '1px solid rgba(184, 139, 70, 0.25)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                    <div style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '10px',
-                        background: 'rgba(184, 139, 70, 0.15)',
-                        color: 'var(--admin-gold)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                    }}>
-                        <Layers size={24} />
-                    </div>
-                    <div>
-                        <h3 style={{ fontSize: '1.05rem', color: 'var(--admin-text)', margin: '0 0 0.25rem', fontWeight: '600' }}>
-                            Gestion des Soins &amp; Rituels
-                        </h3>
-                        <p style={{ fontSize: '0.88rem', color: 'var(--admin-text-muted)', margin: 0 }}>
-                            La carte complète des soins (tarifs, durées, descriptions, contre-indications et photos) se gère dans l&apos;onglet dédié.
-                        </p>
-                    </div>
-                </div>
-                <Link
-                    href="/admin/dashboard/prestations"
-                    className="admin-btn admin-btn-primary"
-                    style={{ whiteSpace: 'nowrap' }}
-                >
-                    <Sparkles size={16} /> Ouvrir la Carte des Soins
+                <Link href="/admin/dashboard/accueil" className="admin-btn admin-btn-secondary" style={{ fontSize: '0.8rem', padding: '7px 13px' }}>
+                    Aller à la Page d&apos;Accueil
                 </Link>
             </div>
+
+            {/* SECTION 1 : HISTOIRE, MARQUES & PHOTO OFFICIELLE */}
+            {showSection('portrait') && (
+                <div className="admin-card">
+                    <div className="admin-card-header">
+                        <div>
+                            <span className="admin-eyebrow">Section 1 • Présentation &amp; Photo</span>
+                            <h2 className="admin-card-title" style={{ marginTop: '0.2rem' }}>
+                                <Heart size={20} style={{ color: 'var(--admin-gold)' }} />
+                                Histoire d&apos;Harmonie &amp; Portrait Officiel
+                            </h2>
+                            <p className="admin-card-subtitle">
+                                Modifiez votre texte de présentation, vos marques partenaires et recadrez votre photo officielle.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form ref={storyFormRef} onSubmit={handleSaveAboutStory} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        <div className="admin-story-grid">
+                            {/* Colonne gauche : Textes FR */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                                <div>
+                                    <label className="admin-label" htmlFor="about_title_fr">
+                                        Titre d&apos;introduction
+                                    </label>
+                                    <input
+                                        id="about_title_fr"
+                                        type="text"
+                                        name="about_title"
+                                        defaultValue={info?.about_title || 'Une esthéticienne et masseuse passionnée, un lieu pensé pour vous'}
+                                        className="admin-input"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="admin-label" htmlFor="about_story_fr">
+                                        Histoire &amp; Philosophie *
+                                    </label>
+                                    <textarea
+                                        id="about_story_fr"
+                                        name="about_text"
+                                        rows={8}
+                                        required
+                                        defaultValue={info?.about_text || "Je m'appelle Harmonie, j'ai 29 ans, et je suis originaire de Château-Gontier, en Mayenne. Depuis plus de 10 ans, je me consacre avec passion au bien-être et à l'esthétique.\n\nAprès avoir exercé dans des spas d'hôtels étoilés et instituts reconnus, j'ai créé La Parenthèse Harmonieuse : un lieu dédié exclusivement aux femmes, pensé comme une bulle hors du temps où chaque détail a été soigné pour vous faire vivre un pur moment de relaxation et de reconnexion à soi."}
+                                        className="admin-textarea"
+                                        placeholder="Racontez votre parcours et votre approche..."
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="admin-label" htmlFor="brands_input">
+                                        Marques cosmétiques partenaires
+                                    </label>
+                                    <input
+                                        id="brands_input"
+                                        type="text"
+                                        name="brands"
+                                        defaultValue={info?.brands || 'Nohèm (BIO certifié Ecocert), Green Spa (BIO Cosmos), Oh My Jelly'}
+                                        className="admin-input"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="admin-label" htmlFor="tagline_fr">
+                                        Accroche courte de l&apos;institut
+                                    </label>
+                                    <input
+                                        id="tagline_fr"
+                                        type="text"
+                                        name="tagline"
+                                        defaultValue={info?.tagline || 'Offrez-vous une parenthèse de bien-être...'}
+                                        className="admin-input"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Colonne droite : Photo officielle Mon Approche */}
+                            <div style={{ background: 'var(--admin-surface-subtle)', padding: '1.25rem', borderRadius: 'var(--admin-radius-md)', border: '1px solid var(--admin-border)' }}>
+                                <label className="admin-label" style={{ display: 'block', marginBottom: '0.35rem' }}>
+                                    Portrait officiel d&apos;Harmonie
+                                </label>
+                                <p style={{ fontSize: '0.8rem', color: 'var(--admin-text-muted)', marginBottom: '0.9rem', lineHeight: 1.45 }}>
+                                    Affiché sur l&apos;accueil et en haut de la page /mon-approche.
+                                </p>
+
+                                <div style={{
+                                    width: '100%',
+                                    maxWidth: '280px',
+                                    margin: '0 auto 1rem',
+                                    aspectRatio: photoAspect,
+                                    borderRadius: '10px',
+                                    overflow: 'hidden',
+                                    border: '1px solid var(--admin-border)',
+                                    boxShadow: 'var(--admin-shadow)',
+                                    position: 'relative',
+                                    background: '#FFFFFF',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={aboutPhotoPreview}
+                                        alt="Aperçu portrait Mon Approche"
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                        onLoad={(e) => {
+                                            const w = e.target.naturalWidth;
+                                            const h = e.target.naturalHeight;
+                                            if (w && h) {
+                                                setPhotoAspect(`${w} / ${h}`);
+                                                const r = w / h;
+                                                if (Math.abs(r - 1) < 0.08) setPhotoRatioLabel('Format 1:1 (Carré)');
+                                                else if (Math.abs(r - 0.8) < 0.08) setPhotoRatioLabel('Format 4:5 (Portrait)');
+                                                else if (Math.abs(r - 0.75) < 0.08) setPhotoRatioLabel('Format 3:4 (Standard)');
+                                                else if (Math.abs(r - 16 / 9) < 0.1) setPhotoRatioLabel('Format 16:9 (Paysage)');
+                                                else setPhotoRatioLabel(`${w} × ${h} px`);
+                                            }
+                                        }}
+                                    />
+                                    <div style={{ position: 'absolute', bottom: '10px', right: '10px', display: 'flex', gap: '6px' }}>
+                                        <button
+                                            type="button"
+                                            onClick={handleRecrop}
+                                            className="admin-btn"
+                                            style={{
+                                                background: 'rgba(28, 24, 21, 0.86)',
+                                                backdropFilter: 'blur(6px)',
+                                                color: '#E5CFA8',
+                                                border: '1px solid rgba(197, 168, 128, 0.6)',
+                                                padding: '6px 12px',
+                                                fontSize: '0.78rem',
+                                                fontWeight: '600',
+                                                borderRadius: '6px',
+                                            }}
+                                        >
+                                            <Crop size={14} /> Recadrer
+                                        </button>
+                                    </div>
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '10px',
+                                        left: '10px',
+                                        background: 'rgba(28, 24, 21, 0.82)',
+                                        backdropFilter: 'blur(4px)',
+                                        color: '#FAF7F2',
+                                        fontSize: '0.7rem',
+                                        fontWeight: '600',
+                                        padding: '3px 8px',
+                                        borderRadius: '4px',
+                                    }}>
+                                        {photoRatioLabel}
+                                    </div>
+                                </div>
+
+                                <label style={{
+                                    cursor: 'pointer',
+                                    display: 'block',
+                                    textAlign: 'center',
+                                    padding: '0.9rem',
+                                    border: '1.5px dashed var(--admin-border-strong)',
+                                    borderRadius: 'var(--admin-radius-sm)',
+                                    background: '#FFFFFF',
+                                }}>
+                                    <UploadCloud size={22} style={{ color: 'var(--admin-gold)', margin: '0 auto 0.25rem' }} />
+                                    <span style={{ fontSize: '0.84rem', color: 'var(--admin-text)', fontWeight: '600', display: 'block' }}>
+                                        {selectedPhotoFile ? selectedPhotoFile.name : 'Remplacer le portrait'}
+                                    </span>
+                                    <span style={{ fontSize: '0.74rem', color: 'var(--admin-text-muted)' }}>
+                                        JPG, PNG ou WebP avec recadrage libre
+                                    </span>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        onChange={handlePhotoChange}
+                                    />
+                                </label>
+
+                                {aboutPhotoPreview !== DEFAULT_PORTRAIT && (
+                                    <button
+                                        type="button"
+                                        onClick={handleResetPortrait}
+                                        disabled={isPending}
+                                        className="admin-btn admin-btn-secondary"
+                                        style={{ width: '100%', marginTop: '0.65rem', fontSize: '0.8rem', padding: '7px 12px' }}
+                                    >
+                                        <RotateCcw size={14} /> Rétablir le portrait d&apos;origine
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '1rem', borderTop: '1px solid var(--admin-border-soft)' }}>
+                            <button
+                                type="submit"
+                                disabled={isPending}
+                                className="admin-btn admin-btn-primary"
+                            >
+                                {isPending ? <Loader2 size={16} className="spin" /> : <Save size={16} />}
+                                Enregistrer l&apos;Histoire &amp; les Marques
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {/* SECTION 2 : TITRES & INTITULÉS DE LA PAGE MON APPROCHE */}
+            {showSection('texts') && (
+                <div className="admin-card">
+                    <div className="admin-card-header">
+                        <div>
+                            <span className="admin-eyebrow">Section 2 • Contenus détaillés</span>
+                            <h2 className="admin-card-title" style={{ marginTop: '0.2rem' }}>
+                                <Type size={20} style={{ color: 'var(--admin-gold)' }} />
+                                Titres, 4 Engagements &amp; Cosmétiques BIO
+                            </h2>
+                            <p className="admin-card-subtitle">
+                                Modifiez chaque intitulé, les 4 piliers d&apos;engagement et la présentation Nohèm de la page /mon-approche.
+                            </p>
+                        </div>
+                    </div>
+                    <SiteTextsEditor
+                        sections={ABOUT_PAGE_TEXT_SECTIONS}
+                        overrides={customTexts}
+                        searchable
+                        collapsible
+                        defaultOpenFirst
+                    />
+                </div>
+            )}
 
             {cropper && (
                 <ImageCropperModal

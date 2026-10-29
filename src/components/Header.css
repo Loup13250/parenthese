@@ -46,8 +46,9 @@
    ÉTAT 1 : TRANSPARENT (Au-dessus de la vidéo sur la page d'accueil)
    Strictement aucun trait blanc ni bordure artificielle
    ========================================================================== */
+.spa-header.header--transparent,
 .header--transparent {
-    background: linear-gradient(180deg, rgba(10, 8, 7, 0.72) 0%, rgba(10, 8, 7, 0.25) 75%, transparent 100%);
+    background: linear-gradient(180deg, rgba(10, 8, 7, 0.72) 0%, rgba(10, 8, 7, 0.25) 75%, transparent 100%) !important;
     border-bottom: none !important;
     box-shadow: none !important;
 }

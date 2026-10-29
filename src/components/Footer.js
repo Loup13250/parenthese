@@ -62,17 +62,15 @@ export default function Footer({ siteInfo }) {
                         </div>
                     </div>
 
-                    {/* Navigation & Carte des Soins */}
+                    {/* Navigation du site */}
                     <div className="footer-col">
-                        <h3 className="footer-heading">{t('footer.servicesTitle')}</h3>
+                        <h3 className="footer-heading">Navigation</h3>
                         <ul className="footer-menu">
-                            <li><Link href="/carte-des-soins">{t('tarifs.catMassages')}</Link></li>
-                            <li><Link href="/carte-des-soins">{t('tarifs.catDrainage')}</Link></li>
-                            <li><Link href="/carte-des-soins">{t('tarifs.catKobido')}</Link></li>
-                            <li><Link href="/carte-des-soins">{t('tarifs.catVisage')}</Link></li>
-                            <li><Link href="/carte-des-soins">{t('tarifs.catMaternite')}</Link></li>
-                            <li><Link href="/carte-cadeau">{t('nav.gift')}</Link></li>
-                            <li><Link href="/mon-approche">{t('nav.about')}</Link></li>
+                            <li><Link href="/">Accueil</Link></li>
+                            <li><Link href="/mon-approche">Mon Approche</Link></li>
+                            <li><Link href="/carte-des-soins">Carte des Soins</Link></li>
+                            <li><Link href="/carte-cadeau">Carte Cadeau</Link></li>
+                            <li><Link href="/contact">Contact &amp; Accès</Link></li>
                         </ul>
                     </div>
 

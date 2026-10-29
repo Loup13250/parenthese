@@ -31,12 +31,31 @@ export default function Header({ siteInfo }) {
     const addressText = trans(siteInfo, 'address') || '418 Avenue Georges Guynemer, Pôle Santé Georges Guynemer';
     const cityLine = [siteInfo?.postal_code || '13300', siteInfo?.city || 'Salon-de-Provence'].filter(Boolean).join(' ');
 
+    const headerRef = useRef(null);
+
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 30);
-        onScroll();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+        const updateHeaderTransparency = () => {
+            const loc = (window.location.pathname || '').replace(/\/$/, '') || '/';
+            const atHome = loc === '/' || loc === '' || loc === '/index.html';
+            const atTop = window.scrollY <= 30;
+            const shouldBeTransparent = atHome && atTop;
+
+            if (headerRef.current) {
+                if (shouldBeTransparent) {
+                    headerRef.current.classList.add('header--transparent');
+                    headerRef.current.classList.remove('header--solid');
+                } else {
+                    headerRef.current.classList.remove('header--transparent');
+                    headerRef.current.classList.add('header--solid');
+                }
+            }
+            setScrolled(!atTop);
+        };
+
+        updateHeaderTransparency();
+        window.addEventListener('scroll', updateHeaderTransparency, { passive: true });
+        return () => window.removeEventListener('scroll', updateHeaderTransparency);
+    }, [pathname]);
 
     const prevPathnameRef = useRef(pathname);
     useEffect(() => {
@@ -70,7 +89,7 @@ export default function Header({ siteInfo }) {
     const isTop = isHome && !scrolled && !mobileMenuOpen;
 
     return (
-        <header className={`spa-header ${isTop ? 'header--transparent' : 'header--solid'}`}>
+        <header ref={headerRef} className={`spa-header ${isTop ? 'header--transparent' : 'header--solid'}`}>
             <a href="#main-content" className="skip-to-content">
                 {t('nav.skipContent')}
             </a>

@@ -20,6 +20,7 @@ import {
     getSessionUser,
     isRateLimited,
     registerHit,
+    resetRateLimit,
     clientIp,
 } from '@/lib/auth';
 import {
@@ -111,15 +112,25 @@ export async function changeAdminPassword(currentPasswordOrFormData, maybeNewPas
             newPassword = String(maybeNewPassword || '');
         }
 
+        const cookieStore = await cookies();
+        const reqHeaders = await headers();
+        const ip = clientIp(reqHeaders);
+        const rateLimitKey = `pwd_change:${ip}`;
+
+        if (await isRateLimited(rateLimitKey, 5, 15 * 60 * 1000)) {
+            return { error: 'Trop de tentatives infructueuses de changement de mot de passe. Veuillez réessayer dans 15 minutes.' };
+        }
+
         if (!currentPassword) {
             return { error: 'Veuillez saisir votre mot de passe actuel.' };
         }
-        if (!newPassword || newPassword.length < 8) {
+        if (!newPassword || newPassword.trim().length < 8) {
             return { error: 'Le nouveau mot de passe doit comporter au moins 8 caractères.' };
         }
+        if (currentPassword === newPassword) {
+            return { error: 'Le nouveau mot de passe doit être différent de votre mot de passe actuel.' };
+        }
 
-        const cookieStore = await cookies();
-        const reqHeaders = await headers();
         const token = cookieStore.get(SESSION_COOKIE)?.value;
         const username = await getSessionUser(token);
         if (!username) return { error: 'Session invalide. Veuillez vous reconnecter.' };
@@ -130,9 +141,11 @@ export async function changeAdminPassword(currentPasswordOrFormData, maybeNewPas
 
         const check = await verifyPassword(currentPassword, user.password);
         if (!check.ok) {
+            await registerHit(rateLimitKey, 15 * 60 * 1000);
             return { error: 'Mot de passe actuel incorrect.' };
         }
 
+        await resetRateLimit(rateLimitKey);
         const newHashed = await hashPassword(newPassword);
         await db.prepare('UPDATE admin_users SET password = ? WHERE username = ?').run(newHashed, username);
 
@@ -146,7 +159,7 @@ export async function changeAdminPassword(currentPasswordOrFormData, maybeNewPas
             category: 'Sécurité',
             summary: `Modification du mot de passe administrateur pour « ${username} »`,
             username,
-            ip: clientIp(reqHeaders),
+            ip,
         });
 
         return { success: true, message: 'Mot de passe mis à jour avec succès.' };
@@ -287,6 +300,8 @@ export async function updateSiteInfo(formData) {
             'planity_url', 'instagram', 'facebook', 'google_reviews', 'brands',
             'about_title', 'about_text', 'about_text_en',
             'hero_video', 'hero_poster',
+            'home_featured_services_count', 'home_testimonials_count',
+            'home_trip1_image', 'home_trip2_image', 'home_trip3_image', 'home_institut_image',
             'formspree_url', 'smtp_pass', 'resend_api_key',
         ];
 
@@ -339,12 +354,40 @@ export async function updateSiteInfo(formData) {
             if (old?.value) await deleteMediaIfUnused(old.value);
             updatedKeys.push('hero_poster (par défaut)');
         }
+        if (formData.get('reset_home_trip1') === '1') {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_trip1_image'").get();
+            await stmt.run('home_trip1_image', '/images/spa-huiles.jpg');
+            if (old?.value) await deleteMediaIfUnused(old.value);
+            updatedKeys.push('home_trip1_image (par défaut)');
+        }
+        if (formData.get('reset_home_trip2') === '1') {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_trip2_image'").get();
+            await stmt.run('home_trip2_image', '/images/massage-detente.jpg');
+            if (old?.value) await deleteMediaIfUnused(old.value);
+            updatedKeys.push('home_trip2_image (par défaut)');
+        }
+        if (formData.get('reset_home_trip3') === '1') {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_trip3_image'").get();
+            await stmt.run('home_trip3_image', '/images/maternite-douceur.jpg');
+            if (old?.value) await deleteMediaIfUnused(old.value);
+            updatedKeys.push('home_trip3_image (par défaut)');
+        }
+        if (formData.get('reset_home_institut') === '1') {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_institut_image'").get();
+            await stmt.run('home_institut_image', '/images/plaque-institut.png');
+            if (old?.value) await deleteMediaIfUnused(old.value);
+            updatedKeys.push('home_institut_image (par défaut)');
+        }
 
         const logoFile = formData.get('logo_file');
         const siteIconFile = formData.get('site_icon_file');
         const aboutFile = formData.get('about_file');
         const heroVideoFile = formData.get('hero_video_file');
         const heroPosterFile = formData.get('hero_poster_file');
+        const homeTrip1File = formData.get('home_trip1_file');
+        const homeTrip2File = formData.get('home_trip2_file');
+        const homeTrip3File = formData.get('home_trip3_file');
+        const homeInstitutFile = formData.get('home_institut_file');
 
         if (logoFile && logoFile.size > 0) {
             const old = await db.prepare("SELECT value FROM site_info WHERE key = 'logo'").get();
@@ -396,6 +439,46 @@ export async function updateSiteInfo(formData) {
             }
         }
 
+        if (homeTrip1File && homeTrip1File.size > 0) {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_trip1_image'").get();
+            const trip1Url = await saveUploadedFile(homeTrip1File, { maxWidth: 1600 });
+            if (trip1Url) {
+                await stmt.run('home_trip1_image', trip1Url);
+                if (old?.value && old.value !== trip1Url) await deleteMediaIfUnused(old.value);
+                updatedKeys.push('home_trip1_image');
+            }
+        }
+
+        if (homeTrip2File && homeTrip2File.size > 0) {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_trip2_image'").get();
+            const trip2Url = await saveUploadedFile(homeTrip2File, { maxWidth: 1600 });
+            if (trip2Url) {
+                await stmt.run('home_trip2_image', trip2Url);
+                if (old?.value && old.value !== trip2Url) await deleteMediaIfUnused(old.value);
+                updatedKeys.push('home_trip2_image');
+            }
+        }
+
+        if (homeTrip3File && homeTrip3File.size > 0) {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_trip3_image'").get();
+            const trip3Url = await saveUploadedFile(homeTrip3File, { maxWidth: 1600 });
+            if (trip3Url) {
+                await stmt.run('home_trip3_image', trip3Url);
+                if (old?.value && old.value !== trip3Url) await deleteMediaIfUnused(old.value);
+                updatedKeys.push('home_trip3_image');
+            }
+        }
+
+        if (homeInstitutFile && homeInstitutFile.size > 0) {
+            const old = await db.prepare("SELECT value FROM site_info WHERE key = 'home_institut_image'").get();
+            const instUrl = await saveUploadedFile(homeInstitutFile, { maxWidth: 1600 });
+            if (instUrl) {
+                await stmt.run('home_institut_image', instUrl);
+                if (old?.value && old.value !== instUrl) await deleteMediaIfUnused(old.value);
+                updatedKeys.push('home_institut_image');
+            }
+        }
+
         if (updatedKeys.length > 0) {
             await logActivity({
                 action: 'update',
@@ -407,7 +490,7 @@ export async function updateSiteInfo(formData) {
             });
         }
 
-        revalidateSite('/admin/dashboard/settings', '/admin/dashboard');
+        revalidateSite('/', '/admin/dashboard/accueil', '/admin/dashboard/settings', '/admin/dashboard');
         return { success: true };
     } catch (err) {
         console.error('updateSiteInfo error:', err);

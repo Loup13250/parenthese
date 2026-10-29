@@ -22,16 +22,25 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
     const planityUrl = siteInfo?.planity_url || 'https://www.planity.com/la-parenthese-harmonieuse-13300-salon-de-provence';
     const reviewsUrl = siteInfo?.google_reviews || 'https://g.page/r/CQUzqKQ2SgYrEAE/review';
     const portraitSrc = siteInfo?.about_image || '/images/harmonie-portrait.jpg';
+    const trip1Image = siteInfo?.home_trip1_image || '/images/spa-huiles.jpg';
+    const trip2Image = siteInfo?.home_trip2_image || '/images/massage-detente.jpg';
+    const trip3Image = siteInfo?.home_trip3_image || '/images/maternite-douceur.jpg';
+    const institutImage = siteInfo?.home_institut_image || '/images/plaque-institut.png';
+
     const addressLine = trans(siteInfo, 'address') || '418 Avenue Georges Guynemer, 13300 Salon-de-Provence';
     const fullAddress = addressLine.includes('Salon-de-Provence')
         ? addressLine
         : `${addressLine}, ${siteInfo?.postal_code || '13300'} ${siteInfo?.city || 'Salon-de-Provence'}`;
     const parkingText = siteInfo?.parking_info || "Parking gratuit et places réservées devant l'entrée";
 
+    const maxServicesSetting = siteInfo?.home_featured_services_count;
+    const maxServices = maxServicesSetting === 'all' ? 999 : parseInt(maxServicesSetting || '6', 10) || 6;
     const featuredList = services.filter((s) => s.is_featured);
-    const signatureServices = featuredList.length > 0 ? featuredList.slice(0, 6) : services.slice(0, 3);
+    const signatureServices = featuredList.length > 0 ? featuredList.slice(0, maxServices) : services.slice(0, Math.min(3, maxServices));
 
-    const limitedTestimonials = testimonials.slice(0, 3);
+    const maxTestimonialsSetting = siteInfo?.home_testimonials_count;
+    const maxTestimonials = maxTestimonialsSetting === 'all' ? 999 : parseInt(maxTestimonialsSetting || '3', 10) || 3;
+    const limitedTestimonials = testimonials.slice(0, maxTestimonials);
 
     useEffect(() => {
         if (!selectedService) return;
@@ -130,11 +139,12 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                 <div className="triptych-row">
                     <Link href="/mon-approche" className="triptych-tile">
                         <Image
-                            src="/images/spa-huiles.jpg"
+                            src={trip1Image}
                             alt={t('home.trip1Title')}
                             fill
                             sizes="(max-width: 860px) 100vw, 33vw"
                             className="triptych-img"
+                            unoptimized={isDynamicImg(trip1Image)}
                         />
                         <div className="triptych-overlay">
                             <span className="triptych-kicker">{t('home.trip1Kicker')}</span>
@@ -145,11 +155,12 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
 
                     <Link href="/carte-des-soins" className="triptych-tile">
                         <Image
-                            src="/images/massage-detente.jpg"
+                            src={trip2Image}
                             alt={t('home.trip2Title')}
                             fill
                             sizes="(max-width: 860px) 100vw, 33vw"
                             className="triptych-img"
+                            unoptimized={isDynamicImg(trip2Image)}
                         />
                         <div className="triptych-overlay">
                             <span className="triptych-kicker">{t('home.trip2Kicker')}</span>
@@ -160,11 +171,12 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
 
                     <Link href="/carte-cadeau" className="triptych-tile">
                         <Image
-                            src="/images/maternite-douceur.jpg"
+                            src={trip3Image}
                             alt={t('home.trip3Title')}
                             fill
                             sizes="(max-width: 860px) 100vw, 33vw"
                             className="triptych-img"
+                            unoptimized={isDynamicImg(trip3Image)}
                         />
                         <div className="triptych-overlay">
                             <span className="triptych-kicker">{t('home.trip3Kicker')}</span>
@@ -403,11 +415,12 @@ export default function HomePageClient({ siteInfo, services = [], testimonials =
                         <div className="institut-gallery-bespoke">
                             <div className="gallery-main-img-bespoke">
                                 <Image
-                                    src="/images/plaque-institut.png"
+                                    src={institutImage}
                                     alt="Plaque murale de l'institut La Parenthèse Harmonieuse au Pôle Santé Georges Guynemer"
                                     width={640}
                                     height={460}
                                     className="inst-img-bespoke"
+                                    unoptimized={isDynamicImg(institutImage)}
                                 />
                                 <div className="gallery-caption-overlay">
                                     <span>{t('home.plaqueCaption')}</span>

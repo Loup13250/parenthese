@@ -204,50 +204,6 @@ export default async function DashboardOverview() {
                 </div>
             </header>
 
-            {/* Statistiques rapides */}
-            <div className="admin-stats-grid" style={{ marginBottom: '2.5rem' }}>
-                <div className="admin-stat-card">
-                    <div className="admin-stat-top">
-                        <span className="admin-stat-label">Soins &amp; Massages</span>
-                        <span className="admin-stat-icon" style={{ background: 'rgba(158, 113, 83, 0.12)', color: '#9E7153' }}>
-                            <Receipt size={17} />
-                        </span>
-                    </div>
-                    <div className="admin-stat-value">{services.length}</div>
-                    <span className="admin-stat-hint">
-                        {services.filter((s) => s.is_featured).length} mis en avant sur l&apos;accueil
-                    </span>
-                </div>
-
-                <div className="admin-stat-card">
-                    <div className="admin-stat-top">
-                        <span className="admin-stat-label">Avis Clientes</span>
-                        <span className="admin-stat-icon" style={{ background: 'rgba(217, 119, 6, 0.12)', color: '#D97706' }}>
-                            <Star size={17} />
-                        </span>
-                    </div>
-                    <div className="admin-stat-value">{testimonials.length}</div>
-                    <span className="admin-stat-hint">Note moyenne 5,0/5 sur Planity &amp; Google</span>
-                </div>
-
-                <div className="admin-stat-card">
-                    <div className="admin-stat-top">
-                        <span className="admin-stat-label">Demandes reçues</span>
-                        <span className="admin-stat-icon" style={{ background: 'rgba(2, 132, 199, 0.12)', color: '#0284C7' }}>
-                            <MessageSquare size={17} />
-                        </span>
-                    </div>
-                    <div className="admin-stat-value">{messages.length}</div>
-                    <span className="admin-stat-hint">
-                        {unreadCount > 0 ? (
-                            <strong style={{ color: '#DC2626' }}>{unreadCount} message{unreadCount > 1 ? 's' : ''} non lu{unreadCount > 1 ? 's' : ''}</strong>
-                        ) : (
-                            'Tous les messages ont été consultés'
-                        )}
-                    </span>
-                </div>
-            </div>
-
             {/* GESTION PAR PAGE */}
             <section style={{ marginBottom: '3rem' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem', marginBottom: '1.25rem' }}>

@@ -12,7 +12,10 @@ export default function Header({ siteInfo }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const pathname = usePathname();
     const { t, trans } = useLanguage();
-    const isHome = pathname === '/' || pathname === '';
+
+    // Détection de la page d'accueil (si pathname est null lors de l'hydratation ou SSR, défaut sur transparent pour l'accueil)
+    const cleanPath = pathname ? pathname.replace(/\/$/, '') : '';
+    const isHome = !pathname || cleanPath === '' || cleanPath === '/' || cleanPath === '/index.html';
 
     const logoSrc = siteInfo?.logo || '/images/logo.png';
     const businessName = siteInfo?.business_name || 'La Parenthèse Harmonieuse';
